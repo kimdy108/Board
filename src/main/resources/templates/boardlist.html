@@ -2,47 +2,125 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>게시글 리스트</title>
+    <title>자유게시판</title>
 </head>
 
 <style>
-    .layout {
+    a {
+        text-decoration: none;
+        color: black;
+    }
+    table {
+        margin: auto;
+        width: 700px;
+        border-radius: 5px;
+        border-collapse: collapse;
+        border-top: none;
+    }
+    .header {
+        background-color: rgb(218, 231, 255);
+        text-align: center;
+    }
+    .table td, .table th {
+        border-bottom: 1px lightgray solid;
+        height: 30px;
+        font-size: 14px;
+    }
+    .num {
+        width: 50px;
+    }
+    .title {
         width: 500px;
-        margin: 0 auto;
-        margin-top: 40px;
+    }
+    .body .title {
+        text-align: left;
+    }
+    button {
+        width: 100px;
+        height: 40px;
+        font-size: 15px;
+        border: 0;
+        outline: 1.5px rgb(68, 136, 244) solid;
+        border-radius: 5px;
+        padding-left: 10px;
+        background-color: rgb(164, 199, 255);
+    }
+    button:active {
+        width: 100px;
+        height: 40px;
+        font-size: 15px;
+        border: 0;
+        border-radius: 5px;
+        outline: 1.5px rgb(27, 76, 155) solid;
+        padding-left: 10px;
+        background-color: rgb(68, 136, 244);
+    }
+    #searchButton {
+        width: 50px;
+        height: 20px;
+        font-size: 15px;
+        border: 0;
+        outline: 1.5px rgb(68, 136, 244) solid;
+        border-radius: 5px;
+        padding-left: 10px;
+        background-color: rgb(164, 199, 255);
+    }
+    #searchButton:active {
+        width: 50px;
+        height: 20px;
+        font-size: 15px;
+        border: 0;
+        border-radius: 5px;
+        outline: 1.5px rgb(27, 76, 155) solid;
+        padding-left: 10px;
+        background-color: rgb(68, 136, 244);
+    }
+    input {
+        height: 20px;
+        font-size: 15px;
+        border: 0;
+        outline: 1px solid;
+        border-radius: 5px;
+        padding-left: 10px;
     }
 </style>
 
 <body>
-
-    <div class="layout">
-        <table>
-            <thead>
-                <tr>
-                    <th>글번호</th>
-                    <th>제목</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="board : ${list}">
-                    <td th:text="${board.id}">1</td>
-                    <td>
-                        <a th:text="${board.title}" th:href="@{/board/view(id=${board.id})}">제목입니다.</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-            <a th:if="${page != nowPage}" th:href="@{/board/list(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>
-            <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>
-        </th:block>
-        <form th:action="@{/board/list}" method="get">
-            <input type="text" name="searchKeyword">
-            <button type="submit">검색</button>
-        </form>
-
-    </div>
+    <table class="table">
+        <tr><td colspan="2"><h2>자유 게시판</h2></td></tr>
+        <tr>
+            <td colspan="2">
+                <form th:action="@{/board/list}" method="get">
+                    <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요.">
+                    <button type="submit" id="searchButton">검색</button>
+                </form>
+            </td>
+        </tr>
+        <tr class="header">
+            <td class="num">번호</td>
+            <td class="title">제목</td>
+        </tr>
+        <tr th:each="board : ${list}">
+            <td th:text="${board.id}">1</td>
+            <td>
+                <a th:text="${board.title}" th:href="@{/board/view(id=${board.id})}">제목입니다.</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center">
+                <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                    <a th:if="${page != nowPage}" th:href="@{/board/list(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>
+                    <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>
+                </th:block>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <table>
+        <tr>
+            <td><button onclick="location.href='write'">글쓰기</button></td>
+        </tr>
+    </table>
 
 </body>
 </html>
