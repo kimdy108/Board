@@ -32,6 +32,9 @@
     .title {
         width: 500px;
     }
+    .body {
+        text-align: center;
+    }
     .body .title {
         text-align: left;
     }
@@ -100,9 +103,9 @@
             <td class="num">번호</td>
             <td class="title">제목</td>
         </tr>
-        <tr th:each="board : ${list}">
+        <tr th:each="board : ${list}" class="body">
             <td th:text="${board.id}">1</td>
-            <td>
+            <td class="title">
                 <a th:text="${board.title}" th:href="@{/board/view(id=${board.id})}">제목입니다.</a>
             </td>
         </tr>
