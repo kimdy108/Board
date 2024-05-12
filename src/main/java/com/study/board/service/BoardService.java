@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.File;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
@@ -26,16 +27,24 @@ public class BoardService {
             String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/files";
 
             UUID uuid = UUID.randomUUID();
-            String filename = uuid + "_" + file.getOriginalFilename();
+            String fileguid = uuid.toString();
+            String filename = file.getOriginalFilename();
 
-            File saveFile = new File(projectPath, filename);
+            File saveFile = new File(projectPath, fileguid + "_" + filename);
             file.transferTo(saveFile);
 
+            board.setFileguid(fileguid);
             board.setFilename(filename);
-            board.setFilepath("/files/" + filename);
+            board.setFilepath("/files/" + fileguid + "_" + filename);
+        }
+
+        if (board.getInsertdate() == null) {
+            LocalDate nowDateTime = LocalDate.now();
+            board.setInsertdate(nowDateTime);
         }
 
         boardRepository.save(board);
+
 
         return "success";
     }

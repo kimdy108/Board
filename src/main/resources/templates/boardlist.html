@@ -28,7 +28,10 @@
             width: 50px;
         }
         .title {
-            width: 500px;
+            width: 400px;
+        }
+        .insertdate {
+            width: 100px;
         }
         .body {
             text-align: center;
@@ -88,9 +91,9 @@
 </head>
 <body>
     <table class="table">
-        <tr><td colspan="2"><h2>자유 게시판</h2></td></tr>
+        <tr><td colspan="3"><h2>자유 게시판</h2></td></tr>
         <tr>
-            <td colspan="2">
+            <td colspan="3">
                 <form th:action="@{/board/list}" method="get">
                     <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요.">
                     <button type="submit" id="searchButton">검색</button>
@@ -100,15 +103,17 @@
         <tr class="header">
             <td class="num">번호</td>
             <td class="title">제목</td>
+            <td class="insertdate">등록일</td>
         </tr>
         <tr th:each="board : ${list}" class="body">
             <td th:text="${board.id}">1</td>
             <td class="title">
                 <a th:text="${board.title}" th:href="@{/board/view(id=${board.id})}">제목입니다.</a>
             </td>
+            <td th:text="${board.insertdate}"></td>
         </tr>
         <tr>
-            <td colspan="2" style="text-align: center">
+            <td colspan="3" style="text-align: center">
                 <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
                     <a th:if="${page != nowPage}" th:href="@{/board/list(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>
                     <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>

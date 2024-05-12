@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -19,7 +20,13 @@ public class Board {
 
     private String content;
 
+    private String username;
+
+    private String fileguid;
+
     private String filename;
 
     private String filepath;
+
+    private LocalDate insertdate;
 }
