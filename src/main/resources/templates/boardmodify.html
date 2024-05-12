@@ -68,7 +68,7 @@
             <tr><td class="header">Comment</td></tr>
             <tr><td><textarea placeholder="내용을 입력하세요" name="content" th:text="${board.content}"></textarea></td></tr>
             <tr><td class="header">File</td></tr>
-            <tr><td><p th:text="${board.filename}"></p></td></tr>
+            <tr><td><p th:if="${board.filename != null}" th:text="${board.filename}"></p></td></tr>
             <tr><td><input type="file" name="file"></td></tr>
             <tr><td><input type="submit" value="등록"></td></tr>
         </table>
