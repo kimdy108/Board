@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+    <style>
+        a {
+            text-decoration: none;
+            color: black;
+        }
+        table {
+            margin: auto;
+            width: auto;
+            border-radius: 5px;
+            border-collapse: collapse;
+            border-top: none;
+        }
+        .table td, .table th {
+            height: 30px;
+            font-size: 14px;
+        }
+        button {
+            width: 100px;
+            height: 40px;
+            font-size: 15px;
+            border: 0;
+            outline: 1.5px rgb(68, 136, 244) solid;
+            border-radius: 5px;
+            padding-left: 10px;
+            background-color: rgb(164, 199, 255);
+        }
+        button:active {
+            width: 100px;
+            height: 40px;
+            font-size: 15px;
+            border: 0;
+            border-radius: 5px;
+            outline: 1.5px rgb(27, 76, 155) solid;
+            padding-left: 10px;
+            background-color: rgb(68, 136, 244);
+        }
+        input[type="text"] {
+            border: 1.5px rgb(68, 136, 244) solid;
+            width: 200px;
+            height: 30px;
+            border-radius: 5px;
+            padding-left: 10px;
+        }
+        input[type="password"] {
+            border: 1.5px rgb(68, 136, 244) solid;
+            width: 200px;
+            height: 30px;
+            border-radius: 5px;
+            padding-left: 10px;
+        }
+        input[type="submit"] {
+            width: 215px;
+            height: 30px;
+            font-size: 15px;
+            border: 0;
+            outline: 1.5px rgb(68, 136, 244) solid;
+            border-radius: 5px;
+            padding-left: 10px;
+            background-color: rgb(164, 199, 255);
+            margin-top: 10px;
+        }
+        input[type="submit"]:active {
+            width: 215px;
+            height: 30px;
+            font-size: 15px;
+            border: 0;
+            border-radius: 5px;
+            outline: 1.5px rgb(27, 76, 155) solid;
+            padding-left: 10px;
+            background-color: rgb(68, 136, 244);
+        }
+    </style>
+</head>
+<body>
+    <form action="/login" method="post" enctype="application/json">
+        <table class="table" style="margin-top: 250px">
+            <tr style="text-align: center"><td><h2>𝓑𝓸𝓪𝓻𝓭</h2></td></tr>
+            <tr><td><input type="text" placeholder="아이디" name="id"></td></tr>
+            <tr><td><input type="password" placeholder="비밀번호" name="password"></td></tr>
+            <tr><td><input type="submit" value="로그인"></td></tr>
+        </table>
+    </form>
+    <table style="margin-top: 20px;">
+        <tr>
+            <td><a href="/join">회원가입</a></td>
+            <td style="color: gray;">|</td>
+            <td><a href="/find/id">아이디 찾기</a></td>
+            <td style="color: gray;">|</td>
+            <td><a href="/find/password">비밀번호 찾기</a></td>
+        </tr>
+    </table>
+</body>
+</html>

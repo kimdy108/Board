@@ -20,6 +20,21 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
+    @GetMapping("/")
+    public String firstPage() {
+        return "redirect:/login";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "loginpage";
+    }
+
+    @PostMapping("/login")
+    public String login(String id, String password) {
+        return "redirect:/board/list";
+    }
+
     @GetMapping("/board/write")
     public String boardWriteForm() {
 
