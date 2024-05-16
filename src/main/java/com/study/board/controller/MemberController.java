@@ -46,4 +46,31 @@ public class MemberController {
             return "message";
         }
     }
+
+    @PostMapping("/signup/member")
+    public String signupmember(
+            String id ,
+            String nickname,
+            String password,
+            String username,
+            String phone_num,
+            Model model
+    ) {
+
+        String result = memberService.memberJoin(id, nickname, password, username, phone_num);
+
+        if (!result.equals("success")) {
+            model.addAttribute("message", result);
+            model.addAttribute("id", id);
+            model.addAttribute("nickname", nickname);
+            model.addAttribute("password", password);
+            model.addAttribute("username", username);
+            model.addAttribute("phone_num", phone_num);
+            return "signup";
+        } else {
+            model.addAttribute("message", "회원가입이 완료되었습니다.");
+            model.addAttribute("searchUrl", "/login");
+            return "message";
+        }
+    }
 }
