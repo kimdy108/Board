@@ -15,21 +15,31 @@ public class MemberService {
         return memberRepository.findByIdAndPassword(id, password);
     }
 
-    public String memberJoin(String id, String nickname, String password, String username, String phone_num) {
+    public String memberJoin(String id, String nickname, String password, String username, String phoneNum) {
         if (!checkId(id)) {
             return "이미 존재하는 아이디입니다.";
         } else if (!checkNickname(nickname)) {
             return "이미 존재하는 닉네임입니다.";
+        } else if (!checkPhone(phoneNum)) {
+            return "이미 존재하는 전화번호입니다.";
         } else {
             Member member = new Member();
             member.setId(id);
             member.setNickname(nickname);
             member.setPassword(password);
             member.setUsername(username);
-            member.setPhone_num(phone_num);
+            member.setPhoneNum(phoneNum);
             memberRepository.save(member);
             return "success";
         }
+    }
+
+    public Member findMemberId(String username, String phoneNum) {
+        return memberRepository.findByUsernameAndPhoneNum(username, phoneNum);
+    }
+
+    public Member findMemberPassword(String id, String username, String phoneNum) {
+        return memberRepository.findByIdAndUsernameAndPhoneNum(id, username, phoneNum);
     }
 
     public boolean checkId(String id) {
@@ -52,5 +62,16 @@ public class MemberService {
         }
 
         return checknickname;
+    }
+
+    public boolean checkPhone(String phoneNum) {
+        Member memberPhoneCheck = memberRepository.findByPhoneNum(phoneNum);
+        boolean checkPhone = false;
+
+        if (memberPhoneCheck == null) {
+            checkPhone = true;
+        }
+
+        return checkPhone;
     }
 }

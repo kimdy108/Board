@@ -90,17 +90,14 @@
 </script>
 
 <body onload="displayAlert()">
-    <form action="/signup/member" method="post" enctype="application/json" id="signupall">
+    <form action="/find/member/id" method="get" enctype="application/json" id="signupall">
     <input type="hidden" id="message" name="message" th:value="${message}">
         <table class="table" style="margin-top: 250px">
-            <tr style="text-align: center"><td colspan="2"><h2>𝓑𝓸𝓪𝓻𝓭</h2></td></tr>
-            <tr><td colspan="2"><input type="text" placeholder="아이디" name="id" th:value="${id}"></td></tr>
-            <tr><td colspan="2"><input type="text" placeholder="닉네임" name="nickname" th:value="${nickname}"></td></tr>
-            <tr><td colspan="2"><input type="password" placeholder="비밀번호" name="password" th:value="${password}"></td></tr>
-            <tr><td colspan="2"><input type="text" placeholder="이름" name="username" th:value="${username}"></td></tr>
-            <tr><td colspan="2"><input type="text" placeholder="핸드폰 번호" name="phone_num" th:value="${phone_num}"></td></tr>
+            <tr style="text-align: center"><td colspan="2"><h2>𝓑𝓸𝓪𝓻𝓭</h2> <h3>아이디 찾기</h3></td></tr>
+            <tr><td colspan="2"><input type="text" placeholder="이름" name="username"></td></tr>
+            <tr><td colspan="2"><input type="text" placeholder="핸드폰 번호" name="phone_num"></td></tr>
             <tr>
-                <td><input type="submit" value="가입"></td>
+                <td><input type="submit" value="아이디 찾기"></td>
                 <td><button><a href="/login">뒤로</a></button></td>
             </tr>
         </table>
