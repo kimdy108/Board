@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: board-main-api
+
+server:
+  port: 7777
