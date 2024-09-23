@@ -2,5 +2,11 @@ spring:
   application:
     name: board-main-api
 
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/board?autoReconnect=true&characterEncoding=UTF-8
+    username: smcom
+    password: 88toaanf!@#X88
+
 server:
   port: 7777

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:7777/api'
+const baseUrl = `${import.meta.env.VITE_APP_API_URL}/api`
 
 class ApiService {
   async requestAPI(req) {

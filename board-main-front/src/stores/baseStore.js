@@ -2,7 +2,7 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useBaseStore = defineStore('base', () => {
-  const serverStatus = ref(true)
+  const serverStatus = ref(false)
 
   const getServerStatus = computed(() => serverStatus.value)
 
