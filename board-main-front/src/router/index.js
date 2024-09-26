@@ -18,6 +18,12 @@ const routes = [
     meta: { id: 'LoginPage' }
   },
   {
+    path: '/reset/password',
+    name: 'ResetPasswordPage',
+    component: loadView('views', 'ResetPasswordPage'),
+    meta: { id: 'ResetPasswordPage' }
+  },
+  {
     path: '/error',
     name: 'ErrorPage',
     component: loadView('views', 'ErrorPage'),

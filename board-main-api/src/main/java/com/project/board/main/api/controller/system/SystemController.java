@@ -1,4 +1,4 @@
-package com.project.board.main.api.controller;
+package com.project.board.main.api.controller.system;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
