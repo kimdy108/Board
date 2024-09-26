@@ -15,21 +15,17 @@ a,
   padding: 3px;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+html {
+  height: 100%;
+  font-size: 12px;
 }
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f0f3f8;
+  color: #151515;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  overflow-y: hidden;
 }

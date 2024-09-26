@@ -4,7 +4,7 @@
 
 <script setup>
 import { onMounted } from 'vue'
-import { useBaseStore } from "@/stores/baseStore.js";
+import { useBaseStore } from '@/stores/baseStore.js'
 import ApiService from '@/services/ApiService'
 
 let serverBaseInfo = null
