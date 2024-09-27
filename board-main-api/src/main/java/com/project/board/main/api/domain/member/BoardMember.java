@@ -1,4 +1,4 @@
-package com.project.board.main.api.domain.login;
+package com.project.board.main.api.domain.member;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

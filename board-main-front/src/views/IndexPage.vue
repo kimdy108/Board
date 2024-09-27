@@ -22,17 +22,13 @@ onMounted(async () => {
     return
   }
   if (currentUser.value.at) {
-    setTimeout(() => {
-      router.push({ name: 'MainPage' }).catch(() => {
-        console.log('mainerror')
-      })
-    }, 2000)
+    router.push({ name: 'MainPage' }).catch(() => {
+      console.log('mainerror')
+    })
   } else {
-    setTimeout(() => {
-      router.push({ name: 'LoginPage' }).catch(() => {
-        console.log('loginerror')
-      })
-    }, 2000)
+    router.push({ name: 'LoginPage' }).catch(() => {
+      console.log('loginerror')
+    })
   }
 })
 </script>

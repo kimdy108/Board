@@ -15,7 +15,18 @@
           <InputIcon>
             <i class="pi pi-lock" />
           </InputIcon>
-          <InputText v-model="userPassword" type="password" placeholder="Password" fluid />
+          <InputText
+            v-model="userPassword"
+            :type="isVisiblePassword ? 'text' : 'password'"
+            placeholder="Password"
+            fluid
+          />
+          <InputIcon>
+            <i
+              :class="isVisiblePassword ? 'pi pi-eye' : 'pi pi-eye-slash'"
+              @click="changeIsVisiblePassword"
+            />
+          </InputIcon>
         </IconField>
 
         <Button @click="loginFunction" label="로그인" />
@@ -40,6 +51,8 @@ import { useRouter } from 'vue-router'
 const userId = ref('')
 const userPassword = ref('')
 
+const isVisiblePassword = ref(false)
+
 let result = null
 const router = useRouter()
 
@@ -47,21 +60,31 @@ const loginFunction = async () => {
   result = await ApiService.requestAPI({
     headers: { accept: 'application/json' },
     method: 'POST',
-    url: '/login',
+    url: '/member/login',
     data: {
       id: userId.value,
       password: userPassword.value
     }
   })
-  console.log(result)
+  if (result === 'success') alert('success')
+  else alert('fail')
 }
 
-const changePasswordFunction = () =>
-  setTimeout(() => {
-    router.push({ name: 'ResetPasswordPage' }).catch(() => {
-      console.log('resetPasswordError')
-    })
-  }, 2000)
+const signUpFunction = () => {
+  router.push({ name: 'SignUpPage' }).catch(() => {
+    console.log('signUpError')
+  })
+}
+
+const changePasswordFunction = () => {
+  router.push({ name: 'ResetPasswordPage' }).catch(() => {
+    console.log('resetPasswordError')
+  })
+}
+
+const changeIsVisiblePassword = () => {
+  isVisiblePassword.value = !isVisiblePassword.value
+}
 </script>
 
 <style lang="scss" scoped></style>

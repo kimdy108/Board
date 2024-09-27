@@ -18,7 +18,14 @@
             <InputText v-model="userPhone" type="text" placeholder="전화번호" fluid />
           </IconField>
 
-          <Button @click="checkPossibleToChangePassword" label="비밀번호 재설정"></Button>
+          <div class="flex items-center">
+            <Button class="md:w-1/2" @click="toLoginPage" label="뒤로"></Button>
+            <Button
+              class="md:w-1/2"
+              @click="checkPossibleToChangePassword"
+              label="비밀번호 재설정"
+            ></Button>
+          </div>
         </div>
       </div>
     </div>
@@ -32,14 +39,37 @@
             <InputIcon>
               <i class="pi pi-lock" />
             </InputIcon>
-            <InputText v-model="userNewPassword" type="text" placeholder="비밀번호" autofocus fluid />
+            <InputText
+              v-model="userNewPassword"
+              :type="isVisibleNewPassword ? 'text' : 'password'"
+              placeholder="비밀번호"
+              autofocus
+              fluid
+            />
+            <InputIcon>
+              <i
+                :class="isVisibleNewPassword ? 'pi pi-eye' : 'pi pi-eye-slash'"
+                @click="changeIsVisibleNewPassword"
+              />
+            </InputIcon>
           </IconField>
 
           <IconField>
             <InputIcon>
               <i class="pi pi-lock" />
             </InputIcon>
-            <InputText v-model="confirmUserNewPassword" type="text" placeholder="비밀번호 확인" fluid />
+            <InputText
+              v-model="confirmUserNewPassword"
+              :type="isVisibleConfirmNewPassword ? 'text' : 'password'"
+              placeholder="비밀번호 확인"
+              fluid
+            />
+            <InputIcon>
+              <i
+                :class="isVisibleConfirmNewPassword ? 'pi pi-eye' : 'pi pi-eye-slash'"
+                @click="changeIsVisibleConfirmNewPassword"
+              />
+            </InputIcon>
           </IconField>
 
           <Button @click="changePassword" label="비밀번호 재설정"></Button>
@@ -62,6 +92,9 @@ const router = useRouter()
 
 let isPossible = ref(false)
 
+const isVisibleNewPassword = ref(false)
+const isVisibleConfirmNewPassword = ref(false)
+
 const userId = ref('')
 const userPhone = ref('')
 
@@ -71,6 +104,12 @@ const confirmUserNewPassword = ref('')
 let result = null
 const boardMember = ref(null)
 
+const toLoginPage = () => {
+  router.push({ name: 'LoginPage' }).catch(() => {
+    console.log('loginerror')
+  })
+}
+
 const checkPossibleToChangePassword = () => {
   if (userId.value == '') alert('noID')
   else if (userPhone.value == '') alert('noPhone')
@@ -78,8 +117,17 @@ const checkPossibleToChangePassword = () => {
 }
 
 const changePassword = () => {
-  if (!userNewPassword.value === confirmUserNewPassword.value) alert('비밀번호가 일치하지 않습니다.')
+  if (!userNewPassword.value === confirmUserNewPassword.value)
+    alert('비밀번호가 일치하지 않습니다.')
   else changePasswordAPI()
+}
+
+const changeIsVisibleNewPassword = () => {
+  isVisibleNewPassword.value = !isVisibleNewPassword.value
+}
+
+const changeIsVisibleConfirmNewPassword = () => {
+  isVisibleConfirmNewPassword.value = !isVisibleConfirmNewPassword.value
 }
 
 const checkPossibleToChangePasswordAPI = async () => {
@@ -87,7 +135,7 @@ const checkPossibleToChangePasswordAPI = async () => {
     result = await ApiService.requestAPI({
       headers: { accept: 'application/json' },
       method: 'GET',
-      url: '/login/check/change/password',
+      url: '/member/check/change/password',
       params: {
         id: userId.value,
         userPhone: userPhone.value
@@ -110,7 +158,7 @@ const changePasswordAPI = async () => {
     result = await ApiService.requestAPI({
       headers: { accept: 'application/json' },
       method: 'PUT',
-      url: '/login/change/password',
+      url: '/member/change/password',
       data: {
         userId: boardMember.value.memberId,
         userGuid: boardMember.value.memberGuid,
@@ -119,11 +167,9 @@ const changePasswordAPI = async () => {
     })
     if (result === 'success') {
       alert('수정이 완료되었습니다.')
-      setTimeout(() => {
       router.push({ name: 'LoginPage' }).catch(() => {
         console.log('loginerror')
       })
-    }, 2000)
     } else {
       alert('NoUser')
     }
