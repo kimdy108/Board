@@ -44,6 +44,9 @@ public class BoardMember {
     @Column(name = "member_email")
     private String memberEmail;
 
+    @Column(name = "member_role")
+    private String memberRole;
+
     @Column(name = "use_falg")
     private boolean useFalg;
 
@@ -59,7 +62,8 @@ public class BoardMember {
                                      String memberName,
                                      String memberNickName,
                                      String memberPhone,
-                                     String memberEmail
+                                     String memberEmail,
+                                     String memberRole
     ){
         BoardMember member = new BoardMember();
         member.setMemberGuid(memberGuid);
@@ -69,6 +73,7 @@ public class BoardMember {
         member.setMemberNickName(memberNickName);
         member.setMemberPhone(memberPhone);
         member.setMemberEmail(memberEmail);
+        member.setMemberRole(memberRole);
         member.setUseFalg(true);
         member.setUpdateDate(LocalDateTime.now());
         member.setInsertDate(LocalDateTime.now());

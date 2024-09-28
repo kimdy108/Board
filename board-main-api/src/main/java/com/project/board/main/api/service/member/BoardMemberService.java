@@ -7,6 +7,7 @@ import com.project.board.main.api.dto.member.BoardMemberLogin;
 import com.project.board.main.api.repository.member.BoardMemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -16,12 +17,14 @@ import java.util.UUID;
 public class BoardMemberService {
     private final BoardMemberRepository boardMemberRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Transactional
-    public void login(BoardMemberLogin boardMemberLogin) {
-        System.out.println(boardMemberLogin.getId());
-        System.out.println(boardMemberLogin.getPassword());
-        boardMemberRepository.findByMemberIdAndMemberPassword(boardMemberLogin.getId(), boardMemberLogin.getPassword())
+    public BoardMember login(BoardMemberLogin boardMemberLogin) {
+        BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberId(boardMemberLogin.getId())
                 .orElseThrow(() -> new RuntimeException("noMember"));
+        if (!passwordEncoder.matches(boardMemberLogin.getPassword(), boardMember.getMemberPassword())) throw new RuntimeException("worngPassword");
+        return boardMember;
     }
 
     @Transactional
@@ -30,11 +33,12 @@ public class BoardMemberService {
         try {
             BoardMember boardMember = BoardMember.create(UUID.randomUUID().toString(),
                     boardMemberJoin.getId(),
-                    boardMemberJoin.getPassword(),
+                    passwordEncoder.encode(boardMemberJoin.getPassword()),
                     boardMemberJoin.getName(),
                     boardMemberJoin.getNickName(),
                     boardMemberJoin.getPhone(),
-                    boardMemberJoin.getEmail());
+                    boardMemberJoin.getEmail(),
+                    "member");
             boardMemberRepository.save(boardMember);
             result = "success";
         } catch (Exception e) {
@@ -54,7 +58,7 @@ public class BoardMemberService {
     public void updatePassword(BoardMemberChangePassword boardMemberChangePassword) {
         BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberGuid(boardMemberChangePassword.getUserGuid())
                 .orElseThrow(() -> new RuntimeException("NoMember"));
-        boardMember.updatePassword(boardMemberChangePassword.getPassword());
+        boardMember.updatePassword(passwordEncoder.encode(boardMemberChangePassword.getPassword()));
     }
 
     @Transactional

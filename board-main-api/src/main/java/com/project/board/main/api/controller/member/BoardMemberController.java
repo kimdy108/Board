@@ -4,6 +4,7 @@ import com.project.board.main.api.domain.member.BoardMember;
 import com.project.board.main.api.dto.member.BoardMemberChangePassword;
 import com.project.board.main.api.dto.member.BoardMemberJoin;
 import com.project.board.main.api.dto.member.BoardMemberLogin;
+import com.project.board.main.api.dto.member.BoardMemberSuccessLogin;
 import com.project.board.main.api.service.member.BoardMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +18,14 @@ public class BoardMemberController {
     private final BoardMemberService boardMemberService;
 
     @PostMapping("/login")
-    public String login(@RequestBody BoardMemberLogin boardMemberLogin) {
-        loginService.login(boardMemberLogin);
-        return "success";
+    public BoardMemberSuccessLogin login(@RequestBody BoardMemberLogin boardMemberLogin) {
+        BoardMember boardMember = loginService.login(boardMemberLogin);
+
+        return BoardMemberSuccessLogin.create("accessToken",
+                "refreshToken",
+                boardMember.getMemberId(),
+                boardMember.getMemberGuid(),
+                boardMember.getMemberRole());
     }
 
     @PostMapping("/join")

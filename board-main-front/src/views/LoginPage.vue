@@ -47,16 +47,25 @@ import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
 
 const userId = ref('')
 const userPassword = ref('')
+
+const userStore = useUserStore()
 
 const isVisiblePassword = ref(false)
 
 let result = null
 const router = useRouter()
 
-const loginFunction = async () => {
+const loginFunction = () => {
+  if (userId.value == null || userId.value == '') alert('아이디를 입력해주세요.')
+  else if (userPassword.value == null || userPassword.value == '') alert('비밀번호를 입력해주세요.')
+  else loginFunctionAPI()
+}
+
+const loginFunctionAPI = async () => {
   result = await ApiService.requestAPI({
     headers: { accept: 'application/json' },
     method: 'POST',
@@ -66,8 +75,24 @@ const loginFunction = async () => {
       password: userPassword.value
     }
   })
-  if (result === 'success') alert('success')
-  else alert('fail')
+  if (result.outPut === 'success') {
+    console.log(result)
+    userStore.setUserAccess({
+      at: result.accessToken,
+      rt: result.refreshToken,
+      uid: result.userId,
+      ugd: result.userGuid,
+      rol: result.userRole
+    })
+    userStore.setUserRole(result.userRole)
+    loginSuccessFunction()
+  } else alert('아이디 또는 비밀번호를 확인해주세요.')
+}
+
+const loginSuccessFunction = () => {
+  router.push({ name: 'MainPage' }).catch(() => {
+    console.log('mainPageError')
+  })
 }
 
 const signUpFunction = () => {

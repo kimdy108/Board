@@ -4,6 +4,15 @@ const loadView = (path, view) => {
   return () => import(`@/${path}/${view}.vue`)
 }
 
+const boardChildren = [
+  {
+    path: '/board/main',
+    name: 'BoardMainPage',
+    component: loadView('pages', 'BoardMainPage'),
+    meta: { id: 'BoardMainPage' }
+  }
+]
+
 const routes = [
   {
     path: '/',
@@ -39,7 +48,9 @@ const routes = [
     path: '/board',
     name: 'MainPage',
     component: loadView('views', 'MainPage'),
-    meta: { id: 'MainPage' }
+    meta: { id: 'MainPage' },
+    children: boardChildren,
+    redirect: '/board/main'
   }
 ]
 
