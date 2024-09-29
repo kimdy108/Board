@@ -45,6 +45,7 @@ import InputIcon from 'primevue/inputicon'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
+import { encryptString } from '@/utils/common'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
@@ -71,11 +72,10 @@ const loginFunctionAPI = async () => {
     method: 'POST',
     url: '/member/login',
     data: {
-      id: userId.value,
-      password: userPassword.value
+      id: encryptString(userId.value),
+      password: encryptString(userPassword.value)
     }
   })
-  console.log(result)
   if (result.outPut) {
     userStore.setUserAccess({
       at: result.accessToken,
@@ -84,7 +84,7 @@ const loginFunctionAPI = async () => {
       ugd: result.userGuid,
       rol: result.userRole
     })
-    userStore.setUserRole(result.userRole)
+    userStore.setUserRole()
     loginSuccessFunction()
   } else {
     alert('아이디 또는 비밀번호를 확인해주세요.')

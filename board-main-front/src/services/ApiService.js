@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useUserStore } from '@/stores/userStore'
+import { encryptString } from '@/utils/common'
 
 ////////////////////////// REQUEST //////////////////////////
 axios.interceptors.request.use(
@@ -76,7 +77,7 @@ const authRefreshRequest = async () => {
   reqObj.method = 'POST'
 
   reqObj.data = {
-    id: userStore.getCurrentUser.uid,
+    id: encryptString(userStore.getCurrentUser.uid),
     refreshToken: userStore.getCurrentUser.rt
   }
   reqObj.headers = { accept: 'application/json' }

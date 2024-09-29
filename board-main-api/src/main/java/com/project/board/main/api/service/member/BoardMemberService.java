@@ -5,6 +5,7 @@ import com.project.board.main.api.dto.auth.AuthTokenBase;
 import com.project.board.main.api.dto.auth.RefreshAuthToken;
 import com.project.board.main.api.dto.member.*;
 import com.project.board.main.api.repository.member.BoardMemberRepository;
+import com.project.board.main.api.utils.Common;
 import com.project.board.main.api.utils.JwtUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,15 +18,16 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BoardMemberService {
     private final BoardMemberRepository boardMemberRepository;
-
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
     @Transactional
     public BoardMemberSuccessLogin login(BoardMemberLogin boardMemberLogin) {
-        BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberIdAndUseFlag(boardMemberLogin.getId(), true)
+        String a = Common.decryptString(boardMemberLogin.getId());
+        System.out.println(a);
+        BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberIdAndUseFlag(Common.decryptString(boardMemberLogin.getId()), true)
                 .orElseThrow(() -> new RuntimeException("loginFail"));
-        if (!passwordEncoder.matches(boardMemberLogin.getPassword(), boardMember.getMemberPassword())) throw new RuntimeException("loginFail");
+        if (!passwordEncoder.matches(Common.decryptString(boardMemberLogin.getPassword()), boardMember.getMemberPassword())) throw new RuntimeException("loginFail");
 
         AuthTokenBase authTokenBase = AuthTokenBase.create(boardMember.getMemberId(),
                 boardMember.getMemberPassword(),
@@ -35,60 +37,55 @@ public class BoardMemberService {
 
         return BoardMemberSuccessLogin.create(jwtUtil.createAccessToken(authTokenBase),
                 passwordEncoder.encode(boardMember.getMemberId() + "@" + boardMember.getMemberName() + "@" + boardMember.getMemberNickName()),
-                boardMember.getMemberId(),
-                boardMember.getMemberGuid(),
-                boardMember.getMemberRole());
+                Common.encryptString(boardMember.getMemberId()),
+                Common.encryptString(boardMember.getMemberGuid()),
+                Common.encryptString(boardMember.getMemberRole()));
     }
 
     @Transactional
     public String join(BoardMemberJoin boardMemberJoin) {
-        String result;
-        try {
-            BoardMember boardMember = BoardMember.create(UUID.randomUUID().toString(),
-                    boardMemberJoin.getId(),
-                    passwordEncoder.encode(boardMemberJoin.getPassword()),
-                    boardMemberJoin.getName(),
-                    boardMemberJoin.getNickName(),
-                    boardMemberJoin.getPhone(),
-                    boardMemberJoin.getEmail(),
-                    "member");
-            boardMemberRepository.save(boardMember);
-            result = "success";
-        } catch (Exception e) {
-            e.getStackTrace();
-            result = "fail";
-        }
-        return result;
+        BoardMember boardMember = BoardMember.create(UUID.randomUUID().toString(),
+                Common.decryptString(boardMemberJoin.getId()),
+                passwordEncoder.encode(Common.decryptString(boardMemberJoin.getPassword())),
+                Common.decryptString(boardMemberJoin.getName()),
+                Common.decryptString(boardMemberJoin.getNickName()),
+                Common.decryptString(boardMemberJoin.getPhone()),
+                Common.decryptString(boardMemberJoin.getEmail()),
+                "member");
+        boardMemberRepository.save(boardMember);
+        return "success";
     }
 
     @Transactional
-    public BoardMember getBoardMemberForResetPassword(String id, String memberPhone) {
-        return boardMemberRepository.findBoardMemberByMemberIdAndMemberPhone(id, memberPhone)
+    public BoardMemberCheckChangePassword getBoardMemberForResetPassword(String id, String memberPhone) {
+        BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberIdAndMemberPhone(Common.decryptString(id), Common.decryptString(memberPhone))
                 .orElseThrow(() -> new RuntimeException("NoMember"));
+        return BoardMemberCheckChangePassword.create(Common.encryptString(boardMember.getMemberId()),
+                Common.encryptString(boardMember.getMemberGuid()));
     }
 
     @Transactional
     public void updatePassword(BoardMemberChangePassword boardMemberChangePassword) {
-        BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberGuid(boardMemberChangePassword.getUserGuid())
+        BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberGuid(Common.decryptString(boardMemberChangePassword.getUserGuid()))
                 .orElseThrow(() -> new RuntimeException("NoMember"));
-        boardMember.updatePassword(passwordEncoder.encode(boardMemberChangePassword.getPassword()));
+        boardMember.updatePassword(passwordEncoder.encode(Common.decryptString(boardMemberChangePassword.getPassword())));
     }
 
     @Transactional
     public boolean checkJoinToId(String userId) {
-        int check = boardMemberRepository.countBoardMemberByMemberId(userId);
+        int check = boardMemberRepository.countBoardMemberByMemberId(Common.decryptString(userId));
         return check == 0;
     }
 
     @Transactional
     public boolean checkJoinToNickName(String userNickName) {
-        int check = boardMemberRepository.countBoardMemberByMemberNickName(userNickName);
+        int check = boardMemberRepository.countBoardMemberByMemberNickName(Common.decryptString(userNickName));
         return check == 0;
     }
 
     @Transactional
     public boolean checkJoinToPhone(String userPhone) {
-        int check = boardMemberRepository.countBoardMemberByMemberPhone(userPhone);
+        int check = boardMemberRepository.countBoardMemberByMemberPhone(Common.decryptString(userPhone));
         return check == 0;
     }
 

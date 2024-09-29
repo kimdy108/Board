@@ -27,7 +27,7 @@ public class BoardMemberController {
     }
 
     @GetMapping("/check/change/password")
-    public BoardMember checkPossibleToChangePassword(
+    public BoardMemberCheckChangePassword checkPossibleToChangePassword(
             @RequestParam String id,
             @RequestParam String userPhone
     ) {

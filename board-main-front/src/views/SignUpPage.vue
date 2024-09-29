@@ -98,6 +98,7 @@ import InputIcon from 'primevue/inputicon'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
+import { encryptString } from '@/utils/common'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -155,12 +156,12 @@ const apiSingUpFunctionAPI = async () => {
     method: 'POST',
     url: '/member/join',
     data: {
-      id: userId.value,
-      name: userName.value,
-      password: userPassword.value,
-      nickName: userNickName.value,
-      phone: userPhone.value,
-      email: userEmail.value
+      id: encryptString(userId.value),
+      name: encryptString(userName.value),
+      password: encryptString(userPassword.value),
+      nickName: encryptString(userNickName.value),
+      phone: encryptString(userPhone.value),
+      email: encryptString(userEmail.value)
     }
   })
   if (result === 'success') {
@@ -179,7 +180,7 @@ const checkPossibleToJoinIdAPI = async () => {
     method: 'GET',
     url: '/member/check/join/id',
     params: {
-      id: userId.value
+      id: encryptString(userId.value)
     }
   })
   if (checkIdResult === true) {
@@ -196,7 +197,7 @@ const checkPossibleToJoinNickNameAPI = async () => {
     method: 'GET',
     url: '/member/check/join/nickname',
     params: {
-      nickName: userNickName.value
+      nickName: encryptString(userNickName.value)
     }
   })
   if (checkIdResult === true) {
@@ -213,7 +214,7 @@ const checkPossibleToJoinPhoneAPI = async () => {
     method: 'GET',
     url: '/member/check/join/phone',
     params: {
-      phone: userPhone.value
+      phone: encryptString(userPhone.value)
     }
   })
   if (checkIdResult === true) {
