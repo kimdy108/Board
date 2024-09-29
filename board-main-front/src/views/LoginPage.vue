@@ -2,7 +2,7 @@
   <div class="bg-cover bg-center bg-fixed">
     <div class="h-screen flex justify-center items-center">
       <div class="w-full sm:w-80 flex flex-col gap-6 shadow-lg w-full p-16 md:w-1/3 lg:w-1/4">
-        <img src="@/assets/board.png" class="mb-10" />
+        <img src="@/assets/image/board.png" class="mb-10" />
 
         <IconField>
           <InputIcon>
@@ -75,8 +75,8 @@ const loginFunctionAPI = async () => {
       password: userPassword.value
     }
   })
-  if (result.outPut === 'success') {
-    console.log(result)
+  console.log(result)
+  if (result.outPut) {
     userStore.setUserAccess({
       at: result.accessToken,
       rt: result.refreshToken,
@@ -86,7 +86,9 @@ const loginFunctionAPI = async () => {
     })
     userStore.setUserRole(result.userRole)
     loginSuccessFunction()
-  } else alert('아이디 또는 비밀번호를 확인해주세요.')
+  } else {
+    alert('아이디 또는 비밀번호를 확인해주세요.')
+  }
 }
 
 const loginSuccessFunction = () => {

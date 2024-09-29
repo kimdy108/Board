@@ -14,4 +14,9 @@ public class SystemController {
     public String getServerInfo() {
         return "success";
     }
+
+    @GetMapping("/test")
+    public String test() {
+        return "success";
+    }
 }

@@ -13,7 +13,7 @@ public class BoardMemberSuccessLogin {
     private String userId;
     private String userGuid;
     private String userRole;
-    private String outPut;
+    private boolean outPut;
 
     public static BoardMemberSuccessLogin create(String accessToken,
                                                  String refreshToken,
@@ -26,7 +26,7 @@ public class BoardMemberSuccessLogin {
         boardMemberSuccessLogin.setUserId(userId);
         boardMemberSuccessLogin.setUserGuid(userGuid);
         boardMemberSuccessLogin.setUserRole(userRole);
-        boardMemberSuccessLogin.setOutPut("success");
+        boardMemberSuccessLogin.setOutPut(true);
         return boardMemberSuccessLogin;
     }
 }

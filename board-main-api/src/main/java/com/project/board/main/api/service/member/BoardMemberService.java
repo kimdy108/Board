@@ -1,10 +1,11 @@
 package com.project.board.main.api.service.member;
 
 import com.project.board.main.api.domain.member.BoardMember;
-import com.project.board.main.api.dto.member.BoardMemberChangePassword;
-import com.project.board.main.api.dto.member.BoardMemberJoin;
-import com.project.board.main.api.dto.member.BoardMemberLogin;
+import com.project.board.main.api.dto.auth.AuthTokenBase;
+import com.project.board.main.api.dto.auth.RefreshAuthToken;
+import com.project.board.main.api.dto.member.*;
 import com.project.board.main.api.repository.member.BoardMemberRepository;
+import com.project.board.main.api.utils.JwtUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,13 +19,25 @@ public class BoardMemberService {
     private final BoardMemberRepository boardMemberRepository;
 
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Transactional
-    public BoardMember login(BoardMemberLogin boardMemberLogin) {
-        BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberId(boardMemberLogin.getId())
-                .orElseThrow(() -> new RuntimeException("noMember"));
-        if (!passwordEncoder.matches(boardMemberLogin.getPassword(), boardMember.getMemberPassword())) throw new RuntimeException("worngPassword");
-        return boardMember;
+    public BoardMemberSuccessLogin login(BoardMemberLogin boardMemberLogin) {
+        BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberIdAndUseFlag(boardMemberLogin.getId(), true)
+                .orElseThrow(() -> new RuntimeException("loginFail"));
+        if (!passwordEncoder.matches(boardMemberLogin.getPassword(), boardMember.getMemberPassword())) throw new RuntimeException("loginFail");
+
+        AuthTokenBase authTokenBase = AuthTokenBase.create(boardMember.getMemberId(),
+                boardMember.getMemberPassword(),
+                boardMember.getMemberName(),
+                boardMember.getMemberNickName(),
+                boardMember.getMemberRole());
+
+        return BoardMemberSuccessLogin.create(jwtUtil.createAccessToken(authTokenBase),
+                passwordEncoder.encode(boardMember.getMemberId() + "@" + boardMember.getMemberName() + "@" + boardMember.getMemberNickName()),
+                boardMember.getMemberId(),
+                boardMember.getMemberGuid(),
+                boardMember.getMemberRole());
     }
 
     @Transactional
@@ -77,5 +90,20 @@ public class BoardMemberService {
     public boolean checkJoinToPhone(String userPhone) {
         int check = boardMemberRepository.countBoardMemberByMemberPhone(userPhone);
         return check == 0;
+    }
+
+    @Transactional
+    public BoardMemberSuccessRefreshToken refreshAuth(RefreshAuthToken refreshAuthToken) {
+        BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberIdAndUseFlag(refreshAuthToken.getId(), true)
+                .orElseThrow(() -> new RuntimeException("authFail"));
+        if (!passwordEncoder.matches(boardMember.getMemberId() + "@" + boardMember.getMemberName() + "@" + boardMember.getMemberNickName(), refreshAuthToken.getRefreshToken())) throw new RuntimeException("authFail");
+
+        AuthTokenBase authTokenBase = AuthTokenBase.create(boardMember.getMemberId(),
+                boardMember.getMemberPassword(),
+                boardMember.getMemberName(),
+                boardMember.getMemberNickName(),
+                boardMember.getMemberRole());
+
+        return BoardMemberSuccessRefreshToken.create(jwtUtil.createAccessToken(authTokenBase));
     }
 }

@@ -13,3 +13,8 @@ spring:
 
 server:
   port: 7777
+
+jwt:
+  token:
+    expiration_time: 86400000
+    secret: EwAhkjFdMD4u3g2q9k1s048TeuhldEuq0SptRuODjeYcT1Z3

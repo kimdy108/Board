@@ -47,8 +47,8 @@ public class BoardMember {
     @Column(name = "member_role")
     private String memberRole;
 
-    @Column(name = "use_falg")
-    private boolean useFalg;
+    @Column(name = "use_flag")
+    private boolean useFlag;
 
     @Column(name = "update_date")
     private LocalDateTime updateDate;
@@ -74,7 +74,7 @@ public class BoardMember {
         member.setMemberPhone(memberPhone);
         member.setMemberEmail(memberEmail);
         member.setMemberRole(memberRole);
-        member.setUseFalg(true);
+        member.setUseFlag(true);
         member.setUpdateDate(LocalDateTime.now());
         member.setInsertDate(LocalDateTime.now());
         return member;

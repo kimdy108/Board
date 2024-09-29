@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface BoardMemberRepository extends JpaRepository<BoardMember, Long> {
-    Optional<BoardMember> findBoardMemberByMemberId(String memberId);
+    Optional<BoardMember> findBoardMemberByMemberIdAndUseFlag(String memberId, boolean useFlag);
     Optional<BoardMember> findBoardMemberByMemberIdAndMemberPhone(String memberId, String memberName);
     Optional<BoardMember> findBoardMemberByMemberGuid(String memberGuid);
 

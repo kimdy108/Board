@@ -3,7 +3,7 @@
     <div class="bg-cover bg-center bg-fixed">
       <div class="h-screen flex justify-center items-center">
         <div class="w-full sm:w-80 flex flex-col gap-6 shadow-lg w-full p-16 md:w-1/3 lg:w-1/4">
-          <img src="@/assets/board.png" class="mb-10" />
+          <img src="@/assets/image/board.png" class="mb-10" />
           <IconField>
             <InputIcon>
               <i class="pi pi-user" />
@@ -34,7 +34,7 @@
     <div class="bg-cover bg-center bg-fixed">
       <div class="h-screen flex justify-center items-center">
         <div class="w-full sm:w-80 flex flex-col gap-6 shadow-lg w-full p-16 md:w-1/3 lg:w-1/4">
-          <img src="@/assets/board.png" class="mb-10" />
+          <img src="@/assets/image/board.png" class="mb-10" />
           <IconField>
             <InputIcon>
               <i class="pi pi-lock" />

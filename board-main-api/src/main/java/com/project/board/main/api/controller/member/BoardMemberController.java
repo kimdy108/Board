@@ -1,11 +1,11 @@
 package com.project.board.main.api.controller.member;
 
 import com.project.board.main.api.domain.member.BoardMember;
-import com.project.board.main.api.dto.member.BoardMemberChangePassword;
-import com.project.board.main.api.dto.member.BoardMemberJoin;
-import com.project.board.main.api.dto.member.BoardMemberLogin;
-import com.project.board.main.api.dto.member.BoardMemberSuccessLogin;
+import com.project.board.main.api.dto.auth.RefreshAuthToken;
+import com.project.board.main.api.dto.member.*;
 import com.project.board.main.api.service.member.BoardMemberService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,18 +14,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/member")
 public class BoardMemberController {
 
-    private final BoardMemberService loginService;
     private final BoardMemberService boardMemberService;
 
     @PostMapping("/login")
     public BoardMemberSuccessLogin login(@RequestBody BoardMemberLogin boardMemberLogin) {
-        BoardMember boardMember = loginService.login(boardMemberLogin);
-
-        return BoardMemberSuccessLogin.create("accessToken",
-                "refreshToken",
-                boardMember.getMemberId(),
-                boardMember.getMemberGuid(),
-                boardMember.getMemberRole());
+        return boardMemberService.login(boardMemberLogin);
     }
 
     @PostMapping("/join")
@@ -38,12 +31,12 @@ public class BoardMemberController {
             @RequestParam String id,
             @RequestParam String userPhone
     ) {
-        return loginService.getBoardMemberForResetPassword(id, userPhone);
+        return boardMemberService.getBoardMemberForResetPassword(id, userPhone);
     }
 
     @PutMapping("/change/password")
     public String changePassword(@RequestBody BoardMemberChangePassword boardMemberChangePassword) {
-        loginService.updatePassword(boardMemberChangePassword);
+        boardMemberService.updatePassword(boardMemberChangePassword);
         return "success";
     }
 
@@ -60,5 +53,10 @@ public class BoardMemberController {
     @GetMapping("/check/join/phone")
     public boolean checkPossibleToJoinPhone(@RequestParam String phone) {
         return boardMemberService.checkJoinToPhone(phone);
+    }
+
+    @PostMapping("/access/token/refresh")
+    public BoardMemberSuccessRefreshToken refreshAuth(@RequestBody RefreshAuthToken refreshAuthToken) {
+        return boardMemberService.refreshAuth(refreshAuthToken);
     }
 }
