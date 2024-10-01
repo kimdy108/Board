@@ -87,7 +87,7 @@ import InputIcon from 'primevue/inputicon'
 import InputText from 'primevue/inputtext'
 import ApiService from '@/services/ApiService'
 import { useRouter } from 'vue-router'
-import { encryptString, decryptString } from '@/utils/common'
+import { encryptStringSalt, decryptStringSalt } from '@/utils/common'
 
 const router = useRouter()
 
@@ -138,11 +138,12 @@ const checkPossibleToChangePasswordAPI = async () => {
       method: 'GET',
       url: '/member/check/change/password',
       params: {
-        id: encryptString(userId.value),
-        userPhone: encryptString(userPhone.value)
+        id: encryptStringSalt(userId.value),
+        userPhone: encryptStringSalt(userPhone.value)
       }
     })
-    if (decryptString(result.memberId) === userId.value) {
+    console.log(decryptStringSalt(result.memberId))
+    if (decryptStringSalt(result.memberId) === userId.value) {
       boardMember.value = result
       isPossible.value = true
     } else {
@@ -163,7 +164,7 @@ const changePasswordAPI = async () => {
       data: {
         userId: boardMember.value.memberId,
         userGuid: boardMember.value.memberGuid,
-        password: encryptString(confirmUserNewPassword.value)
+        password: encryptStringSalt(confirmUserNewPassword.value)
       }
     })
     if (result === 'success') {

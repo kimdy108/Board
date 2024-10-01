@@ -2,6 +2,16 @@ import CryptoJS from 'crypto-js'
 
 const defineAuthKey = 'bz9Tkpw5cz2XnuTDBgj6biqw7WjNW5De'
 const difineAuthIv = 'KIMDY@STUDYADMIN'
+const AUTHCHAR = '🄱🄾🄰🅁🄳'
+
+export const rndStr = (len) => {
+  let text = ''
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLNMOPQRSTUVWXYZ'
+  for (let i = 0; i < len; i++) {
+    text += chars.charAt(Math.floor(Math.random() * chars.length))
+  }
+  return text
+}
 
 export const encryptString = (str) => {
   const key = btoa(defineAuthKey)
@@ -17,6 +27,11 @@ export const encryptString = (str) => {
   return encrypt
 }
 
+export const encryptStringSalt = (str) => {
+  const encFinalStr = rndStr(10) + AUTHCHAR + str + AUTHCHAR + rndStr(10)
+  return encryptString(encFinalStr)
+}
+
 export const decryptString = (str) => {
   const key = btoa(defineAuthKey)
   const iv = CryptoJS.enc.Hex.parse(hexEncode(difineAuthIv))
@@ -29,6 +44,11 @@ export const decryptString = (str) => {
   })
 
   return decrypt.toString(CryptoJS.enc.Utf8)
+}
+
+export const decryptStringSalt = (str) => {
+  const decFinalStr = decryptString(str)
+  return decFinalStr.split(AUTHCHAR)[1]
 }
 
 export const hexEncode = (str) => {

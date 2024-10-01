@@ -2,6 +2,7 @@ package com.project.board.main.api.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -12,6 +13,7 @@ import java.security.spec.AlgorithmParameterSpec;
 @Slf4j
 public class Common {
 
+    public static final String AUTHCHAR = "🄱🄾🄰🅁🄳" ; // 🄰🄱🄲🄳🄴🄵🄶🄷🄸🄹🄺🄻🄼🄽🄾🄿🅀🅁🅂🅃🅄🅅🅆🅇🅈🅉 🄱🄾🄰🅁🄳
     public static final String DEFINEAUTHKEY = "bz9Tkpw5cz2XnuTDBgj6biqw7WjNW5De";
     public static final String DEFINEAUTHIV = "KIMDY@STUDYADMIN";
 
@@ -20,6 +22,15 @@ public class Common {
             return encryptStringPrivate(data);
         }
         catch(Exception e) {
+            log.debug(e.getMessage());
+            return "";
+        }
+    }
+
+    public static String encryptStringSalt(String data) {
+        try {
+            return encryptStringPrivate(RandomStringUtils.random(10, true, true) + AUTHCHAR + data + AUTHCHAR + RandomStringUtils.random(10, true, true));
+        } catch (Exception e) {
             log.debug(e.getMessage());
             return "";
         }
@@ -43,6 +54,15 @@ public class Common {
             return decryptStringPrivate(data);
         }
         catch(Exception e) {
+            log.debug(e.getMessage());
+            return "";
+        }
+    }
+
+    public static String decryptStringSalt(String data) {
+        try {
+            return decryptStringPrivate(data).split(AUTHCHAR)[1];
+        } catch (Exception e) {
             log.debug(e.getMessage());
             return "";
         }

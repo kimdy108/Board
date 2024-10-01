@@ -45,7 +45,7 @@ import InputIcon from 'primevue/inputicon'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
-import { encryptString } from '@/utils/common'
+import { encryptStringSalt } from '@/utils/common'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
@@ -72,11 +72,12 @@ const loginFunctionAPI = async () => {
     method: 'POST',
     url: '/member/login',
     data: {
-      id: encryptString(userId.value),
-      password: encryptString(userPassword.value)
+      id: encryptStringSalt(userId.value),
+      password: encryptStringSalt(userPassword.value)
     }
   })
   if (result.outPut) {
+    console.log(result)
     userStore.setUserAccess({
       at: result.accessToken,
       rt: result.refreshToken,

@@ -39,6 +39,12 @@ const routes = [
     meta: { id: 'SignUpPage' }
   },
   {
+    path: '/sign/out',
+    name: 'SignOutPage',
+    component: loadView('views', 'SignOutPage'),
+    meta: { id: 'SignOutPage' }
+  },
+  {
     path: '/error',
     name: 'ErrorPage',
     component: loadView('views', 'ErrorPage'),
