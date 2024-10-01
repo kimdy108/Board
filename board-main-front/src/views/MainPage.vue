@@ -19,7 +19,7 @@ import Menubar from 'primevue/menubar'
 import SplitButton from 'primevue/splitbutton'
 import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const useStore = useUserStore()
 const router = useRouter()
@@ -77,6 +77,15 @@ const userItems = ref([
     }
   }
 ])
+
+onMounted(() => {
+  if (!useStore.getUserAccess.at) {
+    alert('로그인을 해주세요.')
+    router.push({ name: 'LoginPage' }).catch(() => {
+      console.log('mainerror')
+    })
+  }
+})
 </script>
 
 <style lang="scss" scoped></style>
