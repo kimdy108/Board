@@ -77,7 +77,6 @@ const loginFunctionAPI = async () => {
     }
   })
   if (result.outPut) {
-    console.log(result)
     userStore.setUserAccess({
       at: result.accessToken,
       rt: result.refreshToken,
@@ -85,7 +84,7 @@ const loginFunctionAPI = async () => {
       ugd: result.userGuid,
       rol: result.userRole
     })
-    userStore.setUserRole()
+    userStore.setUserRole(result.userRole)
     loginSuccessFunction()
   } else {
     alert('아이디 또는 비밀번호를 확인해주세요.')

@@ -26,6 +26,12 @@ public class BoardMemberController {
         return boardMemberService.join(boardMemberJoin);
     }
 
+    @DeleteMapping("/delete/{guid}")
+    public String delete(@PathVariable String guid, @RequestBody BoardMemberSignOut boardMemberSignOut) {
+        boardMemberService.delete(guid, boardMemberSignOut.getPassword());
+        return "success";
+    }
+
     @GetMapping("/check/change/password")
     public BoardMemberCheckChangePassword checkPossibleToChangePassword(
             @RequestParam String id,

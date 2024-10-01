@@ -25,9 +25,8 @@ const useStore = useUserStore()
 const router = useRouter()
 
 const moveMainPage = () => {
-  console.log('moveMainPage')
   router.push({ name: 'MainPage' }).catch(() => {
-    console.log(MainPageError)
+    console.log('MainPageError')
   })
 }
 
@@ -39,7 +38,6 @@ const logOutFunction = () => {
 }
 
 const signOutFunction = () => {
-  useStore.setUserLogout()
   router.push({ name: 'SignOutPage' }).catch(() => {
     console.log('SignOutPageError')
   })

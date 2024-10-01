@@ -84,4 +84,8 @@ public class BoardMember {
         this.memberPassword = memberPassword;
         this.updateDate = LocalDateTime.now();
     }
+
+    public void updateUseFalg() {
+        this.useFlag = false;
+    }
 }

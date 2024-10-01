@@ -9,6 +9,7 @@ import dayjs from 'dayjs'
 import router from '@/router'
 import App from './App.vue'
 import 'primeicons/primeicons.css'
+import ConfirmationService from 'primevue/confirmationservice'
 
 const app = createApp(App)
 app.use(router)
@@ -20,4 +21,5 @@ app.use(PrimeVue, {
 })
 app.use(createPinia())
 app.use(dayjs)
+app.use(ConfirmationService)
 app.mount('#app')

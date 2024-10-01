@@ -142,7 +142,6 @@ const checkPossibleToChangePasswordAPI = async () => {
         userPhone: encryptStringSalt(userPhone.value)
       }
     })
-    console.log(decryptStringSalt(result.memberId))
     if (decryptStringSalt(result.memberId) === userId.value) {
       boardMember.value = result
       isPossible.value = true

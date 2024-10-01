@@ -83,7 +83,6 @@ const authRefreshRequest = async () => {
   reqObj.headers = { accept: 'application/json' }
   try {
     const result = await axios(reqObj)
-    console.log(result.data)
     return result.data
   } catch (error) {
     return error.data

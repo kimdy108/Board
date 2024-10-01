@@ -55,6 +55,15 @@ public class BoardMemberService {
     }
 
     @Transactional
+    public void delete(String userGuid, String userPassword) {
+        BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberGuid(userGuid)
+                .orElseThrow(() -> new RuntimeException("noMember"));
+        if(!passwordEncoder.matches(Common.decryptStringSalt(userPassword), boardMember.getMemberPassword())) throw new RuntimeException("AuthFail");
+        boardMember.updateUseFalg();
+        // todo: 게시판 및 기타 등등 전부 useFalg -> false 로 해야함..
+    }
+
+    @Transactional
     public BoardMemberCheckChangePassword getBoardMemberForResetPassword(String id, String memberPhone) {
         BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberIdAndMemberPhone(Common.encryptString(Common.decryptStringSalt(id)), Common.encryptString(Common.decryptStringSalt(memberPhone)))
                 .orElseThrow(() -> new RuntimeException("NoMember"));

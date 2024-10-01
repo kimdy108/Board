@@ -6,8 +6,6 @@
 </template>
 
 <script setup>
-import { useUserStore } from '@/stores/userStore'
-import { useRouter } from 'vue-router'
 import ApiService from '@/services/ApiService'
 import Button from 'primevue/button'
 
