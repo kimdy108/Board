@@ -1,9 +1,6 @@
 @import './base.css';
 
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
   font-weight: normal;
 }
 
@@ -23,7 +20,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f0f3f8;
-  color: #151515;
+  /* color: #151515; */
   height: 100%;
   width: 100%;
   text-align: center;

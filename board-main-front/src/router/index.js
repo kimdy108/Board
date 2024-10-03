@@ -10,6 +10,36 @@ const boardChildren = [
     name: 'BoardMainPage',
     component: loadView('pages', 'BoardMainPage'),
     meta: { id: 'BoardMainPage' }
+  },
+  {
+    path: '/board/notice',
+    name: 'NoticePage',
+    component: loadView('pages', 'NoticePage'),
+    meta: { id: 'NoticePage' }
+  },
+  {
+    path: '/board/tech',
+    name: 'DevelopmentAndStackPage',
+    component: loadView('pages', 'DevelopmentAndStackPage'),
+    meta: { id: 'DevelopmentAndStackPageError' }
+  },
+  {
+    path: '/board/other',
+    name: 'OtherBoardPage',
+    component: loadView('pages', 'OtherBoardPage'),
+    meta: { id: 'OtherBoardPageError' }
+  },
+  {
+    path: '/board/qna',
+    name: 'QnAPage',
+    component: loadView('pages', 'QnAPage'),
+    meta: { id: 'QnAPageError' }
+  },
+  {
+    path: '/board/my/information',
+    name: 'MyPage',
+    component: loadView('pages', 'MyPage'),
+    meta: { id: 'MyPageError' }
   }
 ]
 
