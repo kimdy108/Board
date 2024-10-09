@@ -11,13 +11,13 @@
               <Splitter layout="vertical">
                 <SplitterPanel
                   class="flex items-center justify-center border-none text-black"
-                  style="background-color: #009fe4"
+                  style="background-color: #fffff1"
                 >
                   <NoticePage></NoticePage>
                 </SplitterPanel>
                 <SplitterPanel
                   class="flex items-center justify-center border-none text-black"
-                  style="background-color: #009fe4"
+                  style="background-color: #fffff1"
                 >
                   <DevelopmentAndStackPage></DevelopmentAndStackPage>
                 </SplitterPanel>
@@ -27,13 +27,13 @@
               <Splitter layout="vertical">
                 <SplitterPanel
                   class="flex items-center justify-center border-none text-black"
-                  style="background-color: #009fe4"
+                  style="background-color: #fffff1"
                 >
                   <OtherBoardPage></OtherBoardPage>
                 </SplitterPanel>
                 <SplitterPanel
                   class="flex items-center justify-center border-none text-black"
-                  style="background-color: #009fe4"
+                  style="background-color: #fffff1"
                 >
                   <QnAPage></QnAPage>
                 </SplitterPanel>

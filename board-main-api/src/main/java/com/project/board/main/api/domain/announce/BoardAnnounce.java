@@ -1,0 +1,39 @@
+package com.project.board.main.api.domain.announce;
+
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "board_announce", indexes = {
+        @Index(name = "idx_seq", columnList = "seq"),
+        @Index(name = "idx_announce_title", columnList = "announce_title")
+})
+@Getter
+@Setter(AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class BoardAnnounce {
+    @Id
+    @Column(name = "seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int seq;
+
+    @Column(name = "member_guid")
+    private String memberGuid;
+
+    @Column(name = "announce_title")
+    private String announceTitle;
+
+    @Column(name = "announce_content")
+    private String announceContent;
+
+    @Column(name = "update_date")
+    private LocalDateTime updateDate;
+
+    @Column(name = "insert_date")
+    private LocalDateTime insertDate;
+}

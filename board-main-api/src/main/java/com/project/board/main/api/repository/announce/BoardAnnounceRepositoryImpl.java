@@ -1,0 +1,40 @@
+package com.project.board.main.api.repository.announce;
+
+import com.project.board.main.api.domain.announce.BoardAnnounce;
+import com.project.board.main.api.domain.announce.QBoardAnnounce;
+import com.project.board.main.api.domain.member.QBoardMember;
+import com.project.board.main.api.dto.announce.BoardNotice;
+import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public class BoardAnnounceRepositoryImpl extends QuerydslRepositorySupport {
+    private final JPAQueryFactory jpaQueryFactory;
+
+    public BoardAnnounceRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
+        super(BoardAnnounce.class);
+        this.jpaQueryFactory = jpaQueryFactory;
+    }
+
+    QBoardAnnounce qboardAnnounce = QBoardAnnounce.boardAnnounce;
+    QBoardMember qboardMember = QBoardMember.boardMember;
+
+    public List<BoardNotice> findBoardAnnounceListAll() {
+        return jpaQueryFactory
+                .select(Projections.fields(
+                        BoardNotice.class,
+                        qboardAnnounce.announceTitle.as("noticeTitle"),
+                        qboardAnnounce.announceContent.as("noticeContent"),
+                        qboardMember.memberNickName.as("memberNickName"),
+                        qboardAnnounce.insertDate.as("noticeInsertDate")
+                ))
+                .from(qboardAnnounce)
+                .innerJoin(qboardMember).on(qboardAnnounce.memberGuid.eq(qboardMember.memberGuid))
+                .orderBy(qboardAnnounce.insertDate.asc())
+                .fetch();
+    }
+}
