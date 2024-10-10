@@ -25,15 +25,44 @@ public class BoardAnnounce {
     @Column(name = "member_guid")
     private String memberGuid;
 
+    @Column(name = "annouce_guid")
+    private String annouceGuid;
+
     @Column(name = "announce_title")
     private String announceTitle;
 
     @Column(name = "announce_content")
     private String announceContent;
 
+    @Column(name = "use_flag")
+    private boolean useFlag;
+
     @Column(name = "update_date")
     private LocalDateTime updateDate;
 
     @Column(name = "insert_date")
     private LocalDateTime insertDate;
+
+    public static BoardAnnounce regist(String annouceGuid,
+                                       String memberGuid,
+                                       String announceTitle,
+                                       String announceContent) {
+        BoardAnnounce boardAnnounce = new BoardAnnounce();
+        boardAnnounce.setAnnouceGuid(annouceGuid);
+        boardAnnounce.setMemberGuid(memberGuid);
+        boardAnnounce.setAnnounceTitle(announceTitle);
+        boardAnnounce.setAnnounceContent(announceContent);
+        boardAnnounce.setUseFlag(true);
+        return boardAnnounce;
+    }
+
+    public void update(String announceTitle,
+                       String announceContent) {
+        this.announceTitle = announceTitle;
+        this.announceContent = announceContent;
+    }
+
+    public void updateUseFlag(boolean useFlag) {
+        this.useFlag = useFlag;
+    }
 }

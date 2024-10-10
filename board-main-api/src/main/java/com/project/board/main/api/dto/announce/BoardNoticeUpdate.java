@@ -4,15 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BoardNotice {
+public class BoardNoticeUpdate {
     private String noticeGuid;
     private String noticeTitle;
     private String noticeContent;
-    private String memberNickName;
-    private LocalDateTime noticeInsertDate;
 }

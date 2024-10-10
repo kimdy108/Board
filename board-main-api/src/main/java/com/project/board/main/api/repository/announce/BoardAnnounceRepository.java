@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BoardAnnounceRepository extends JpaRepository<BoardAnnounce, Long> {
-
+    BoardAnnounce findBoardAnnounceByAnnouceGuid(String announceGuid);
 }

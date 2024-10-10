@@ -27,6 +27,7 @@ public class BoardAnnounceRepositoryImpl extends QuerydslRepositorySupport {
         return jpaQueryFactory
                 .select(Projections.fields(
                         BoardNotice.class,
+                        qboardAnnounce.annouceGuid.as("noticeGuid"),
                         qboardAnnounce.announceTitle.as("noticeTitle"),
                         qboardAnnounce.announceContent.as("noticeContent"),
                         qboardMember.memberNickName.as("memberNickName"),
@@ -34,6 +35,7 @@ public class BoardAnnounceRepositoryImpl extends QuerydslRepositorySupport {
                 ))
                 .from(qboardAnnounce)
                 .innerJoin(qboardMember).on(qboardAnnounce.memberGuid.eq(qboardMember.memberGuid))
+                .where(qboardAnnounce.useFlag.eq(true))
                 .orderBy(qboardAnnounce.insertDate.asc())
                 .fetch();
     }
