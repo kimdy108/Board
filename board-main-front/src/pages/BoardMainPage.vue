@@ -13,13 +13,13 @@
                   class="flex items-center justify-center border-none text-black"
                   style="background-color: #fffff1"
                 >
-                  <NoticePage></NoticePage>
+                  공지사항
                 </SplitterPanel>
                 <SplitterPanel
                   class="flex items-center justify-center border-none text-black"
                   style="background-color: #fffff1"
                 >
-                  <DevelopmentAndStackPage></DevelopmentAndStackPage>
+                  개발/스택
                 </SplitterPanel>
               </Splitter>
             </SplitterPanel>
@@ -29,13 +29,13 @@
                   class="flex items-center justify-center border-none text-black"
                   style="background-color: #fffff1"
                 >
-                  <OtherBoardPage></OtherBoardPage>
+                  자유게시판
                 </SplitterPanel>
                 <SplitterPanel
                   class="flex items-center justify-center border-none text-black"
                   style="background-color: #fffff1"
                 >
-                  <QnAPage></QnAPage>
+                  qna
                 </SplitterPanel>
               </Splitter>
             </SplitterPanel>
@@ -50,10 +50,6 @@
 import Splitter from 'primevue/splitter'
 import SplitterPanel from 'primevue/splitterpanel'
 import Card from 'primevue/card'
-import NoticePage from './NoticePage.vue'
-import DevelopmentAndStackPage from './DevelopmentAndStackPage.vue'
-import OtherBoardPage from './OtherBoardPage.vue'
-import QnAPage from './QnAPage.vue'
 </script>
 
 <style lang="scss" scoped></style>

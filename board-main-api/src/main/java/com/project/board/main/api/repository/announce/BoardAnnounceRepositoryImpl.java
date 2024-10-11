@@ -37,7 +37,6 @@ public class BoardAnnounceRepositoryImpl extends QuerydslRepositorySupport {
                 .from(qboardAnnounce)
                 .innerJoin(qboardMember).on(qboardAnnounce.memberGuid.eq(qboardMember.memberGuid))
                 .where(qboardAnnounce.annouceGuid.eq(noticeGuid))
-                .orderBy(qboardAnnounce.insertDate.asc())
                 .fetchOne();
     }
 
@@ -55,7 +54,7 @@ public class BoardAnnounceRepositoryImpl extends QuerydslRepositorySupport {
                 .from(qboardAnnounce)
                 .innerJoin(qboardMember).on(qboardAnnounce.memberGuid.eq(qboardMember.memberGuid))
                 .where(qboardAnnounce.useFlag.eq(true))
-                .orderBy(qboardAnnounce.insertDate.asc())
+                .orderBy(qboardAnnounce.insertDate.desc())
                 .fetch();
     }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="mt-2 ml-2 mr-2 mb-3">
-    <Menubar :model="items" style="height: 50px; background-color: #202939; border-color: #202939">
+    <Menubar :model="items" style="height: 50px; background-color: #8adafd; border-color: #8adafd">
       <template #start>
         <img src="@/assets/image/board.png" class="w-24" @click="moveMainPage" />
       </template>

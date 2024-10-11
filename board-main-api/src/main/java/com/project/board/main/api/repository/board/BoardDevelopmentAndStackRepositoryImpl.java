@@ -37,7 +37,6 @@ public class BoardDevelopmentAndStackRepositoryImpl extends QuerydslRepositorySu
                 .from(qboardDevelopmentAndStack)
                 .innerJoin(qboardMember).on(qboardDevelopmentAndStack.memberGuid.eq(qboardMember.memberGuid))
                 .where(qboardDevelopmentAndStack.developmentStackGuid.eq(boardGuid))
-                .orderBy(qboardDevelopmentAndStack.insertDate.asc())
                 .fetchOne();
     }
 
@@ -55,7 +54,7 @@ public class BoardDevelopmentAndStackRepositoryImpl extends QuerydslRepositorySu
                 .from(qboardDevelopmentAndStack)
                 .innerJoin(qboardMember).on(qboardDevelopmentAndStack.memberGuid.eq(qboardMember.memberGuid))
                 .where(qboardDevelopmentAndStack.useFlag.eq(true))
-                .orderBy(qboardDevelopmentAndStack.insertDate.asc())
+                .orderBy(qboardDevelopmentAndStack.insertDate.desc())
                 .fetch();
     }
 }

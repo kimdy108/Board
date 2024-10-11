@@ -38,7 +38,6 @@ public class BoardFreeRepositoryImpl extends QuerydslRepositorySupport {
                 .from(qboardFree)
                 .innerJoin(qboardMember).on(qboardFree.memberGuid.eq(qboardMember.memberGuid))
                 .where(qboardFree.freeGuid.eq(boardGuid))
-                .orderBy(qboardFree.insertDate.asc())
                 .fetchOne();
     }
 
@@ -56,7 +55,7 @@ public class BoardFreeRepositoryImpl extends QuerydslRepositorySupport {
                 .from(qboardFree)
                 .innerJoin(qboardMember).on(qboardFree.memberGuid.eq(qboardMember.memberGuid))
                 .where(qboardFree.useFlag.eq(true))
-                .orderBy(qboardFree.insertDate.asc())
+                .orderBy(qboardFree.insertDate.desc())
                 .fetch();
     }
 }
