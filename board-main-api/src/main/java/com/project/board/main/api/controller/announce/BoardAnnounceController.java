@@ -21,6 +21,11 @@ public class BoardAnnounceController {
         return boardAnnounceService.getAnnounceListAll();
     }
 
+    @GetMapping("/search")
+    public BoardNotice getList(@RequestParam String noticeGuid) {
+        return boardAnnounceService.getAnnounce(noticeGuid);
+    }
+
     @PostMapping("/regist")
     public String registAnnounce(@RequestBody BoardNoticeRegist boardNoticeRegist, HttpServletRequest req) {
         boardAnnounceService.registAnnounce(boardNoticeRegist, req.getHeader("ugd"));

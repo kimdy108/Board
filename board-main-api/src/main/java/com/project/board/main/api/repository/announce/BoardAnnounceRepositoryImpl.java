@@ -23,6 +23,24 @@ public class BoardAnnounceRepositoryImpl extends QuerydslRepositorySupport {
     QBoardAnnounce qboardAnnounce = QBoardAnnounce.boardAnnounce;
     QBoardMember qboardMember = QBoardMember.boardMember;
 
+    public BoardNotice findBoardAnnounce(String noticeGuid) {
+        return jpaQueryFactory
+                .select(Projections.fields(
+                        BoardNotice.class,
+                        qboardAnnounce.annouceGuid.as("noticeGuid"),
+                        qboardAnnounce.announceTitle.as("noticeTitle"),
+                        qboardAnnounce.announceContent.as("noticeContent"),
+                        qboardMember.memberGuid.as("memberGuid"),
+                        qboardMember.memberNickName.as("memberNickName"),
+                        qboardAnnounce.insertDate.as("noticeInsertDate")
+                ))
+                .from(qboardAnnounce)
+                .innerJoin(qboardMember).on(qboardAnnounce.memberGuid.eq(qboardMember.memberGuid))
+                .where(qboardAnnounce.annouceGuid.eq(noticeGuid))
+                .orderBy(qboardAnnounce.insertDate.asc())
+                .fetchOne();
+    }
+
     public List<BoardNotice> findBoardAnnounceListAll() {
         return jpaQueryFactory
                 .select(Projections.fields(
@@ -30,6 +48,7 @@ public class BoardAnnounceRepositoryImpl extends QuerydslRepositorySupport {
                         qboardAnnounce.annouceGuid.as("noticeGuid"),
                         qboardAnnounce.announceTitle.as("noticeTitle"),
                         qboardAnnounce.announceContent.as("noticeContent"),
+                        qboardMember.memberGuid.as("memberGuid"),
                         qboardMember.memberNickName.as("memberNickName"),
                         qboardAnnounce.insertDate.as("noticeInsertDate")
                 ))

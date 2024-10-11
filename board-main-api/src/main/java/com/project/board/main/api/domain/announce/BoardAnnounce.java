@@ -43,12 +43,12 @@ public class BoardAnnounce {
     @Column(name = "insert_date")
     private LocalDateTime insertDate;
 
-    public static BoardAnnounce regist(String annouceGuid,
-                                       String memberGuid,
+    public static BoardAnnounce regist(String memberGuid,
+                                       String announceGuid,
                                        String announceTitle,
                                        String announceContent) {
         BoardAnnounce boardAnnounce = new BoardAnnounce();
-        boardAnnounce.setAnnouceGuid(annouceGuid);
+        boardAnnounce.setAnnouceGuid(announceGuid);
         boardAnnounce.setMemberGuid(memberGuid);
         boardAnnounce.setAnnounceTitle(announceTitle);
         boardAnnounce.setAnnounceContent(announceContent);
@@ -60,9 +60,11 @@ public class BoardAnnounce {
                        String announceContent) {
         this.announceTitle = announceTitle;
         this.announceContent = announceContent;
+        this.updateDate = LocalDateTime.now();
     }
 
     public void updateUseFlag(boolean useFlag) {
         this.useFlag = useFlag;
+        this.updateDate = LocalDateTime.now();
     }
 }

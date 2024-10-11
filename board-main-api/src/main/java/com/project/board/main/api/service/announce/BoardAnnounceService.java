@@ -21,6 +21,11 @@ public class BoardAnnounceService {
     private final BoardAnnounceRepositoryImpl boardAnnounceRepositoryImpl;
 
     @Transactional
+    public BoardNotice getAnnounce(String announceGuid) {
+        return boardAnnounceRepositoryImpl.findBoardAnnounce(announceGuid);
+    }
+
+    @Transactional
     public List<BoardNotice> getAnnounceListAll() {
         return boardAnnounceRepositoryImpl.findBoardAnnounceListAll();
     }
@@ -28,8 +33,8 @@ public class BoardAnnounceService {
     @Transactional
     public void registAnnounce(BoardNoticeRegist boardNoticeRegist, String encryptMemberGuid) {
         try {
-            BoardAnnounce boardAnnounce = BoardAnnounce.regist(UUID.randomUUID().toString(),
-                    Common.decryptStringSalt(encryptMemberGuid),
+            BoardAnnounce boardAnnounce = BoardAnnounce.regist(Common.decryptStringSalt(encryptMemberGuid),
+                    UUID.randomUUID().toString(),
                     boardNoticeRegist.getNoticeTitle(),
                     boardNoticeRegist.getNoticeContent());
             boardAnnounceRepository.save(boardAnnounce);

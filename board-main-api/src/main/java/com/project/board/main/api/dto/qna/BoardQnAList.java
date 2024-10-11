@@ -1,4 +1,4 @@
-package com.project.board.main.api.dto.announce;
+package com.project.board.main.api.dto.qna;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,11 +9,11 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BoardNotice {
-    private String noticeGuid;
-    private String noticeTitle;
-    private String noticeContent;
+public class BoardQnAList {
+    private String qnaGuid;
+    private String qnaTitle;
+    private String qnaContent;
     private String memberGuid;
     private String memberNickName;
-    private LocalDateTime noticeInsertDate;
+    private LocalDateTime qnaInsertDate;
 }
