@@ -53,6 +53,8 @@ public class BoardAnnounce {
         boardAnnounce.setAnnounceTitle(announceTitle);
         boardAnnounce.setAnnounceContent(announceContent);
         boardAnnounce.setUseFlag(true);
+        boardAnnounce.setInsertDate(LocalDateTime.now());
+        boardAnnounce.setUpdateDate(LocalDateTime.now());
         return boardAnnounce;
     }
 

@@ -35,10 +35,11 @@ const boardChildren = [
     meta: { id: 'NoticeCreatePage' }
   },
   {
-    path: '/board/notice/edit',
+    path: '/board/notice/edit/:noticeGuid',
     name: 'NoticeEditPage',
     component: loadSubView('pages', 'notice', 'NoticeEditPage'),
-    meta: { id: 'NoticeEditPage' }
+    meta: { id: 'NoticeEditPage' },
+    props: true
   },
   {
     path: '/board/tech',

@@ -1,10 +1,10 @@
 <template>
   <div class="text-left ml-16 mt-16">
-    <h2 class="text-8xl mb-5">{{ noticeTitle }}</h2>
-    <p class="text-5xl mb-5">
+    <h2 class="text-8xl mb-5 text-black">{{ noticeTitle }}</h2>
+    <p class="text-5xl mb-5 text-black">
       {{ noticeContent }}
     </p>
-    <p class="text-2xl">{{ noticeDate }}</p>
+    <p class="text-2xl text-black">{{ noticeDate }}</p>
   </div>
   <hr class="mt-16 ml-16 mr-16 mb-10" />
   <div class="text-left mr-16 flex justify-end">
@@ -41,12 +41,6 @@ const goNoticeEdit = () => {
   })
 }
 
-const deleteNotice = () => {
-  router.push({ name: 'NoticePage' }).catch(() => {
-    console.log('NoticePageError')
-  })
-}
-
 const getNoticeApi = async () => {
   const result = await ApiService.requestAPI({
     headers: { accept: 'application/json' },
@@ -58,8 +52,7 @@ const getNoticeApi = async () => {
   })
   noticeTitle.value = result.noticeTitle
   noticeContent.value = result.noticeContent
-  noticeDate.value =
-    result.noticeInsertDate.split('T')[0] + ' ' + result.noticeInsertDate.split('T')[1]
+  noticeDate.value = result.noticeInsertDate.split('T')[0]
 }
 
 const deleteNoticeApi = async () => {
