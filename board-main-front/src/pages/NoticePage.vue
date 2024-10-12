@@ -1,9 +1,11 @@
 <template>
   <div class="text-left text-black">
-    <div class="ml-5 mb-5 text-6xl">
-      <div class="p-10 bg-sky-200 w-72 rounded-lg">공지사항</div>
-    </div>
+    <div class="ml-5 text-6xl p-10">공지사항</div>
   </div>
+  <div class="text-right items-end mr-10">
+    <Button label="글쓰기" size="large" @click="goNoticeCreate" />
+  </div>
+  <hr class="m-5" />
   <div class="card">
     <DataTable
       :value="items"
@@ -11,7 +13,7 @@
       :rows="10"
       tableStyle="min-width: 50rem"
       style="margin-left: 15px; margin-right: 15px"
-      @row-click="onRowClick"
+      @row-click="goNoticeView"
     >
       <Column field="noticeTitle" header="제목" style="width: 25%"></Column>
       <Column field="noticeContent" header="내용" style="width: 45%"></Column>
@@ -24,13 +26,25 @@
 <script setup>
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
+import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
+import { useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 
+const router = useRouter()
 const items = ref()
-const onRowClick = (event) => {
+
+const goNoticeCreate = () => {
+  router.push({ name: 'NoticeCreatePage' }).catch(() => {
+    console.log('NoticeCreatePageError')
+  })
+}
+
+const goNoticeView = (event) => {
   const noticeGuid = event.data.noticeGuid
-  alert(noticeGuid)
+  router.push({ name: 'NoticeViewPage', params: { noticeGuid } }).catch(() => {
+    console.log('NoticeViewPageError')
+  })
 }
 
 const getNoticeList = async () => {
@@ -44,11 +58,6 @@ const getNoticeList = async () => {
   }
   items.value = result
 }
-
-const alertGuid = (guid) => {
-  alert(guid)
-}
-
 onMounted(() => {
   getNoticeList()
 })

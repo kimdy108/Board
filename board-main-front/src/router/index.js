@@ -4,6 +4,10 @@ const loadView = (path, view) => {
   return () => import(`@/${path}/${view}.vue`)
 }
 
+const loadSubView = (path, dir, view) => {
+  return () => import(`@/${path}/${dir}/${view}.vue`)
+}
+
 const boardChildren = [
   {
     path: '/board/main',
@@ -16,6 +20,25 @@ const boardChildren = [
     name: 'NoticePage',
     component: loadView('pages', 'NoticePage'),
     meta: { id: 'NoticePage' }
+  },
+  {
+    path: '/board/notice/:noticeGuid',
+    name: 'NoticeViewPage',
+    component: loadSubView('pages', 'notice', 'NoticeViewPage'),
+    meta: { id: 'NoticeViewPage' },
+    props: true
+  },
+  {
+    path: '/board/notice/create',
+    name: 'NoticeCreatePage',
+    component: loadSubView('pages', 'notice', 'NoticeCreatePage'),
+    meta: { id: 'NoticeCreatePage' }
+  },
+  {
+    path: '/board/notice/edit',
+    name: 'NoticeEditPage',
+    component: loadSubView('pages', 'notice', 'NoticeEditPage'),
+    meta: { id: 'NoticeEditPage' }
   },
   {
     path: '/board/tech',
