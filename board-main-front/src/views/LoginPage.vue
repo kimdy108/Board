@@ -82,6 +82,7 @@ const loginFunctionAPI = async () => {
       rt: result.refreshToken,
       uid: result.userId,
       ugd: result.userGuid,
+      unn: result.userNickName,
       rol: result.userRole
     })
     userStore.setUserRole(result.userRole)

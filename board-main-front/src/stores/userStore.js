@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
 export const useUserStore = defineStore('user', () => {
-  const userAccess = ref({ at: null, rt: null, uid: null, ugd: null, rol: null })
+  const userAccess = ref({ at: null, rt: null, uid: null, ugd: null, unn: null, rol: null })
   const userRole = ref('')
 
   const getUserAccess = computed(() => {
@@ -30,7 +30,7 @@ export const useUserStore = defineStore('user', () => {
   }
   function setUserLogout() {
     sessionStorage.removeItem('user')
-    userAccess.value = { at: null, rt: null, uid: null, ugd: null, rol: null }
+    userAccess.value = { at: null, rt: null, uid: null, ugd: null, unn: null, rol: null }
   }
 
   return {

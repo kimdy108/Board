@@ -5,12 +5,9 @@
         <img src="@/assets/image/board.png" class="w-24" @click="moveMainPage" />
       </template>
       <template #end>
-        <SplitButton
-          label="마이페이지"
-          :model="userItems"
-          style="color: #4b5565"
-          @click="moveMyPage"
-        />
+        <SplitButton :model="userItems" style="color: #4b5565" @click="moveMyPage">
+          {{ userNickName }}
+        </SplitButton>
       </template>
     </Menubar>
   </div>
@@ -25,9 +22,11 @@ import SplitButton from 'primevue/splitbutton'
 import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
+import { decryptStringSalt } from '@/utils/common'
 
 const useStore = useUserStore()
 const router = useRouter()
+const userNickName = decryptStringSalt(useStore.getUserAccess.unn)
 
 const moveMainPage = () => {
   router.push({ name: 'MainPage' }).catch(() => {
@@ -60,7 +59,6 @@ const moveQnAPage = () => {
 }
 
 const moveMyPage = () => {
-  useStore.setUserLogout()
   router.push({ name: 'MyPage' }).catch(() => {
     console.log('MyPageError')
   })
@@ -112,6 +110,12 @@ const items = ref([
 ])
 
 const userItems = ref([
+  {
+    label: '마이페이지',
+    command: () => {
+      moveMyPage()
+    }
+  },
   {
     label: '로그아웃',
     command: () => {

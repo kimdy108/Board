@@ -44,6 +44,7 @@ public class BoardMemberService {
                 passwordEncoder.encode(boardMember.getMemberId() + "@" + boardMember.getMemberName() + "@" + boardMember.getMemberNickName()),
                 Common.encryptStringSalt(boardMember.getMemberId()),
                 Common.encryptStringSalt(boardMember.getMemberGuid()),
+                Common.encryptStringSalt(boardMember.getMemberNickName()),
                 Common.encryptStringSalt(boardMember.getMemberRole()));
     }
 

@@ -52,7 +52,9 @@ const isOwner = ref(false)
 
 const isOwnerFunction = () => {
   const userStoreGuid = userStore.getUserAccess.ugd
+  const userStoreRole = userStore.getUserRole
   if (decryptStringSalt(userStoreGuid) === writerGuid.value) isOwner.value = true
+  else if (decryptStringSalt(userStoreRole) === 'manager') isOwner.value = true
   else isOwner.value = false
 }
 
