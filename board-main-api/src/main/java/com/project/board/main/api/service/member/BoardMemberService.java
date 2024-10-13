@@ -4,6 +4,9 @@ import com.project.board.main.api.domain.member.BoardMember;
 import com.project.board.main.api.dto.auth.AuthTokenBase;
 import com.project.board.main.api.dto.auth.RefreshAuthToken;
 import com.project.board.main.api.dto.member.*;
+import com.project.board.main.api.repository.announce.BoardAnnounceRepository;
+import com.project.board.main.api.repository.board.BoardDevelopmentAndStackRepository;
+import com.project.board.main.api.repository.board.BoardFreeRepository;
 import com.project.board.main.api.repository.member.BoardMemberRepository;
 import com.project.board.main.api.utils.Common;
 import com.project.board.main.api.utils.JwtUtil;
@@ -18,6 +21,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BoardMemberService {
     private final BoardMemberRepository boardMemberRepository;
+    private final BoardAnnounceRepository boardAnnounceRepository;
+    private final BoardDevelopmentAndStackRepository boardDevelopmentAndStackRepository;
+    private final BoardFreeRepository boardFreeRepository;
+
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
@@ -60,6 +67,9 @@ public class BoardMemberService {
                 .orElseThrow(() -> new RuntimeException("noMember"));
         if(!passwordEncoder.matches(Common.decryptStringSalt(userPassword), boardMember.getMemberPassword())) throw new RuntimeException("AuthFail");
         boardMember.updateUseFalg();
+        boardAnnounceRepository.updateUseFlag(userGuid);
+        boardDevelopmentAndStackRepository.updateUseFlag(userGuid);
+        boardFreeRepository.updateUseFlag(userGuid);
         // todo: 게시판 및 기타 등등 전부 useFalg -> false 로 해야함..
     }
 
