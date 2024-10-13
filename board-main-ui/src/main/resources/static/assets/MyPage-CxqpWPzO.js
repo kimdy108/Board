@@ -1,0 +1,1 @@
+import{_ as e}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{d as o,o as c}from"./index-hZkCZhQ4.js";const t={},r={style:{color:"black"}};function s(n,_){return c(),o("div",r,"마이페이지")}const l=e(t,[["render",s]]);export{l as default};
