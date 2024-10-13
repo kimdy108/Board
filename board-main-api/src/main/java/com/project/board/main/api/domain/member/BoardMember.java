@@ -87,5 +87,6 @@ public class BoardMember {
 
     public void updateUseFalg() {
         this.useFlag = false;
+        this.updateDate = LocalDateTime.now();
     }
 }
