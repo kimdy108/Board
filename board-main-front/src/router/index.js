@@ -74,6 +74,26 @@ const boardChildren = [
     meta: { id: 'OtherBoardPageError' }
   },
   {
+    path: '/board/other/:boardGuid',
+    name: 'OtherViewPage',
+    component: loadSubView('pages', 'other', 'OtherViewPage'),
+    meta: { id: 'OtherViewPage' },
+    props: true
+  },
+  {
+    path: '/board/other/create',
+    name: 'OtherCreatePage',
+    component: loadSubView('pages', 'other', 'OtherCreatePage'),
+    meta: { id: 'OtherCreatePage' }
+  },
+  {
+    path: '/board/other/edit/:boardGuid',
+    name: 'OtherEditPage',
+    component: loadSubView('pages', 'other', 'OtherEditPage'),
+    meta: { id: 'OtherEditPage' },
+    props: true
+  },
+  {
     path: '/board/qna',
     name: 'QnAPage',
     component: loadView('pages', 'QnAPage'),

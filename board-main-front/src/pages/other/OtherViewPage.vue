@@ -9,21 +9,21 @@
   </div>
   <hr class="mt-16 ml-16 mr-16 mb-10" />
   <div class="text-left mr-16 flex justify-end">
-    <Button label="목록" size="large" class="mr-2" @click="goDevAndStackList" />
+    <Button label="목록" size="large" class="mr-2" @click="goOtherList" />
     <Button
       label="수정"
       size="large"
       severity="info"
       class="mr-2"
       :style="isOwner ? '' : 'display: none'"
-      @click="goDevAndStackEdit"
+      @click="goOtherEdit"
     />
     <Button
       label="삭제"
       size="large"
       severity="danger"
       :style="isOwner ? '' : 'display: none'"
-      @click="deleteDevAndStackApi"
+      @click="deleteOtherApi"
     />
   </div>
 </template>
@@ -56,25 +56,25 @@ const isOwnerFunction = () => {
   else isOwner.value = false
 }
 
-const goDevAndStackList = () => {
-  router.push({ name: 'DevelopmentAndStackPage' }).catch(() => {
-    console.log('DevelopmentAndStackPageError')
+const goOtherList = () => {
+  router.push({ name: 'OtherBoardPage' }).catch(() => {
+    console.log('OtherBoardPageError')
   })
 }
 
-const goDevAndStackEdit = () => {
-  router.push({ name: 'DevAndStackEditPage' }).catch(() => {
-    console.log('DevAndStackEditPage')
+const goOtherEdit = () => {
+  router.push({ name: 'OtherEditPage' }).catch(() => {
+    console.log('OtherEditPageError')
   })
 }
 
-const getDevAndStackApi = async () => {
+const getOtherApi = async () => {
   const result = await ApiService.requestAPI({
     headers: { accept: 'application/json' },
     method: 'GET',
-    url: '/board/dev/stack/search',
+    url: '/board/free/search',
     params: {
-      developmentAndStackGuid: props.boardGuid
+      freeGuid: props.boardGuid
     }
   })
   boardTitle.value = result.boardTitle
@@ -85,20 +85,20 @@ const getDevAndStackApi = async () => {
   isOwnerFunction()
 }
 
-const deleteDevAndStackApi = async () => {
+const deleteOtherApi = async () => {
   const result = await ApiService.requestAPI({
     headers: { accept: 'application/json' },
     method: 'DELETE',
-    url: `/board/dev/stack/delete/${props.boardGuid}`
+    url: `/board/free/delete/${props.boardGuid}`
   })
   if (result === 'success') {
     alert('삭제가 완료되었습니다.')
-    goDevAndStackList()
+    goOtherList()
   }
 }
 
 onMounted(() => {
-  getDevAndStackApi()
+  getOtherApi()
 })
 </script>
 
