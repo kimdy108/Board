@@ -31,7 +31,7 @@ public class WebSecurityConfig {
         return new WebSecurityCustomizer() {
             @Override
             public void customize(WebSecurity webSecurity) {
-                webSecurity.ignoring().requestMatchers("/api/member/**", "/api/server/**", "/api/notice/**");
+                webSecurity.ignoring().requestMatchers("/api/**");
             }
         };
     }
@@ -55,9 +55,7 @@ public class WebSecurityConfig {
 
         // 권한 규칙 작성
         http.authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/server/**").permitAll()
-                        .requestMatchers("/api/member/**").permitAll()
-                        .requestMatchers("/api/notice/**").permitAll()
+                        .requestMatchers("/api/**").permitAll()
         );
 
         return http.build();

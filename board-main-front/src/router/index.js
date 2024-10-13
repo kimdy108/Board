@@ -48,6 +48,26 @@ const boardChildren = [
     meta: { id: 'DevelopmentAndStackPageError' }
   },
   {
+    path: '/board/tech/:boardGuid',
+    name: 'DevAndStackViewPage',
+    component: loadSubView('pages', 'developmentandstack', 'DevAndStackViewPage'),
+    meta: { id: 'DevAndStackViewPage' },
+    props: true
+  },
+  {
+    path: '/board/tech/create',
+    name: 'DevAndStackCreatePage',
+    component: loadSubView('pages', 'developmentandstack', 'DevAndStackCreatePage'),
+    meta: { id: 'DevAndStackCreatePage' }
+  },
+  {
+    path: '/board/tech/edit/:boardGuid',
+    name: 'DevAndStackEditPage',
+    component: loadSubView('pages', 'developmentandstack', 'DevAndStackEditPage'),
+    meta: { id: 'DevAndStackEditPage' },
+    props: true
+  },
+  {
     path: '/board/other',
     name: 'OtherBoardPage',
     component: loadView('pages', 'OtherBoardPage'),

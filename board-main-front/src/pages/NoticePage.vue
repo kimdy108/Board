@@ -3,7 +3,12 @@
     <div class="ml-5 text-6xl p-10">공지사항</div>
   </div>
   <div class="text-right items-end mr-10">
-    <Button label="글쓰기" size="large" @click="goNoticeCreate" />
+    <Button
+      label="글쓰기"
+      size="large"
+      @click="goNoticeCreate"
+      :style="isManager ? '' : 'display:none'"
+    />
   </div>
   <hr class="m-5" />
   <div class="card">
@@ -28,11 +33,21 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
+import { useUserStore } from '@/stores/userStore'
+import { decryptStringSalt } from '@/utils/common'
 import { useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 
+const userStore = useUserStore()
 const router = useRouter()
 const items = ref()
+const isManager = ref(false)
+
+const checkUserRole = () => {
+  const userRole = userStore.getUserRole
+  if (decryptStringSalt(userRole) === 'manager') isManager.value = true
+  else isManager.value = false
+}
 
 const goNoticeCreate = () => {
   router.push({ name: 'NoticeCreatePage' }).catch(() => {
@@ -60,6 +75,7 @@ const getNoticeList = async () => {
 }
 onMounted(() => {
   getNoticeList()
+  checkUserRole()
 })
 </script>
 

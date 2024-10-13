@@ -1,29 +1,29 @@
 <template>
   <div class="text-left ml-16 mt-16">
-    <h2 class="text-8xl mb-5 text-black">{{ noticeTitle }}</h2>
+    <h2 class="text-8xl mb-5 text-black">{{ boardTitle }}</h2>
     <p class="text-5xl mb-5 text-black">
-      {{ noticeContent }}
+      {{ boardContent }}
     </p>
-    <p class="text-2xl text-black">작성자 : {{ noticeWriter }}</p>
-    <p class="text-2xl text-black">작성일 : {{ noticeDate }}</p>
+    <p class="text-2xl text-black">작성자 : {{ boardWriter }}</p>
+    <p class="text-2xl text-black">작성일 : {{ boardDate }}</p>
   </div>
   <hr class="mt-16 ml-16 mr-16 mb-10" />
   <div class="text-left mr-16 flex justify-end">
-    <Button label="목록" size="large" class="mr-2" @click="goNoticeList" />
+    <Button label="목록" size="large" class="mr-2" @click="goDevAndStackList" />
     <Button
       label="수정"
       size="large"
       severity="info"
       class="mr-2"
       :style="isOwner ? '' : 'display: none'"
-      @click="goNoticeEdit"
+      @click="goDevAndStackEdit"
     />
     <Button
       label="삭제"
       size="large"
       severity="danger"
       :style="isOwner ? '' : 'display: none'"
-      @click="deleteNoticeApi"
+      @click="deleteDevAndStackApi"
     />
   </div>
 </template>
@@ -39,13 +39,13 @@ import { decryptStringSalt } from '@/utils/common'
 const userStore = useUserStore()
 const router = useRouter()
 const props = defineProps({
-  noticeGuid: String
+  boardGuid: String
 })
 
-const noticeTitle = ref('')
-const noticeContent = ref('')
-const noticeWriter = ref('')
-const noticeDate = ref('')
+const boardTitle = ref('')
+const boardContent = ref('')
+const boardWriter = ref('')
+const boardDate = ref('')
 const writerGuid = ref('')
 
 const isOwner = ref(false)
@@ -56,51 +56,48 @@ const isOwnerFunction = () => {
   else isOwner.value = false
 }
 
-const goNoticeList = () => {
-  router.push({ name: 'NoticePage' }).catch(() => {
-    console.log('NoticePageError')
+const goDevAndStackList = () => {
+  router.push({ name: 'DevelopmentAndStackPage' }).catch(() => {
+    console.log('DevelopmentAndStackPageError')
   })
 }
 
-const goNoticeEdit = () => {
-  router.push({ name: 'NoticeEditPage' }).catch(() => {
-    console.log('NoticeEditPage')
+const goDevAndStackEdit = () => {
+  router.push({ name: 'DevAndStackEditPage' }).catch(() => {
+    console.log('DevAndStackEditPage')
   })
 }
 
-const getNoticeApi = async () => {
+const getDevAndStackApi = async () => {
   const result = await ApiService.requestAPI({
     headers: { accept: 'application/json' },
     method: 'GET',
-    url: '/notice/search',
+    url: '/board/dev/stack/search',
     params: {
-      noticeGuid: props.noticeGuid
+      developmentAndStackGuid: props.boardGuid
     }
   })
-  noticeTitle.value = result.noticeTitle
-  noticeContent.value = result.noticeContent
-  noticeWriter.value = result.memberNickName
-  noticeDate.value = result.noticeInsertDate.split('T')[0]
+  boardTitle.value = result.boardTitle
+  boardContent.value = result.boardContent
+  boardWriter.value = result.memberNickName
+  boardDate.value = result.boardInsertDate.split('T')[0]
   writerGuid.value = result.memberGuid
   isOwnerFunction()
 }
 
-const deleteNoticeApi = async () => {
+const deleteDevAndStackApi = async () => {
   const result = await ApiService.requestAPI({
     headers: { accept: 'application/json' },
     method: 'DELETE',
-    url: `/notice/delete/${props.noticeGuid}`
+    url: `/board/dev/stack/delete/${props.boardGuid}`
   })
   if (result === 'success') {
-    alert('삭제가 완료되었습니다.')
-    router.push({ name: 'NoticePage' }).catch(() => {
-      console.log('NoticePageError')
-    })
+    goDevAndStackList()
   }
 }
 
 onMounted(() => {
-  getNoticeApi()
+  getDevAndStackApi()
 })
 </script>
 
