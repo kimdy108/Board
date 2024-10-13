@@ -48,8 +48,8 @@ public class BoardQnAService {
     public void updateQna(BoardQnAUpdate boardQnAUpdate) {
         try {
             BoardQnA boardQnA = boardQnARepository.findBoardQnAByQnaGuid(boardQnAUpdate.getQnaGuid());
-            boardQnA.update(boardQnA.getQnaTitle(),
-                    boardQnA.getQnaContent());
+            boardQnA.update(boardQnAUpdate.getQnaTitle(),
+                    boardQnAUpdate.getQnaContent());
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("qnaResit error", e);

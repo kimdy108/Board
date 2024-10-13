@@ -100,6 +100,26 @@ const boardChildren = [
     meta: { id: 'QnAPageError' }
   },
   {
+    path: '/board/qna/:qnaGuid',
+    name: 'QnAViewPage',
+    component: loadSubView('pages', 'qna', 'QnAViewPage'),
+    meta: { id: 'QnAViewPage' },
+    props: true
+  },
+  {
+    path: '/board/qna/create',
+    name: 'QnACreatePage',
+    component: loadSubView('pages', 'qna', 'QnACreatePage'),
+    meta: { id: 'QnACreatePage' }
+  },
+  {
+    path: '/board/qna/edit/:qnaGuid',
+    name: 'QnAEditPage',
+    component: loadSubView('pages', 'qna', 'QnAEditPage'),
+    meta: { id: 'QnAEditPage' },
+    props: true
+  },
+  {
     path: '/board/my/information',
     name: 'MyPage',
     component: loadView('pages', 'MyPage'),
