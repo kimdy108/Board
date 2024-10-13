@@ -22,7 +22,7 @@
     >
       <Column field="noticeTitle" header="제목" style="width: 25%"></Column>
       <Column field="noticeContent" header="내용" style="width: 45%"></Column>
-      <Column field="memberNickName" header="닉네임" style="width: 10%"></Column>
+      <Column field="memberNickName" header="작성자" style="width: 10%"></Column>
       <Column field="noticeInsertDate" header="등록날짜" style="width: 10%"></Column>
     </DataTable>
   </div>
