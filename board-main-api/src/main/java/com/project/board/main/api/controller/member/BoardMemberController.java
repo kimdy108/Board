@@ -82,4 +82,10 @@ public class BoardMemberController {
     public BoardMemberSuccessRefreshToken refreshAuth(@RequestBody RefreshAuthToken refreshAuthToken) {
         return boardMemberService.refreshAuth(refreshAuthToken);
     }
+
+    @PutMapping("/promote/manager")
+    public String BoardMemberPromoteManager(@RequestBody BoardMemberPromoteManager boardMemberPromoteManager, HttpServletRequest req) {
+        boardMemberService.BoardMemberPromoteManager(boardMemberPromoteManager, req.getHeader("ugd"));
+        return "success";
+    }
 }

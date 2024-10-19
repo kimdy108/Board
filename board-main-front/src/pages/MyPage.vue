@@ -65,6 +65,14 @@
   </div>
   <hr class="mt-16 ml-16 mr-16 mb-10" />
   <div class="text-left mr-16 flex justify-end">
+    <Button
+      label="매니저 관리"
+      size="large"
+      severity="help"
+      class="mr-2"
+      :style="isManager ? '' : 'display: none'"
+      @click="managerFunction"
+    />
     <Button label="회원탈퇴" size="large" severity="danger" class="mr-2" @click="signOutFunction" />
     <Button label="수정" size="large" severity="info" class="mr-2" @click="userUpdateFunction" />
   </div>
@@ -75,16 +83,24 @@ import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
 import { onMounted, ref } from 'vue'
 import { decryptStringSalt, encryptStringSalt } from '@/utils/common'
 
 const router = useRouter()
+const userStore = useUserStore()
 
 const userIdValue = ref('')
 const userNameValue = ref('')
 const userNickNameValue = ref('')
 const userEmailValue = ref('')
 const userPhoneValue = ref('')
+
+const isManager = ref(false)
+
+const checkIsManager = () => {
+  if (decryptStringSalt(userStore.getUserRole) === 'manager') isManager.value = true
+}
 
 const changePasswordFunction = () => {
   router.push({ name: 'ChangePasswordPage' }).catch(() => {
@@ -95,6 +111,12 @@ const changePasswordFunction = () => {
 const signOutFunction = () => {
   router.push({ name: 'SignOutPage' }).catch(() => {
     console.log('SignOutPageError')
+  })
+}
+
+const managerFunction = () => {
+  router.push({ name: 'PromoteManagerPage' }).catch(() => {
+    console.log('PromoteManagerPageError')
   })
 }
 
@@ -139,6 +161,7 @@ const userUpdateApi = async () => {
 
 onMounted(() => {
   getUserInfoFunction()
+  checkIsManager()
 })
 </script>
 

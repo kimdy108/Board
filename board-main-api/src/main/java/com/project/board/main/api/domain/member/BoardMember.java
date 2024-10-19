@@ -98,4 +98,9 @@ public class BoardMember {
         this.useFlag = false;
         this.updateDate = LocalDateTime.now();
     }
+
+    public void updateRole(String memberRole) {
+        this.memberRole = memberRole;
+        this.updateDate = LocalDateTime.now();
+    }
 }

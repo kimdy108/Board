@@ -149,4 +149,15 @@ public class BoardMemberService {
 
         return BoardMemberSuccessRefreshToken.create(jwtUtil.createAccessToken(authTokenBase));
     }
+
+    @Transactional
+    public void BoardMemberPromoteManager(BoardMemberPromoteManager boardMemberPromoteManager, String encryptMemberGuid) {
+        BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberGuid(Common.decryptStringSalt(encryptMemberGuid))
+                .orElseThrow(() -> new RuntimeException("noUser"));
+        if (!"manager".equals(boardMember.getMemberRole())) throw new RuntimeException("noRole");
+        BoardMember boardMemberForUpdateManager = boardMemberRepository.findBoardMemberByMemberIdAndMemberNickName(Common.encryptString(Common.decryptStringSalt(boardMemberPromoteManager.getUserId())),
+                        Common.decryptStringSalt(boardMemberPromoteManager.getUserNickName()))
+                .orElseThrow(() -> new RuntimeException("noMember"));
+        boardMemberForUpdateManager.updateRole("manager");
+    }
 }

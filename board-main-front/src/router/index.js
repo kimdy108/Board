@@ -130,6 +130,12 @@ const boardChildren = [
     name: 'ChangePasswordPage',
     component: loadView('pages', 'ChangePasswordPage'),
     meta: { id: 'ChangePasswordPageError' }
+  },
+  {
+    path: '/board/promote/manager',
+    name: 'PromoteManagerPage',
+    component: loadView('pages', 'PromoteManagerPage'),
+    meta: { id: 'PromoteManagerPageError' }
   }
 ]
 
