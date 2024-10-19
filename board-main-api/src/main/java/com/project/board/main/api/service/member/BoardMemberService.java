@@ -29,6 +29,34 @@ public class BoardMemberService {
     private final JwtUtil jwtUtil;
 
     @Transactional
+    public BoardMemberInfo getMemberInfo(String encryptMemberGuid) {
+        BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberGuid(Common.decryptStringSalt(encryptMemberGuid))
+                .orElseThrow(() -> new RuntimeException("noUser"));
+        return BoardMemberInfo.create(Common.encryptStringSalt(Common.decryptString(boardMember.getMemberId())),
+                Common.encryptStringSalt(Common.decryptString(boardMember.getMemberName())),
+                Common.encryptStringSalt(boardMember.getMemberNickName()),
+                Common.encryptStringSalt(Common.decryptString(boardMember.getMemberEmail())),
+                Common.encryptStringSalt(Common.decryptString(boardMember.getMemberPhone())));
+    }
+
+    @Transactional
+    public void updateMemberInfo(BoardMemberUpdate boardMemberUpdate, String encryptMemberGuid) {
+        BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberGuid(Common.decryptStringSalt(encryptMemberGuid))
+                .orElseThrow(() -> new RuntimeException("noUser"));
+        boardMember.updateInfo(Common.encryptString(Common.decryptStringSalt(boardMemberUpdate.getEncryptUserName())),
+                Common.encryptString(Common.decryptStringSalt(boardMemberUpdate.getEncryptUserEmail())),
+                Common.encryptString(Common.decryptStringSalt(boardMemberUpdate.getEncryptUserPhone())));
+    }
+
+    @Transactional
+    public void updateMemberPassword(BoardMemberUpdatePassword boardMemberUpdatePassword, String encryptMemberGuid) {
+        BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberGuid(Common.decryptStringSalt(encryptMemberGuid))
+                .orElseThrow(() -> new RuntimeException("noUser"));
+        if(!passwordEncoder.matches(Common.decryptStringSalt(boardMemberUpdatePassword.getOldPassword()), boardMember.getMemberPassword())) throw new RuntimeException("noMatchPassword");
+        else boardMember.updatePassword(passwordEncoder.encode(Common.decryptStringSalt(boardMemberUpdatePassword.getNewPassword())));
+    }
+
+    @Transactional
     public BoardMemberSuccessLogin login(BoardMemberLogin boardMemberLogin) {
         BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberIdAndUseFlag(Common.encryptString(Common.decryptStringSalt(boardMemberLogin.getId())), true)
                 .orElseThrow(() -> new RuntimeException("loginFail"));

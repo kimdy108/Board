@@ -16,6 +16,17 @@ public class BoardMemberController {
 
     private final BoardMemberService boardMemberService;
 
+    @GetMapping("/info")
+    public BoardMemberInfo memberInfo(HttpServletRequest req) {
+        return boardMemberService.getMemberInfo(req.getHeader("ugd"));
+    }
+
+    @PutMapping("/update")
+    public String memberUpdate(@RequestBody BoardMemberUpdate boardMemberUpdate, HttpServletRequest req) {
+        boardMemberService.updateMemberInfo(boardMemberUpdate, req.getHeader("ugd"));
+        return "success";
+    }
+
     @PostMapping("/login")
     public BoardMemberSuccessLogin login(@RequestBody BoardMemberLogin boardMemberLogin) {
         return boardMemberService.login(boardMemberLogin);
@@ -32,7 +43,13 @@ public class BoardMemberController {
         return "success";
     }
 
-    @GetMapping("/check/change/password")
+    @PutMapping("/update/password")
+    public String updateMemberPassword(@RequestBody BoardMemberUpdatePassword boardMemberUpdatePassword, HttpServletRequest req) {
+        boardMemberService.updateMemberPassword(boardMemberUpdatePassword, req.getHeader("ugd"));
+        return "success";
+    }
+
+    @GetMapping("/check/reset/password")
     public BoardMemberCheckChangePassword checkPossibleToChangePassword(
             @RequestParam String id,
             @RequestParam String userPhone
@@ -40,7 +57,7 @@ public class BoardMemberController {
         return boardMemberService.getBoardMemberForResetPassword(id, userPhone);
     }
 
-    @PutMapping("/change/password")
+    @PutMapping("/reset/password")
     public String changePassword(@RequestBody BoardMemberChangePassword boardMemberChangePassword) {
         boardMemberService.updatePassword(boardMemberChangePassword);
         return "success";

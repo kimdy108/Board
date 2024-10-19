@@ -1,7 +1,145 @@
 <template>
-  <div style="color: black">마이페이지</div>
+  <div class="text-left text-black">
+    <div class="ml-5 text-6xl p-10">마이페이지</div>
+  </div>
+  <div class="card flex">
+    <div class="gap-2 text-left ml-16">
+      <label for="userId" class="flex flex-col text-3xl text-black">아이디</label>
+      <InputText
+        id="userId"
+        v-model="userIdValue"
+        size="large"
+        style="width: 650px; height: 50px; font-size: 20px"
+        disabled
+      />
+    </div>
+    <div class="gap-2 text-left ml-16">
+      <label for="userName" class="flex flex-col text-3xl text-black">이름</label>
+      <InputText
+        id="userName"
+        v-model="userNameValue"
+        size="large"
+        style="width: 650px; height: 50px; font-size: 20px"
+      />
+    </div>
+  </div>
+  <div class="card flex mt-16">
+    <div class="gap-2 text-left ml-16">
+      <label for="userNickName" class="flex flex-col text-3xl text-black">닉네임</label>
+      <InputText
+        id="userNickName"
+        v-model="userNickNameValue"
+        size="large"
+        style="width: 650px; height: 50px; font-size: 20px"
+        disabled
+      />
+    </div>
+    <div class="gap-2 text-left ml-16">
+      <Button
+        label="비밀번호 변경"
+        size="large"
+        class="mt-10"
+        @click="changePasswordFunction"
+      ></Button>
+    </div>
+  </div>
+  <div class="card flex mt-16">
+    <div class="gap-2 text-left ml-16">
+      <label for="userEmail" class="flex flex-col text-3xl text-black">이메일</label>
+      <InputText
+        id="userEmail"
+        v-model="userEmailValue"
+        size="large"
+        style="width: 650px; height: 50px; font-size: 20px"
+      />
+    </div>
+    <div class="gap-2 text-left ml-16">
+      <label for="userPhone" class="flex flex-col text-3xl text-black">전화번호</label>
+      <InputText
+        id="userPhone"
+        v-model="userPhoneValue"
+        size="large"
+        style="width: 650px; height: 50px; font-size: 20px"
+      />
+    </div>
+  </div>
+  <hr class="mt-16 ml-16 mr-16 mb-10" />
+  <div class="text-left mr-16 flex justify-end">
+    <Button label="회원탈퇴" size="large" severity="danger" class="mr-2" @click="signOutFunction" />
+    <Button label="수정" size="large" severity="info" class="mr-2" @click="userUpdateFunction" />
+  </div>
 </template>
 
-<script setup></script>
+<script setup>
+import InputText from 'primevue/inputtext'
+import Button from 'primevue/button'
+import ApiService from '@/services/ApiService'
+import { useRouter } from 'vue-router'
+import { onMounted, ref } from 'vue'
+import { decryptStringSalt, encryptStringSalt } from '@/utils/common'
+
+const router = useRouter()
+
+const userIdValue = ref('')
+const userNameValue = ref('')
+const userNickNameValue = ref('')
+const userEmailValue = ref('')
+const userPhoneValue = ref('')
+
+const changePasswordFunction = () => {
+  router.push({ name: 'ChangePasswordPage' }).catch(() => {
+    console.log('ChangePasswordPageError')
+  })
+}
+
+const signOutFunction = () => {
+  router.push({ name: 'SignOutPage' }).catch(() => {
+    console.log('SignOutPageError')
+  })
+}
+
+const userUpdateFunction = () => {
+  if (userNameValue.value == null || userNameValue.value == '') alert('이름을 입력해주세요.')
+  else if (userEmailValue.value == null || userEmailValue.value == '')
+    alert('이메일을 입력해주세요.')
+  else if (userPhoneValue.value == null || userPhoneValue.value == '')
+    alert('전화번호를 입력해주세요.')
+  else userUpdateApi()
+}
+
+const getUserInfoFunction = async () => {
+  const result = await ApiService.requestAPI({
+    headers: { accept: 'application/json' },
+    method: 'GET',
+    url: '/member/info'
+  })
+  userIdValue.value = decryptStringSalt(result.userId)
+  userNameValue.value = decryptStringSalt(result.userName)
+  userNickNameValue.value = decryptStringSalt(result.userNickName)
+  userEmailValue.value = decryptStringSalt(result.userEmail)
+  userPhoneValue.value = decryptStringSalt(result.userPhone)
+}
+
+const userUpdateApi = async () => {
+  const result = await ApiService.requestAPI({
+    headers: { accept: 'application/json' },
+    method: 'PUT',
+    url: '/member/update',
+    data: {
+      encryptUserName: encryptStringSalt(userNameValue.value),
+      encryptUserEmail: encryptStringSalt(userEmailValue.value),
+      encryptUserPhone: encryptStringSalt(userPhoneValue.value)
+    }
+  })
+  if (result === 'success') {
+    alert('수정되었습니다.')
+    getUserInfoFunction()
+  } else alert('수정에 실패했습니다.')
+}
+
+onMounted(() => {
+  getUserInfoFunction()
+})
+</script>
 
 <style lang="scss" scoped></style>

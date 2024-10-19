@@ -80,6 +80,15 @@ public class BoardMember {
         return member;
     }
 
+    public void updateInfo(String memberName,
+                           String memberEmail,
+                           String memberPhone) {
+        this.memberName = memberName;
+        this.memberEmail = memberEmail;
+        this.memberPhone = memberPhone;
+        this.updateDate = LocalDateTime.now();
+    }
+
     public void updatePassword(String memberPassword) {
         this.memberPassword = memberPassword;
         this.updateDate = LocalDateTime.now();

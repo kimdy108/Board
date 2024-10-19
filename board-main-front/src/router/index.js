@@ -124,6 +124,12 @@ const boardChildren = [
     name: 'MyPage',
     component: loadView('pages', 'MyPage'),
     meta: { id: 'MyPageError' }
+  },
+  {
+    path: '/board/change/password',
+    name: 'ChangePasswordPage',
+    component: loadView('pages', 'ChangePasswordPage'),
+    meta: { id: 'ChangePasswordPageError' }
   }
 ]
 

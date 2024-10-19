@@ -26,7 +26,7 @@ import { decryptStringSalt } from '@/utils/common'
 
 const useStore = useUserStore()
 const router = useRouter()
-const userNickName = decryptStringSalt(useStore.getUserAccess.unn)
+const userNickName = ref('')
 
 const moveMainPage = () => {
   router.push({ name: 'MainPage' }).catch(() => {
@@ -68,12 +68,6 @@ const logOutFunction = () => {
   useStore.setUserLogout()
   router.push({ name: 'LoginPage' }).catch(() => {
     console.log('loginPageError')
-  })
-}
-
-const signOutFunction = () => {
-  router.push({ name: 'SignOutPage' }).catch(() => {
-    console.log('SignOutPageError')
   })
 }
 
@@ -121,12 +115,6 @@ const userItems = ref([
     command: () => {
       logOutFunction()
     }
-  },
-  {
-    label: '회원탈퇴',
-    command: () => {
-      signOutFunction()
-    }
   }
 ])
 
@@ -136,6 +124,8 @@ onMounted(() => {
     router.push({ name: 'LoginPage' }).catch(() => {
       console.log('mainerror')
     })
+  } else {
+    userNickName.value = decryptStringSalt(useStore.getUserAccess.unn)
   }
 })
 </script>

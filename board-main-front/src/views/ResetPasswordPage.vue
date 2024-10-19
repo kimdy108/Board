@@ -118,9 +118,8 @@ const checkPossibleToChangePassword = () => {
 }
 
 const changePassword = () => {
-  if (!userNewPassword.value === confirmUserNewPassword.value)
-    alert('비밀번호가 일치하지 않습니다.')
-  else changePasswordAPI()
+  if (userNewPassword.value === confirmUserNewPassword.value) changePasswordAPI()
+  else alert('비밀번호가 일치하지 않습니다.')
 }
 
 const changeIsVisibleNewPassword = () => {
@@ -136,7 +135,7 @@ const checkPossibleToChangePasswordAPI = async () => {
     result = await ApiService.requestAPI({
       headers: { accept: 'application/json' },
       method: 'GET',
-      url: '/member/check/change/password',
+      url: '/member/check/reset/password',
       params: {
         id: encryptStringSalt(userId.value),
         userPhone: encryptStringSalt(userPhone.value)
@@ -159,7 +158,7 @@ const changePasswordAPI = async () => {
     result = await ApiService.requestAPI({
       headers: { accept: 'application/json' },
       method: 'PUT',
-      url: '/member/change/password',
+      url: '/member/reset/password',
       data: {
         userId: boardMember.value.memberId,
         userGuid: boardMember.value.memberGuid,
