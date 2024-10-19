@@ -8,7 +8,8 @@ Board 프로젝트
 - Java 17
 - Spring 3
 - JPA
-- HTML
+- Vue 3
+- Composition API
 - MariaDB 10.11
 - IDE : IntelliJ, VS Code, DataGrip
 
