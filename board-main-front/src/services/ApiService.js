@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useUserStore } from '@/stores/userStore'
 import { encryptString } from '@/utils/common'
+import { baseUrl } from '@/reference/config'
 
 ////////////////////////// REQUEST //////////////////////////
 axios.interceptors.request.use(
@@ -44,8 +45,6 @@ axios.interceptors.response.use(
     return Promise.reject(error)
   }
 )
-
-const baseUrl = `${import.meta.env.VITE_APP_API_URL}/api`
 
 class ApiService {
   async requestAPI(req) {

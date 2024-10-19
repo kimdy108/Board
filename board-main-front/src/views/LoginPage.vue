@@ -85,7 +85,6 @@ const loginFunctionAPI = async () => {
       unn: result.userNickName,
       rol: result.userRole
     })
-    console.log(userStore.getUserAccess.ugd)
     userStore.setUserRole(result.userRole)
     loginSuccessFunction()
   } else {
