@@ -29,7 +29,7 @@
         </Card>
 
         <ConfirmDialog></ConfirmDialog>
-        <Button @click="confirmSignOut" label="회원탈퇴" severity="danger" outlined></Button>
+        <Button @click="signOutFunction" label="회원탈퇴" severity="danger" outlined></Button>
       </div>
     </div>
   </div>
@@ -45,7 +45,7 @@ import ApiService from '@/services/ApiService'
 import ConfirmDialog from 'primevue/confirmdialog'
 import { useConfirm } from 'primevue/useconfirm'
 import { encryptStringSalt, decryptStringSalt } from '@/utils/common'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
 
@@ -62,6 +62,11 @@ const confirm = useConfirm()
 
 const changeIsVisiblePassword = () => {
   isVisiblePassword.value = !isVisiblePassword.value
+}
+
+const signOutFunction = () => {
+  if (userPassword.value === '' || userPassword.value === null) alert('비밀번호를 입력해주세요.')
+  else confirmSignOut()
 }
 
 const moveLoginPageFunction = () => {
