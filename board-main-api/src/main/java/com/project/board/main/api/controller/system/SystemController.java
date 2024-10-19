@@ -9,14 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/server")
 public class SystemController {
-
     @GetMapping("/info")
     public String getServerInfo() {
-        return "success";
-    }
-
-    @GetMapping("/test")
-    public String test() {
         return "success";
     }
 }

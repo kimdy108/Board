@@ -15,14 +15,14 @@
       size="large"
       severity="info"
       class="mr-2"
-      :style="isOwner ? '' : 'display: none'"
+      :style="isEditOwner ? '' : 'display: none'"
       @click="goOtherEdit"
     />
     <Button
       label="삭제"
       size="large"
       severity="danger"
-      :style="isOwner ? '' : 'display: none'"
+      :style="isDeleteOwner ? '' : 'display: none'"
       @click="deleteOtherApi"
     />
   </div>
@@ -48,13 +48,15 @@ const boardWriter = ref('')
 const boardDate = ref('')
 const writerGuid = ref('')
 
-const isOwner = ref(false)
+const isEditOwner = ref(false)
+const isDeleteOwner = ref(false)
 
 const isOwnerFunction = () => {
   const userStoreGuid = userStore.getUserAccess.ugd
   const userStoreRole = userStore.getUserRole
-  if (decryptStringSalt(userStoreGuid) === writerGuid.value) isOwner.value = true
-  else if (decryptStringSalt(userStoreRole) === 'manager') isOwner.value = true
+  if (decryptStringSalt(userStoreGuid) === writerGuid.value)
+    (isEditOwner.value = true), (isDeleteOwner.value = true)
+  else if (decryptStringSalt(userStoreRole) === 'manager') isDeleteOwner.value = true
   else isOwner.value = false
 }
 
