@@ -113,7 +113,9 @@ const changeIsVisibleConfirmNewPassword = () => {
 }
 
 const changePassword = () => {
-  if (userNewPassword.value === confirmUserNewPassword.value) changePasswordAPI()
+  if (userOldPassword.value === '' || userOldPassword.value === null)
+    alert('이전 비밀번호를 입력해주세요.')
+  else if (userNewPassword.value === confirmUserNewPassword.value) changePasswordAPI()
   else alert('비밀번호가 일치하지 않습니다.')
 }
 
