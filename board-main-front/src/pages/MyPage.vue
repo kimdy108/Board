@@ -73,7 +73,14 @@
       :style="isManager ? '' : 'display: none'"
       @click="managerFunction"
     />
-    <Button label="회원탈퇴" size="large" severity="danger" class="mr-2" @click="signOutFunction" />
+    <Button
+      label="회원탈퇴"
+      size="large"
+      severity="danger"
+      class="mr-2"
+      @click="signOutFunction"
+      :style="isAdmin ? 'display: none' : ''"
+    />
     <Button label="수정" size="large" severity="info" class="mr-2" @click="userUpdateFunction" />
   </div>
 </template>
@@ -85,7 +92,7 @@ import ApiService from '@/services/ApiService'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
 import { onMounted, ref } from 'vue'
-import { decryptStringSalt, encryptStringSalt } from '@/utils/common'
+import { encryptString, decryptStringSalt, encryptStringSalt } from '@/utils/common'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -97,9 +104,15 @@ const userEmailValue = ref('')
 const userPhoneValue = ref('')
 
 const isManager = ref(false)
+const isAdmin = ref(false)
 
 const checkIsManager = () => {
   if (decryptStringSalt(userStore.getUserRole) === 'manager') isManager.value = true
+}
+
+const checkIsAdmin = () => {
+  if (decryptStringSalt(userStore.getUserAccess.uid) === encryptString('admin'))
+    isAdmin.value = true
 }
 
 const changePasswordFunction = () => {
@@ -162,6 +175,7 @@ const userUpdateApi = async () => {
 onMounted(() => {
   getUserInfoFunction()
   checkIsManager()
+  checkIsAdmin()
 })
 </script>
 
