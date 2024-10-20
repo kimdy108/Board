@@ -26,7 +26,7 @@
             @click="promoteManager(items)"
           />
           <Button
-            v-if="items.data.userRole === 'manager'"
+            v-else-if="items.data.userRole === 'manager' && items.data.userId !== 'admin'"
             label="매니저 삭제"
             rounded
             severity="danger"
@@ -36,6 +36,7 @@
               items.data.userGuid === decryptStringSalt(userStore.getUserAccess.ugd)
             "
           />
+          <Button v-else label="최고 관리자" rounded severity="info" />
         </template>
       </Column>
     </DataTable>
