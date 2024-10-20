@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BoardMemberPromoteManager {
-    private String userId;
-    private String userNickName;
+public class BoardMemberChangeRoleManager {
+    private String userGuid;
 }

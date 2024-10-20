@@ -2,95 +2,110 @@
   <div class="text-left text-black">
     <div class="ml-5 text-6xl p-10">매니저 관리</div>
   </div>
-  <div class="card flex">
-    <div class="flex flex-col gap-2 text-left ml-16">
-      <label for="userId" class="text-3xl text-black">아이디</label>
-      <InputText
-        id="userId"
-        v-model="userIdValue"
-        size="large"
-        style="width: 700px; height: 50px; font-size: 20px"
-      />
-    </div>
-  </div>
-  <div class="card flex mt-10">
-    <div class="flex flex-col gap-2 text-left ml-16">
-      <label for="userNickName" class="text-3xl text-black">닉네임</label>
-      <InputText
-        id="userNickName"
-        v-model="userNickNameValue"
-        size="large"
-        style="width: 700px; height: 50px; font-size: 20px"
-      />
-    </div>
-  </div>
-  <hr class="mt-16 ml-16 mr-16 mb-10" />
-  <div class="text-left mr-16 flex justify-end">
-    <Button label="마이페이지" size="large" class="mr-2" @click="goMyPage" />
-    <Button
-      label="매니저 지정"
-      size="large"
-      severity="info"
-      class="mr-2"
-      @click="promoteMangerFunction"
-    />
+  <div class="card">
+    <DataTable
+      :value="items"
+      paginator
+      :rows="10"
+      tableStyle="min-width: 50rem"
+      style="margin-left: 15px; margin-right: 15px"
+    >
+      <Column field="userId" header="아이디" style="width: 15%"></Column>
+      <Column field="userName" header="이름" style="width: 15%"></Column>
+      <Column field="userNickName" header="닉네임" style="width: 15%"></Column>
+      <Column field="userPhone" header="전화번호" style="width: 15%"></Column>
+      <Column field="userEmail" header="이메일" style="width: 15%"></Column>
+      <Column field="insertDate" header="가입일" style="width: 15%"></Column>
+      <Column style="width: 10%">
+        <template #body="items">
+          <Button
+            v-if="items.data.userRole !== 'manager'"
+            label="매니저 지정"
+            rounded
+            class="mr-2"
+            @click="promoteManager(items)"
+          />
+          <Button
+            v-if="items.data.userRole === 'manager'"
+            label="매니저 삭제"
+            rounded
+            severity="danger"
+            @click="relegateManager(items)"
+            :disabled="
+              items.data.userId === 'admin' ||
+              items.data.userGuid === decryptStringSalt(userStore.getUserAccess.ugd)
+            "
+          />
+        </template>
+      </Column>
+    </DataTable>
   </div>
 </template>
 
 <script setup>
-import InputText from 'primevue/inputtext'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
 import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
-import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
-import { ref } from 'vue'
-import { decryptStringSalt, encryptString, encryptStringSalt } from '@/utils/common'
+import { onMounted, ref } from 'vue'
+import { decryptStringSalt } from '@/utils/common'
 
-const router = useRouter()
+const items = ref()
 const userStore = useUserStore()
 
-const userIdValue = ref('')
-const userNickNameValue = ref('')
-
-const goMyPage = () => {
-  router.push({ name: 'MyPage' }).catch(() => {
-    console.log('MyPageError')
-  })
-}
-
-const goMainPage = () => {
-  router.push({ name: 'MainPage' }).catch(() => {
-    console.log('MainPageError')
-  })
-}
-
-const promoteMangerFunction = () => {
-  if (encryptString(userIdValue.value) === decryptStringSalt(userStore.getUserAccess.uid))
-    alert('매니저로 지정할 아이디를 입력해주세요.')
-  else if (userNickNameValue.value === decryptStringSalt(userStore.getUserAccess.unn))
-    alert('매니저로 지정할 닉네임를 입력해주세요.')
-  else if (userIdValue.value === '' || userIdValue.value === null)
-    alert('매니저로 지정할 아이디를 입력해주세요.')
-  else if (userNickNameValue.value === '' || userNickNameValue.value === null)
-    alert('매니저로 지정할 닉네임를 입력해주세요.')
-  else promoteManagerApi()
-}
-
-const promoteManagerApi = async () => {
+const promoteManager = async (event) => {
   const result = await ApiService.requestAPI({
     headers: { accept: 'application/json' },
     method: 'PUT',
     url: '/member/promote/manager',
     data: {
-      userId: encryptStringSalt(userIdValue.value),
-      userNickName: encryptStringSalt(userNickNameValue.value)
+      userGuid: event.data.userGuid
     }
   })
   if (result === 'success') {
-    alert('매니저 지정이 완료되었습니다.')
-    goMainPage()
-  } else alert('매니저 지정이 실패했습니다.')
+    alert('매니저 수정이 완료되었습니다.')
+    getMemberList()
+  } else alert('매니저 수정이 실패했습니다.')
 }
+
+const relegateManager = async (event) => {
+  const result = await ApiService.requestAPI({
+    headers: { accept: 'application/json' },
+    method: 'PUT',
+    url: '/member/relegate/manager',
+    data: {
+      userGuid: event.data.userGuid
+    }
+  })
+  if (result === 'success') {
+    alert('매니저 수정이 완료되었습니다.')
+    getMemberList()
+  } else alert('매니저 수정이 실패했습니다.')
+}
+
+const getMemberList = async () => {
+  const result = await ApiService.requestAPI({
+    headers: { accept: 'application/json' },
+    method: 'GET',
+    url: '/member/info/list'
+  })
+  for (let i in result) {
+    result[i].userId = decryptStringSalt(result[i].userId)
+    result[i].userGuid = decryptStringSalt(result[i].userGuid)
+    result[i].userName = decryptStringSalt(result[i].userName)
+    result[i].userNickName = decryptStringSalt(result[i].userNickName)
+    result[i].userEmail = decryptStringSalt(result[i].userEmail)
+    result[i].userPhone = decryptStringSalt(result[i].userPhone)
+    result[i].userRole = decryptStringSalt(result[i].userRole)
+    result[i].insertDate = result[i].insertDate.split('T')[0]
+  }
+  items.value = result
+}
+
+onMounted(() => {
+  getMemberList()
+})
 </script>
 
 <style lang="scss" scoped></style>

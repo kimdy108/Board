@@ -12,7 +12,6 @@ public interface BoardMemberRepository extends JpaRepository<BoardMember, Long> 
     Optional<BoardMember> findBoardMemberByMemberIdAndUseFlag(String memberId, boolean useFlag);
     Optional<BoardMember> findBoardMemberByMemberIdAndMemberPhone(String memberId, String memberName);
     Optional<BoardMember> findBoardMemberByMemberGuid(String memberGuid);
-    Optional<BoardMember> findBoardMemberByMemberIdAndMemberNickName(String memberId, String memberNickName);
 
     @Query("select count(*) from BoardMember where memberId = :memberId")
     int countBoardMemberByMemberId(String memberId);

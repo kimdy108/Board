@@ -8,6 +8,7 @@ import com.project.board.main.api.repository.announce.BoardAnnounceRepository;
 import com.project.board.main.api.repository.board.BoardDevelopmentAndStackRepository;
 import com.project.board.main.api.repository.board.BoardFreeRepository;
 import com.project.board.main.api.repository.member.BoardMemberRepository;
+import com.project.board.main.api.repository.member.BoardMemberRepositoryImpl;
 import com.project.board.main.api.utils.Common;
 import com.project.board.main.api.utils.JwtUtil;
 import jakarta.transaction.Transactional;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -24,6 +26,8 @@ public class BoardMemberService {
     private final BoardAnnounceRepository boardAnnounceRepository;
     private final BoardDevelopmentAndStackRepository boardDevelopmentAndStackRepository;
     private final BoardFreeRepository boardFreeRepository;
+
+    private final BoardMemberRepositoryImpl boardMemberRepositoryImpl;
 
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
@@ -37,6 +41,21 @@ public class BoardMemberService {
                 Common.encryptStringSalt(boardMember.getMemberNickName()),
                 Common.encryptStringSalt(Common.decryptString(boardMember.getMemberEmail())),
                 Common.encryptStringSalt(Common.decryptString(boardMember.getMemberPhone())));
+    }
+
+    @Transactional
+    public List<BoardMemberInfoAll> getMemberInfoAll() {
+        List<BoardMemberInfoAll> memberList = boardMemberRepositoryImpl.getBoardMemberInfoAll();
+        for (BoardMemberInfoAll member : memberList) {
+            member.setUserId(Common.encryptStringSalt(Common.decryptString(member.getUserId())));
+            member.setUserGuid(Common.encryptStringSalt(member.getUserGuid()));
+            member.setUserName(Common.encryptStringSalt(Common.decryptString(member.getUserName())));
+            member.setUserNickName(Common.encryptStringSalt(member.getUserNickName()));
+            member.setUserEmail(Common.encryptStringSalt(Common.decryptString(member.getUserEmail())));
+            member.setUserPhone(Common.encryptStringSalt(Common.decryptString(member.getUserPhone())));
+            member.setUserRole(Common.encryptStringSalt(member.getUserRole()));
+        }
+        return memberList;
     }
 
     @Transactional
@@ -151,13 +170,22 @@ public class BoardMemberService {
     }
 
     @Transactional
-    public void BoardMemberPromoteManager(BoardMemberPromoteManager boardMemberPromoteManager, String encryptMemberGuid) {
+    public void BoardMemberPromoteManager(BoardMemberChangeRoleManager boardMemberChangeRoleManager, String encryptMemberGuid) {
         BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberGuid(Common.decryptStringSalt(encryptMemberGuid))
                 .orElseThrow(() -> new RuntimeException("noUser"));
         if (!"manager".equals(boardMember.getMemberRole())) throw new RuntimeException("noRole");
-        BoardMember boardMemberForUpdateManager = boardMemberRepository.findBoardMemberByMemberIdAndMemberNickName(Common.encryptString(Common.decryptStringSalt(boardMemberPromoteManager.getUserId())),
-                        Common.decryptStringSalt(boardMemberPromoteManager.getUserNickName()))
+        BoardMember boardMemberForUpdateManager = boardMemberRepository.findBoardMemberByMemberGuid(boardMemberChangeRoleManager.getUserGuid())
                 .orElseThrow(() -> new RuntimeException("noMember"));
         boardMemberForUpdateManager.updateRole("manager");
+    }
+
+    @Transactional
+    public void BoardMemberRelegateManager(BoardMemberChangeRoleManager boardMemberChangeRoleManager, String encryptMemberGuid) {
+        BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberGuid(Common.decryptStringSalt(encryptMemberGuid))
+                .orElseThrow(() -> new RuntimeException("noUser"));
+        if (!"manager".equals(boardMember.getMemberRole())) throw new RuntimeException("noRole");
+        BoardMember boardMemberForUpdateManager = boardMemberRepository.findBoardMemberByMemberGuid(boardMemberChangeRoleManager.getUserGuid())
+                .orElseThrow(() -> new RuntimeException("noMember"));
+        boardMemberForUpdateManager.updateRole("member");
     }
 }

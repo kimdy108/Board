@@ -1,13 +1,13 @@
 package com.project.board.main.api.controller.member;
 
-import com.project.board.main.api.domain.member.BoardMember;
 import com.project.board.main.api.dto.auth.RefreshAuthToken;
 import com.project.board.main.api.dto.member.*;
 import com.project.board.main.api.service.member.BoardMemberService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +19,11 @@ public class BoardMemberController {
     @GetMapping("/info")
     public BoardMemberInfo memberInfo(HttpServletRequest req) {
         return boardMemberService.getMemberInfo(req.getHeader("ugd"));
+    }
+
+    @GetMapping("/info/list")
+    public List<BoardMemberInfoAll> memberInfoList() {
+        return boardMemberService.getMemberInfoAll();
     }
 
     @PutMapping("/update")
@@ -84,8 +89,14 @@ public class BoardMemberController {
     }
 
     @PutMapping("/promote/manager")
-    public String BoardMemberPromoteManager(@RequestBody BoardMemberPromoteManager boardMemberPromoteManager, HttpServletRequest req) {
-        boardMemberService.BoardMemberPromoteManager(boardMemberPromoteManager, req.getHeader("ugd"));
+    public String BoardMemberPromoteManager(@RequestBody BoardMemberChangeRoleManager boardMemberChangeRoleManager, HttpServletRequest req) {
+        boardMemberService.BoardMemberPromoteManager(boardMemberChangeRoleManager, req.getHeader("ugd"));
+        return "success";
+    }
+
+    @PutMapping("/relegate/manager")
+    public String BoardMemberRelegateManager(@RequestBody BoardMemberChangeRoleManager boardMemberChangeRoleManager, HttpServletRequest req) {
+        boardMemberService.BoardMemberRelegateManager(boardMemberChangeRoleManager, req.getHeader("ugd"));
         return "success";
     }
 }
