@@ -3,14 +3,14 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onBeforeMount } from 'vue'
 import { useBaseStore } from '@/stores/baseStore.js'
 import ApiService from '@/services/ApiService'
 
 let serverBaseInfo = null
 const baseStore = useBaseStore()
 
-onMounted(() => {
+onBeforeMount(() => {
   getServerInfo()
 })
 
