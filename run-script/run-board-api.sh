@@ -20,7 +20,7 @@ function start() {
 
 function stop() {
 	echo "Stop Board API"
-	PID=`pgrep -f $PROC_PATTERN`
+	PID=`pgrep -f $API_FILE`
         kill $PID
 }
 
@@ -33,10 +33,6 @@ start)
 ;;
 restart)
         stop
-        start
-;;
-update)
-        oldstop
         start
 ;;
 *)
