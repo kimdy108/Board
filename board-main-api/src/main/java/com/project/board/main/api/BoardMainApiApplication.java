@@ -1,5 +1,7 @@
 package com.project.board.main.api;
 
+import com.project.board.main.api.service.common.LoggerService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,7 +10,10 @@ import org.springframework.context.event.EventListener;
 
 @Slf4j
 @SpringBootApplication
+@RequiredArgsConstructor
 public class BoardMainApiApplication {
+
+    private final LoggerService loggerService;
 
     public static void main(String[] args) {
         SpringApplication.run(BoardMainApiApplication.class, args);
@@ -16,7 +21,7 @@ public class BoardMainApiApplication {
 
     @EventListener(ApplicationReadyEvent.class)
     public void whenReady() {
-        log.info("\n" +
+        loggerService.writeLogger("info", "\n" +
                 "                                                                                       dddddddd                                                                     \n" +
                 " BBBBBBBBBBBBBBBBB                                                                     d::::::d                    AAA               PPPPPPPPPPPPPPPPP   IIIIIIIIII \n" +
                 " B::::::::::::::::B                                                                    d::::::d                   A:::A              P::::::::::::::::P  I::::::::I \n" +
