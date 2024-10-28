@@ -16,3 +16,6 @@ Board 프로젝트
 ## 주요 기능
 - 게시판 회원 가입 및 로그인
 - 게시글 등록, 수정, 삭제
+
+## ERD
+- https://www.notion.so/Board-ERD-12d019052c8080d8a903d4de847247bb
