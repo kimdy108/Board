@@ -1,6 +1,9 @@
 spring:
   application:
     name: board-main-ui
+  thymeleaf:
+    cache: false
+    prefix: classpath:/static/
 
 server:
   port: 7080

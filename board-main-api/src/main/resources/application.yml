@@ -1,6 +1,9 @@
 spring:
   application:
     name: board-main-api
+  thymeleaf:
+    cache: false
+    prefix: classpath:/static/
   jpa:
     hibernate:
       ddl-auto: update
