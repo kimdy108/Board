@@ -1,14 +1,17 @@
 package com.project.board.main.ui;
 
-import lombok.extern.slf4j.Slf4j;
+import com.project.board.main.ui.service.LoggerService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
-@Slf4j
 @SpringBootApplication
+@RequiredArgsConstructor
 public class BoardMainUiApplication {
+
+    private final LoggerService loggerService;
 
     public static void main(String[] args) {
         SpringApplication.run(BoardMainUiApplication.class, args);
@@ -16,7 +19,7 @@ public class BoardMainUiApplication {
 
     @EventListener(ApplicationReadyEvent.class)
     public void whenReady() {
-        log.info("\n " +
+        loggerService.writeLogger("info", "\n " +
                 "                                                                                       dddddddd                                     \n " +
                 " BBBBBBBBBBBBBBBBB                                                                     d::::::d     UUUUUUUU     UUUUUUUUIIIIIIIIII \n " +
                 " B::::::::::::::::B                                                                    d::::::d     U::::::U     U::::::UI::::::::I \n " +
@@ -34,7 +37,7 @@ public class BoardMainUiApplication {
                 " B:::::::::::::::::B o:::::::::::::::oa:::::aaaa::::::a r:::::r             d:::::::::::::::::d       UU:::::::::::::UU  I::::::::I \n " +
                 " B::::::::::::::::B   oo:::::::::::oo  a::::::::::aa:::ar:::::r              d:::::::::ddd::::d         UU:::::::::UU    I::::::::I \n " +
                 " BBBBBBBBBBBBBBBBB      ooooooooooo     aaaaaaaaaa  aaaarrrrrrr               ddddddddd   ddddd           UUUUUUUUU      IIIIIIIIII \n " +
-                "                                                                                                                                    \n " );
+                "                                                                                                                                    \n ");
     }
 
 }
