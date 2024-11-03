@@ -7,20 +7,10 @@
     <p class="text-2xl text-black">작성자 : {{ boardWriter }}</p>
     <p class="text-2xl text-black">작성일 : {{ boardDate }}</p>
   </div>
-  <hr class="mt-16 ml-16 mr-16 mb-5" />
-  <Panel
-    class="ml-16 mr-16 text-left"
-    header="Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum perspiciatis distinctio et
-      quo iusto quidem, sit temporibus cupiditate. Soluta voluptatum repudiandae aspernatur ut
-      accusamus iure, alias iusto quae, asperiores illo rerum deserunt minus dolorum rem sit. Minima
-      molestias corrupti commodi?"
-  >
-    <p class="m-0 text-left">{{ boardWriter }}</p>
-    <p class="m-0 text-left">{{ boardDate }}</p>
-  </Panel>
   <hr class="mt-5 ml-16 mr-16 mb-10" />
   <div class="text-left mr-16 flex justify-end">
     <Button label="목록" size="large" class="mr-2" @click="goDevAndStackList" />
+    <Button label="댓글" size="large" severity="help" class="mr-2" @click="goDevAndStackComment" />
     <Button
       label="수정"
       size="large"
@@ -41,7 +31,6 @@
 
 <script setup>
 import Button from 'primevue/button'
-import Panel from 'primevue/panel'
 import ApiService from '@/services/ApiService'
 import { useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
@@ -81,6 +70,13 @@ const goDevAndStackList = () => {
 const goDevAndStackEdit = () => {
   router.push({ name: 'DevAndStackEditPage' }).catch(() => {
     console.log('DevAndStackEditPage')
+  })
+}
+
+const goDevAndStackComment = () => {
+  const boardGuid = props.boardGuid
+  router.push({ name: 'DevAndStackCommentPage', params: { boardGuid } }).catch(() => {
+    console.log('DevAndStackCommentPage')
   })
 }
 
