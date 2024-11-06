@@ -1,12 +1,11 @@
 package com.project.board.main.api.controller.board;
 
 import com.project.board.main.api.dto.board.BoardComment;
+import com.project.board.main.api.dto.board.BoardCommentRegist;
 import com.project.board.main.api.service.board.BoardDevelopmentAndStackCommentService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,5 +18,11 @@ public class BoardDevelopmentAndStackCommentController {
     @GetMapping("/list/all")
     public List<BoardComment> listAll(@RequestParam String developmentStackGuid) {
         return boardDevelopmentAndStackCommentService.getBoardCommentList(developmentStackGuid);
+    }
+
+    @PostMapping
+    public String registDevelopmentAndStackComment(@RequestBody BoardCommentRegist boardCommentRegist, HttpServletRequest req) {
+        boardDevelopmentAndStackCommentService.registDevAndStackComment(boardCommentRegist, req.getHeader("ugd"));
+        return "success";
     }
 }

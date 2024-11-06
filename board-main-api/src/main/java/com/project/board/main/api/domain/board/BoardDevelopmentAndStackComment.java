@@ -43,4 +43,19 @@ public class BoardDevelopmentAndStackComment {
 
     @Column(name = "insert_date")
     private LocalDateTime insertDate;
+
+    public static BoardDevelopmentAndStackComment regist(String commentGuid,
+                                                         String comment,
+                                                         String developmentStackGuid,
+                                                         String memberGuid) {
+        BoardDevelopmentAndStackComment boardDevelopmentAndStackComment = new BoardDevelopmentAndStackComment();
+        boardDevelopmentAndStackComment.setCommentGuid(commentGuid);
+        boardDevelopmentAndStackComment.setComment(comment);
+        boardDevelopmentAndStackComment.setDevelopmentStackGuid(developmentStackGuid);
+        boardDevelopmentAndStackComment.setMemberGuid(memberGuid);
+        boardDevelopmentAndStackComment.setUseFlag(true);
+        boardDevelopmentAndStackComment.setInsertDate(LocalDateTime.now());
+        boardDevelopmentAndStackComment.setUpdateDate(LocalDateTime.now());
+        return boardDevelopmentAndStackComment;
+    }
 }

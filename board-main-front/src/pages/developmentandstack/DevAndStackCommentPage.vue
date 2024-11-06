@@ -3,17 +3,23 @@
     <h2 class="text-8xl mb-5 text-black">댓글</h2>
   </div>
   <Panel class="ml-16 mr-16 mt-5" v-for="item in items" :key="item.commentSeq">
-    <p class="text-left">{{ item.title }}</p>
-    <p class="text-left">{{ item.content }}</p>
+    <p class="text-left text-3xl">{{ item.boardComment }}</p>
+    <p class="text-left text-lg">{{ item.boardCommentMemberNickName }}</p>
+    <p class="text-left text-lg">{{ item.boardCommentDate }}</p>
     <div class="flex justify-end">
       <Button
         label="수정"
         size="large"
         severity="info"
         class="mr-2"
-        @click="alertGuid(item.commentGuid)"
+        @click="alertGuid(item.boardCommentGuid)"
       />
-      <Button label="삭제" size="large" severity="danger" @click="alertGuid(item.commentGuid)" />
+      <Button
+        label="삭제"
+        size="large"
+        severity="danger"
+        @click="alertGuid(item.boardCommentGuid)"
+      />
     </div>
   </Panel>
   <hr class="mt-5 ml-16 mr-16 mb-10" />
@@ -46,20 +52,7 @@ const alertGuid = (event) => {
   console.log(event)
 }
 
-const items = ref([
-  {
-    commentSeq: 1,
-    commentGuid: '123aaa',
-    title: 'title1',
-    content: 'content1'
-  },
-  {
-    commentSeq: 2,
-    commentGuid: '123bbb',
-    title: 'title2',
-    content: 'content2'
-  }
-])
+const items = ref()
 
 const devAndStackCommentListApi = async () => {
   const result = await ApiService.requestAPI({
@@ -71,6 +64,10 @@ const devAndStackCommentListApi = async () => {
     }
   })
   console.log(result)
+  for (let i in result) {
+    result[i].boardCommentDate = result[i].boardCommentDate.split('T')[0]
+  }
+  items.value = result
 }
 
 onMounted(() => {
