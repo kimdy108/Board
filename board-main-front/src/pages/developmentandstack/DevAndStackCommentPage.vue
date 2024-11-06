@@ -26,7 +26,8 @@
 import Button from 'primevue/button'
 import Panel from 'primevue/panel'
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
+import ApiService from '@/services/ApiService'
+import { onMounted, ref } from 'vue'
 
 const props = defineProps({
   boardGuid: String
@@ -59,6 +60,22 @@ const items = ref([
     content: 'content2'
   }
 ])
+
+const devAndStackCommentListApi = async () => {
+  const result = await ApiService.requestAPI({
+    headers: { accept: 'application/json' },
+    method: 'GET',
+    url: '/board/dev/stack/comment/list/all',
+    params: {
+      developmentStackGuid: props.boardGuid
+    }
+  })
+  console.log(result)
+}
+
+onMounted(() => {
+  devAndStackCommentListApi()
+})
 </script>
 
 <style lang="scss" scoped></style>

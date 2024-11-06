@@ -1,6 +1,5 @@
 package com.project.board.main.api.controller.board;
 
-import com.project.board.main.api.dto.board.BoardComment;
 import com.project.board.main.api.dto.board.BoardList;
 import com.project.board.main.api.dto.board.BoardRegist;
 import com.project.board.main.api.dto.board.BoardUpdate;
@@ -25,11 +24,6 @@ public class BoardDevelopmentAndStackController {
     @GetMapping("/search")
     public BoardList getList(@RequestParam String developmentAndStackGuid) {
         return boardDevelopmentAndStackService.getDevelopmentAndStack(developmentAndStackGuid);
-    }
-
-    @GetMapping("/search/comment")
-    public List<BoardComment> getComment(@RequestParam String developmentAndStackGuid) {
-        return null;
     }
 
     @PostMapping("/regist")
