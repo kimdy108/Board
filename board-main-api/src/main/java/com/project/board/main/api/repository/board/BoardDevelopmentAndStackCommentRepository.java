@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BoardDevelopmentAndStackCommentRepository extends JpaRepository<BoardDevelopmentAndStackComment, Long> {
+    BoardDevelopmentAndStackComment findBoardDevelopmentAndStackCommentByCommentGuid(String commentGuid);
 }

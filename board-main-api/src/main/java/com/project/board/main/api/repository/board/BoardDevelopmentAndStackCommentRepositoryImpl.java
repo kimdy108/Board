@@ -37,7 +37,7 @@ public class BoardDevelopmentAndStackCommentRepositoryImpl extends QuerydslRepos
                 .from(qboardDevelopmentAndStackComment)
                 .innerJoin(qboardMember).on(qboardDevelopmentAndStackComment.memberGuid.eq(qboardMember.memberGuid))
                 .where(qboardDevelopmentAndStackComment.developmentStackGuid.eq(developmentStackGuid).and(qboardDevelopmentAndStackComment.useFlag.eq(true)))
-                .orderBy(qboardDevelopmentAndStackComment.insertDate.desc())
+                .orderBy(qboardDevelopmentAndStackComment.insertDate.asc())
                 .fetch();
     }
 }

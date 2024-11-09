@@ -58,4 +58,14 @@ public class BoardDevelopmentAndStackComment {
         boardDevelopmentAndStackComment.setUpdateDate(LocalDateTime.now());
         return boardDevelopmentAndStackComment;
     }
+
+    public void update(String commentString) {
+        this.comment = commentString;
+        this.updateDate = LocalDateTime.now();
+    }
+
+    public void updateUseFlag(boolean useFlag) {
+        this.useFlag = useFlag;
+        this.updateDate = LocalDateTime.now();
+    }
 }
