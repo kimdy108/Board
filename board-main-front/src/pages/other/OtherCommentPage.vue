@@ -42,7 +42,7 @@
   </div>
   <hr class="mt-5 ml-16 mr-16 mb-10" />
   <div class="text-left mr-16 flex justify-end">
-    <Button label="뒤로가기" size="large" class="mr-2" @click="goDevAndStackView()" />
+    <Button label="뒤로가기" size="large" class="mr-2" @click="goOtherView()" />
   </div>
 </template>
 
@@ -109,10 +109,10 @@ const updateCommentCancel = () => {
   fixCommentGuid.value = ''
 }
 
-const goDevAndStackView = () => {
+const goOtherView = () => {
   const boardGuid = props.boardGuid
-  router.push({ name: 'DevAndStackViewPage', params: { boardGuid } }).catch(() => {
-    console.log('DevAndStackViewPageError')
+  router.push({ name: 'OtherViewPage', params: { boardGuid } }).catch(() => {
+    console.log('OtherViewPageError')
   })
 }
 
@@ -120,7 +120,7 @@ const registCommentApi = async () => {
   const result = await ApiService.requestAPI({
     headers: { accept: 'application/json' },
     method: 'POST',
-    url: '/board/dev/stack/comment/regist',
+    url: '/board/free/comment/regist',
     data: {
       boardGuid: props.boardGuid,
       comment: newCommnet.value
@@ -134,7 +134,7 @@ const registCommentApi = async () => {
     fixComment.value = ''
     fixCommentGuid.value = ''
 
-    devAndStackCommentListApi()
+    freeCommentListApi()
   }
 }
 
@@ -142,7 +142,7 @@ const updateCommentApi = async () => {
   const result = await ApiService.requestAPI({
     headers: { accept: 'application/json' },
     method: 'PUT',
-    url: '/board/dev/stack/comment/update',
+    url: '/board/free/comment/update',
     data: {
       commentGuid: fixCommentGuid.value,
       commentString: fixComment.value
@@ -155,7 +155,7 @@ const updateCommentApi = async () => {
     fixComment.value = ''
     fixCommentGuid.value = ''
 
-    devAndStackCommentListApi()
+    freeCommentListApi()
   }
 }
 
@@ -163,7 +163,7 @@ const deleteComment = async (event) => {
   const result = await ApiService.requestAPI({
     headers: { accept: 'application/json' },
     method: 'DELETE',
-    url: `/board/dev/stack/comment/delete/${event}`
+    url: `/board/free/comment/delete/${event}`
   })
   if (result === 'success') {
     alert('댓글이 삭제되었습니다.')
@@ -173,17 +173,17 @@ const deleteComment = async (event) => {
     fixComment.value = ''
     fixCommentGuid.value = ''
 
-    devAndStackCommentListApi()
+    freeCommentListApi()
   }
 }
 
-const devAndStackCommentListApi = async () => {
+const freeCommentListApi = async () => {
   const result = await ApiService.requestAPI({
     headers: { accept: 'application/json' },
     method: 'GET',
-    url: '/board/dev/stack/comment/list/all',
+    url: '/board/free/comment/list/all',
     params: {
-      developmentStackGuid: props.boardGuid
+      freeGuid: props.boardGuid
     }
   })
   for (let i in result) {
@@ -193,7 +193,7 @@ const devAndStackCommentListApi = async () => {
 }
 
 onMounted(() => {
-  devAndStackCommentListApi()
+  freeCommentListApi()
 })
 </script>
 

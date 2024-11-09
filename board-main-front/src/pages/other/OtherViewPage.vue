@@ -10,6 +10,7 @@
   <hr class="mt-16 ml-16 mr-16 mb-10" />
   <div class="text-left mr-16 flex justify-end">
     <Button label="목록" size="large" class="mr-2" @click="goOtherList" />
+    <Button label="댓글" size="large" severity="help" class="mr-2" @click="goOtherComment" />
     <Button
       label="수정"
       size="large"
@@ -63,6 +64,13 @@ const isOwnerFunction = () => {
 const goOtherList = () => {
   router.push({ name: 'OtherBoardPage' }).catch(() => {
     console.log('OtherBoardPageError')
+  })
+}
+
+const goOtherComment = () => {
+  const boardGuid = props.boardGuid
+  router.push({ name: 'OtherCommentPage', params: { boardGuid } }).catch(() => {
+    console.log('OtherCommentPage')
   })
 }
 

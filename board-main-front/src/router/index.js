@@ -101,6 +101,13 @@ const boardChildren = [
     props: true
   },
   {
+    path: '/board/other/comment/:boardGuid',
+    name: 'OtherCommentPage',
+    component: loadSubView('pages', 'other', 'OtherCommentPage'),
+    meta: { id: 'OtherCommentPage' },
+    props: true
+  },
+  {
     path: '/board/qna',
     name: 'QnAPage',
     component: loadView('pages', 'QnAPage'),
