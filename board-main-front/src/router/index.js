@@ -158,6 +158,12 @@ const boardChildren = [
     meta: { id: 'MemberManagePageError' }
   },
   {
+    path: '/board/manage/member/join',
+    name: 'JoinMemberPage',
+    component: loadSubView('pages', 'membermanage', 'JoinMemberPage'),
+    meta: { id: 'JoinMemberPageError' }
+  },
+  {
     path: '/board/manage/member/update/:userGuid',
     name: 'UpdateMemberPage',
     component: loadSubView('pages', 'membermanage', 'UpdateMemberPage'),

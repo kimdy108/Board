@@ -206,6 +206,29 @@ public class BoardMemberService {
     }
 
     @Transactional
+    public String joinMember(BoardMemberJoin boardMemberJoin) {
+        String result = "";
+
+        if (!checkJoinToId(boardMemberJoin.getId())) result = "duplicateId";
+        else if (!checkJoinToNickName(boardMemberJoin.getNickName())) result = "duplicateNickName";
+        else if (!checkJoinToPhone(boardMemberJoin.getPhone())) result = "duplicatePhone";
+        else {
+            BoardMember boardMember = BoardMember.create(UUID.randomUUID().toString(),
+                    Common.encryptString(Common.decryptStringSalt(boardMemberJoin.getId())),
+                    passwordEncoder.encode(Common.decryptStringSalt(boardMemberJoin.getPassword())),
+                    Common.encryptString(Common.decryptStringSalt(boardMemberJoin.getName())),
+                    Common.decryptStringSalt(boardMemberJoin.getNickName()),
+                    Common.encryptString(Common.decryptStringSalt(boardMemberJoin.getPhone())),
+                    Common.encryptString(Common.decryptStringSalt(boardMemberJoin.getEmail())),
+                    "member");
+            boardMemberRepository.save(boardMember);
+
+            result = "success";
+        }
+        return result;
+    }
+
+    @Transactional
     public void updateMemberManageInfo(BoardMemberManageUpdate boardMemberManageUpdate) {
         BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberGuid(boardMemberManageUpdate.getUserGuid())
                 .orElseThrow(() -> new RuntimeException("noUser"));

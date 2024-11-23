@@ -48,6 +48,10 @@
       </Column>
     </DataTable>
   </div>
+  <hr class="mr-5 ml-5 mt-5 mb-5" />
+  <div class="text-left mr-5 flex justify-end">
+    <Button label="회원 등록" size="large" severity="help" @click="joinMember" />
+  </div>
 </template>
 
 <script setup>
@@ -63,6 +67,12 @@ import { decryptStringSalt, encryptString } from '@/utils/common'
 const items = ref()
 const router = useRouter()
 const userStore = useUserStore()
+
+const joinMember = () => {
+  router.push({ name: 'JoinMemberPage' }).catch(() => {
+    console.log('joinMemberPageError')
+  })
+}
 
 const updateMember = (items) => {
   const userGuid = items.data.userGuid

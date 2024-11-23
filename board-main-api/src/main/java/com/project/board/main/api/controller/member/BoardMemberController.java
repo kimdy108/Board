@@ -105,6 +105,11 @@ public class BoardMemberController {
         return boardMemberService.getMemberManageInfo(userGuid);
     }
 
+    @PostMapping("/join/manage")
+    public String joinManage(@RequestBody BoardMemberJoin boardMemberJoin) {
+        return boardMemberService.joinMember(boardMemberJoin);
+    }
+
     @PutMapping("/update/manage")
     public String memberManageUpdate(@RequestBody BoardMemberManageUpdate boardMemberManageUpdate) {
         boardMemberService.updateMemberManageInfo(boardMemberManageUpdate);
@@ -117,7 +122,7 @@ public class BoardMemberController {
         return "success";
     }
 
-    @DeleteMapping("/manage/delete/{guid}")
+    @DeleteMapping("/manage/delete/{userGuid}")
     public String deleteMember(@PathVariable String userGuid) {
         boardMemberService.deleteMember(userGuid);
         return "success";
