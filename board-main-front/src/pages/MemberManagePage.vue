@@ -24,7 +24,9 @@
             rounded
             class="mr-2"
             severity="info"
-            :disabled="items.data.userRole === decryptStringSalt(userStore.getUserAccess.rol)"
+            :disabled="
+              encryptString(items.data.userId) === decryptStringSalt(userStore.getUserAccess.uid)
+            "
             @click="updateMember(items)"
           />
         </template>
@@ -37,7 +39,9 @@
             rounded
             class="mr-2"
             severity="danger"
-            :disabled="items.data.userRole === decryptStringSalt(userStore.getUserAccess.rol)"
+            :disabled="
+              encryptString(items.data.userId) === decryptStringSalt(userStore.getUserAccess.uid)
+            "
             @click="deleteMember(items)"
           />
         </template>
@@ -51,18 +55,20 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
+import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
 import { onMounted, ref } from 'vue'
-import { decryptStringSalt } from '@/utils/common'
+import { decryptStringSalt, encryptString } from '@/utils/common'
 
 const items = ref()
+const router = useRouter()
 const userStore = useUserStore()
 
 const updateMember = (items) => {
-  // router.push({ name: 'UpdateMemberPage', param: 'items.data.userGuid' }).catch(() => {
-  //   console.log('UpdateMemberPageError')
-  // })
-  alert('updateMember : ' + items.data.userGuid)
+  const userGuid = items.data.userGuid
+  router.push({ name: 'UpdateMemberPage', params: { userGuid } }).catch(() => {
+    console.log('UpdateMemberPageError')
+  })
 }
 
 const deleteMember = async (value) => {

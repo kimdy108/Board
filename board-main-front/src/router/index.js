@@ -156,6 +156,13 @@ const boardChildren = [
     name: 'MemberManagePage',
     component: loadView('pages', 'MemberManagePage'),
     meta: { id: 'MemberManagePageError' }
+  },
+  {
+    path: '/board/manage/member/update/:userGuid',
+    name: 'UpdateMemberPage',
+    component: loadSubView('pages', 'membermanage', 'UpdateMemberPage'),
+    meta: { id: 'UpdateMemberPageError' },
+    props: true
   }
 ]
 
