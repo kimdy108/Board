@@ -5,7 +5,9 @@ import com.project.board.main.api.dto.auth.AuthTokenBase;
 import com.project.board.main.api.dto.auth.RefreshAuthToken;
 import com.project.board.main.api.dto.member.*;
 import com.project.board.main.api.repository.announce.BoardAnnounceRepository;
+import com.project.board.main.api.repository.board.BoardDevelopmentAndStackCommentRepository;
 import com.project.board.main.api.repository.board.BoardDevelopmentAndStackRepository;
+import com.project.board.main.api.repository.board.BoardFreeCommentRepository;
 import com.project.board.main.api.repository.board.BoardFreeRepository;
 import com.project.board.main.api.repository.member.BoardMemberRepository;
 import com.project.board.main.api.repository.member.BoardMemberRepositoryImpl;
@@ -26,6 +28,8 @@ public class BoardMemberService {
     private final BoardAnnounceRepository boardAnnounceRepository;
     private final BoardDevelopmentAndStackRepository boardDevelopmentAndStackRepository;
     private final BoardFreeRepository boardFreeRepository;
+    private final BoardDevelopmentAndStackCommentRepository boardDevelopmentAndStackCommentRepository;
+    private final BoardFreeCommentRepository boardFreeCommentRepository;
 
     private final BoardMemberRepositoryImpl boardMemberRepositoryImpl;
 
@@ -115,9 +119,10 @@ public class BoardMemberService {
                 .orElseThrow(() -> new RuntimeException("noMember"));
         if(!passwordEncoder.matches(Common.decryptStringSalt(userPassword), boardMember.getMemberPassword())) throw new RuntimeException("AuthFail");
         boardMember.updateUseFalg();
-        boardAnnounceRepository.updateUseFlag(userGuid);
         boardDevelopmentAndStackRepository.updateUseFlag(userGuid);
         boardFreeRepository.updateUseFlag(userGuid);
+        boardDevelopmentAndStackCommentRepository.updateUseFlag(userGuid);
+        boardFreeCommentRepository.updateUseFlag(userGuid);
         // todo: 게시판 및 기타 등등 전부 useFalg -> false 로 해야함..
     }
 
@@ -221,9 +226,10 @@ public class BoardMemberService {
         BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberGuid(userGuid)
                 .orElseThrow(() -> new RuntimeException("noMember"));
         boardMember.updateUseFalg();
-        boardAnnounceRepository.updateUseFlag(userGuid);
         boardDevelopmentAndStackRepository.updateUseFlag(userGuid);
         boardFreeRepository.updateUseFlag(userGuid);
+        boardDevelopmentAndStackCommentRepository.updateUseFlag(userGuid);
+        boardFreeCommentRepository.updateUseFlag(userGuid);
         // todo: 게시판 및 기타 등등 전부 useFalg -> false 로 해야함..
     }
 }
