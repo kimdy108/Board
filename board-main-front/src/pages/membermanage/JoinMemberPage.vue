@@ -33,10 +33,18 @@
       />
     </div>
     <div class="gap-2 text-left ml-16">
-      <label for="userPassword" class="flex flex-col text-3xl text-black">비밀번호</label>
+      <label for="userPassword" class="flex flex-row items-center text-3xl text-black">
+        비밀번호
+        <InputIcon class="ml-2">
+          <i
+            :class="isVisibleSignUpPassword ? 'pi pi-eye' : 'pi pi-eye-slash'"
+            @click="changeIsVisibleSignUpPassword"
+          />
+        </InputIcon>
+      </label>
       <InputText
         id="userPassword"
-        type="password"
+        :type="isVisibleSignUpPassword ? 'text' : 'password'"
         v-model="userPasswordValue"
         size="large"
         style="width: 650px; height: 50px; font-size: 20px"
@@ -79,6 +87,7 @@
 <script setup>
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
+import InputIcon from 'primevue/inputicon'
 import ApiService from '@/services/ApiService'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
@@ -92,6 +101,12 @@ const userNickNameValue = ref('')
 const userPasswordValue = ref('')
 const userEmailValue = ref('')
 const userPhoneValue = ref('')
+
+const isVisibleSignUpPassword = ref(false)
+
+const changeIsVisibleSignUpPassword = () => {
+  isVisibleSignUpPassword.value = !isVisibleSignUpPassword.value
+}
 
 const goUserManageMemberPage = () => {
   router.push({ name: 'MemberManagePage' }).catch(() => {
@@ -138,6 +153,7 @@ const userJoinApi = async () => {
     alert('이미 가입된 전화번호입니다.')
   } else {
     alert('회원 등록이 실패했습니다.')
+    console.log(result)
   }
 }
 </script>
