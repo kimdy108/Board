@@ -188,4 +188,42 @@ public class BoardMemberService {
                 .orElseThrow(() -> new RuntimeException("noMember"));
         boardMemberForUpdateManager.updateRole("member");
     }
+
+    @Transactional
+    public BoardMemberInfo getMemberManageInfo(String userGuid) {
+        BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberGuid(userGuid)
+                .orElseThrow(() -> new RuntimeException("noUser"));
+        return BoardMemberInfo.create(Common.encryptStringSalt(Common.decryptString(boardMember.getMemberId())),
+                Common.encryptStringSalt(Common.decryptString(boardMember.getMemberName())),
+                Common.encryptStringSalt(boardMember.getMemberNickName()),
+                Common.encryptStringSalt(Common.decryptString(boardMember.getMemberEmail())),
+                Common.encryptStringSalt(Common.decryptString(boardMember.getMemberPhone())));
+    }
+
+    @Transactional
+    public void updateMemberManageInfo(BoardMemberManageUpdate boardMemberManageUpdate) {
+        BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberGuid(boardMemberManageUpdate.getUserGuid())
+                .orElseThrow(() -> new RuntimeException("noUser"));
+        boardMember.updateInfo(Common.encryptString(Common.decryptStringSalt(boardMemberManageUpdate.getEncryptUserName())),
+                Common.encryptString(Common.decryptStringSalt(boardMemberManageUpdate.getEncryptUserEmail())),
+                Common.encryptString(Common.decryptStringSalt(boardMemberManageUpdate.getEncryptUserPhone())));
+    }
+
+    @Transactional
+    public void resetMemberManagePassword(String userGuid) {
+        BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberGuid(userGuid)
+                .orElseThrow(() -> new RuntimeException("NoMember"));
+        boardMember.updatePassword(passwordEncoder.encode("tkdydwk1!"));
+    }
+
+    @Transactional
+    public void deleteMember(String userGuid) {
+        BoardMember boardMember = boardMemberRepository.findBoardMemberByMemberGuid(userGuid)
+                .orElseThrow(() -> new RuntimeException("noMember"));
+        boardMember.updateUseFalg();
+        boardAnnounceRepository.updateUseFlag(userGuid);
+        boardDevelopmentAndStackRepository.updateUseFlag(userGuid);
+        boardFreeRepository.updateUseFlag(userGuid);
+        // todo: 게시판 및 기타 등등 전부 useFalg -> false 로 해야함..
+    }
 }

@@ -99,4 +99,27 @@ public class BoardMemberController {
         boardMemberService.BoardMemberRelegateManager(boardMemberChangeRoleManager, req.getHeader("ugd"));
         return "success";
     }
+
+    @GetMapping("/info/manage")
+    public BoardMemberInfo memberManageInfo(@RequestParam String userGuid) {
+        return boardMemberService.getMemberManageInfo(userGuid);
+    }
+
+    @PutMapping("/update/manage")
+    public String memberManageUpdate(@RequestBody BoardMemberManageUpdate boardMemberManageUpdate) {
+        boardMemberService.updateMemberManageInfo(boardMemberManageUpdate);
+        return "success";
+    }
+
+    @PutMapping("/reset/password/manage")
+    public String memberManageResetPassword(@RequestBody BoardMemberManageResetPassword boardMemberManageResetPassword) {
+        boardMemberService.resetMemberManagePassword(boardMemberManageResetPassword.getUserGuid());
+        return "success";
+    }
+
+    @DeleteMapping("/manage/delete/{guid}")
+    public String deleteMember(@PathVariable String userGuid) {
+        boardMemberService.deleteMember(userGuid);
+        return "success";
+    }
 }
