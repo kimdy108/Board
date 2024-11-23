@@ -150,6 +150,12 @@ const boardChildren = [
     name: 'PromoteManagerPage',
     component: loadView('pages', 'PromoteManagerPage'),
     meta: { id: 'PromoteManagerPageError' }
+  },
+  {
+    path: '/board/manage/member',
+    name: 'MemberManagePage',
+    component: loadView('pages', 'MemberManagePage'),
+    meta: { id: 'MemberManagePageError' }
   }
 ]
 

@@ -66,6 +66,14 @@
   <hr class="mt-16 ml-16 mr-16 mb-10" />
   <div class="text-left mr-16 flex justify-end">
     <Button
+      label="회원 관리"
+      size="large"
+      severity="warn"
+      class="mr-2"
+      :style="isManager ? '' : 'display: none'"
+      @click="memberManageFunction"
+    />
+    <Button
       label="매니저 관리"
       size="large"
       severity="help"
@@ -130,6 +138,12 @@ const signOutFunction = () => {
 const managerFunction = () => {
   router.push({ name: 'PromoteManagerPage' }).catch(() => {
     console.log('PromoteManagerPageError')
+  })
+}
+
+const memberManageFunction = () => {
+  router.push({ name: 'MemberManagePage' }).catch(() => {
+    console.log('MemberManagePageError')
   })
 }
 
