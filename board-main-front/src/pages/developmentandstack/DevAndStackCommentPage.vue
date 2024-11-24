@@ -2,28 +2,37 @@
   <div class="text-left ml-16 mt-16 mb-10">
     <h2 class="text-8xl mb-5 text-black">댓글</h2>
   </div>
-  <Panel class="ml-16 mr-16 mt-5" v-for="item in items" :key="item.commentSeq">
-    <p class="text-left text-3xl">{{ item.boardComment }}</p>
-    <p class="text-left text-lg">{{ item.boardCommentMemberNickName }}</p>
-    <p class="text-left text-lg">{{ item.boardCommentDate }}</p>
-    <div class="flex justify-end">
-      <Button
-        label="수정"
-        size="large"
-        severity="info"
-        class="mr-2"
-        @click="updateComment(item.boardCommentGuid, item.boardComment)"
-        :style="isEditOwnerFunction(item.boardCommentMemberGuid) ? '' : 'display: none'"
-      />
-      <Button
-        label="삭제"
-        size="large"
-        severity="danger"
-        @click="deleteComment(item.boardCommentGuid)"
-        :style="isDeleteOwnerFunction(item.boardCommentMemberGuid) ? '' : 'display: none'"
-      />
-    </div>
-  </Panel>
+  <div class="card">
+    <DataTable class="ml-16 mr-16" :value="items" paginator :rows="5" tableStyle="min-width: 50rem">
+      <Column field="boardComment" header="댓글내용" style="width: 50%"></Column>
+      <Column field="boardCommentMemberNickName" header="작성자" style="width: 15%"></Column>
+      <Column field="boardCommentDate" header="작성일" style="width: 15%"></Column>
+      <Column style="width: 10%">
+        <template #body="items">
+          <Button
+            label="수정"
+            rounded
+            class="mr-2"
+            severity="info"
+            @click="updateComment(items.data.boardCommentGuid, items.data.boardComment)"
+            :style="isEditOwnerFunction(items.data.boardCommentMemberGuid) ? '' : 'display: none'"
+          />
+        </template>
+      </Column>
+      <Column style="width: 10%">
+        <template #body="items">
+          <Button
+            label="삭제"
+            rounded
+            class="mr-2"
+            severity="danger"
+            @click="deleteComment(items.data.boardCommentGuid)"
+            :style="isDeleteOwnerFunction(items.data.boardCommentMemberGuid) ? '' : 'display: none'"
+          />
+        </template>
+      </Column>
+    </DataTable>
+  </div>
   <hr class="mt-5 ml-16 mr-16 mb-5" />
   <div class="flex ml-16 mr-16" v-if="!isFixComment">
     <InputText style="width: 1350px; height: 50px; font-size: 20px" v-model="newCommnet" />
@@ -48,7 +57,8 @@
 
 <script setup>
 import Button from 'primevue/button'
-import Panel from 'primevue/panel'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
 import InputText from 'primevue/inputtext'
 import ApiService from '@/services/ApiService'
 import { useRouter } from 'vue-router'

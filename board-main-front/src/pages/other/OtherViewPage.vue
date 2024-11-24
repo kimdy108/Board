@@ -58,7 +58,6 @@ const isOwnerFunction = () => {
   if (decryptStringSalt(userStoreGuid) === writerGuid.value)
     (isEditOwner.value = true), (isDeleteOwner.value = true)
   else if (decryptStringSalt(userStoreRole) === 'manager') isDeleteOwner.value = true
-  else isOwner.value = false
 }
 
 const goOtherList = () => {

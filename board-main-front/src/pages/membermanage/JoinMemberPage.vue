@@ -35,20 +35,22 @@
     <div class="gap-2 text-left ml-16">
       <label for="userPassword" class="flex flex-row items-center text-3xl text-black">
         비밀번호
+      </label>
+      <IconField>
+        <InputText
+          id="userPassword"
+          :type="isVisibleSignUpPassword ? 'text' : 'password'"
+          v-model="userPasswordValue"
+          size="large"
+          style="width: 650px; height: 50px; font-size: 20px"
+        />
         <InputIcon class="ml-2">
           <i
             :class="isVisibleSignUpPassword ? 'pi pi-eye' : 'pi pi-eye-slash'"
             @click="changeIsVisibleSignUpPassword"
           />
         </InputIcon>
-      </label>
-      <InputText
-        id="userPassword"
-        :type="isVisibleSignUpPassword ? 'text' : 'password'"
-        v-model="userPasswordValue"
-        size="large"
-        style="width: 650px; height: 50px; font-size: 20px"
-      />
+      </IconField>
     </div>
   </div>
   <div class="card flex mt-16">
@@ -87,6 +89,7 @@
 <script setup>
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
+import IconField from 'primevue/iconfield'
 import InputIcon from 'primevue/inputicon'
 import ApiService from '@/services/ApiService'
 import { useRouter } from 'vue-router'

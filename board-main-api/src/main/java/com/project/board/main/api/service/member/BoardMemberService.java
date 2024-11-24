@@ -212,19 +212,8 @@ public class BoardMemberService {
         if (!checkJoinToId(boardMemberJoin.getId())) result = "duplicateId";
         else if (!checkJoinToNickName(boardMemberJoin.getNickName())) result = "duplicateNickName";
         else if (!checkJoinToPhone(boardMemberJoin.getPhone())) result = "duplicatePhone";
-        else {
-            BoardMember boardMember = BoardMember.create(UUID.randomUUID().toString(),
-                    Common.encryptString(Common.decryptStringSalt(boardMemberJoin.getId())),
-                    passwordEncoder.encode(Common.decryptStringSalt(boardMemberJoin.getPassword())),
-                    Common.encryptString(Common.decryptStringSalt(boardMemberJoin.getName())),
-                    Common.decryptStringSalt(boardMemberJoin.getNickName()),
-                    Common.encryptString(Common.decryptStringSalt(boardMemberJoin.getPhone())),
-                    Common.encryptString(Common.decryptStringSalt(boardMemberJoin.getEmail())),
-                    "member");
-            boardMemberRepository.save(boardMember);
+        else result = join(boardMemberJoin);
 
-            result = "success";
-        }
         return result;
     }
 
