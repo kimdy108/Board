@@ -81,10 +81,12 @@ import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
 import { useRouter } from 'vue-router'
+import { useToastStore } from '@/stores/toastStore'
 import { onMounted, ref } from 'vue'
 import { decryptStringSalt, encryptStringSalt } from '@/utils/common'
 
 const router = useRouter()
+const toastStore = useToastStore()
 const props = defineProps({
   userGuid: String
 })
@@ -102,12 +104,28 @@ const goUserManageMemberPage = () => {
 }
 
 const userUpdateFunction = () => {
-  if (userNameValue.value == null || userNameValue.value == '') alert('이름을 입력해주세요.')
-  else if (userEmailValue.value == null || userEmailValue.value == '')
-    alert('이메일을 입력해주세요.')
-  else if (userPhoneValue.value == null || userPhoneValue.value == '')
-    alert('전화번호를 입력해주세요.')
-  else userUpdateApi()
+  if (userNameValue.value == null || userNameValue.value == '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '회원수정',
+      detail: '이름을 입력해주세요.',
+      life: 3000
+    })
+  } else if (userEmailValue.value == null || userEmailValue.value == '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '회원수정',
+      detail: '이메일을 입력해주세요.',
+      life: 3000
+    })
+  } else if (userPhoneValue.value == null || userPhoneValue.value == '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '회원수정',
+      detail: '전화번호를 입력해주세요.',
+      life: 3000
+    })
+  } else userUpdateApi()
 }
 
 const getUserInfoFunction = async () => {
@@ -139,9 +157,21 @@ const userUpdateApi = async () => {
     }
   })
   if (result === 'success') {
-    alert('수정되었습니다.')
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '회원수정',
+      detail: '회원정보가 수정되었습니다',
+      life: 3000
+    })
     getUserInfoFunction()
-  } else alert('수정에 실패했습니다.')
+  } else {
+    toastStore.setToastValue({
+      severity: 'error',
+      summary: '회원수정',
+      detail: '수정에 실패했습니다.',
+      life: 3000
+    })
+  }
 }
 
 const resetPasswordFunction = async () => {
@@ -154,7 +184,12 @@ const resetPasswordFunction = async () => {
     }
   })
   if (result === 'success') {
-    alert('비밀번호가 초기화 되었습니다.')
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '회원수정',
+      detail: '비밀번호가 초기화 되었습니다.',
+      life: 3000
+    })
   }
 }
 

@@ -93,10 +93,12 @@ import IconField from 'primevue/iconfield'
 import InputIcon from 'primevue/inputicon'
 import ApiService from '@/services/ApiService'
 import { useRouter } from 'vue-router'
+import { useToastStore } from '@/stores/toastStore'
 import { ref } from 'vue'
 import { encryptStringSalt } from '@/utils/common'
 
 const router = useRouter()
+const toastStore = useToastStore()
 
 const userIdValue = ref('')
 const userNameValue = ref('')
@@ -118,17 +120,49 @@ const goUserManageMemberPage = () => {
 }
 
 const userJoinFunction = () => {
-  if (userIdValue.value == null || userIdValue.value == '') alert('아이디를 입력해주세요.')
-  else if (userNameValue.value == null || userNameValue.value == '') alert('이름을 입력해주세요.')
-  else if (userNickNameValue.value == null || userNickNameValue.value == '')
-    alert('닉네임을 입력해주세요.')
-  else if (userPasswordValue.value == null || userPasswordValue.value == '')
-    alert('비밀번호를 입력해주세요.')
-  else if (userEmailValue.value == null || userEmailValue.value == '')
-    alert('이메일을 입력해주세요.')
-  else if (userPhoneValue.value == null || userPhoneValue.value == '')
-    alert('전화번호를 입력해주세요.')
-  else userJoinApi()
+  if (userIdValue.value == null || userIdValue.value == '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '회원등록',
+      detail: '아이디를 입력해주세요.',
+      life: 3000
+    })
+  } else if (userNameValue.value == null || userNameValue.value == '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '회원등록',
+      detail: '이름을 입력해주세요.',
+      life: 3000
+    })
+  } else if (userNickNameValue.value == null || userNickNameValue.value == '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '회원등록',
+      detail: '닉네임을 입력해주세요.',
+      life: 3000
+    })
+  } else if (userPasswordValue.value == null || userPasswordValue.value == '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '회원등록',
+      detail: '비밀번호를 입력해주세요.',
+      life: 3000
+    })
+  } else if (userEmailValue.value == null || userEmailValue.value == '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '회원등록',
+      detail: '이메일을 입력해주세요.',
+      life: 3000
+    })
+  } else if (userPhoneValue.value == null || userPhoneValue.value == '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '회원등록',
+      detail: '전화번호를 입력해주세요.',
+      life: 3000
+    })
+  } else userJoinApi()
 }
 
 const userJoinApi = async () => {
@@ -146,16 +180,41 @@ const userJoinApi = async () => {
     }
   })
   if (result === 'success') {
-    alert('회원등록이 완료되었습니다.')
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '회원등록',
+      detail: '회원등록이 완료되었습니다.',
+      life: 3000
+    })
     goUserManageMemberPage()
   } else if (result === 'duplicateId') {
-    alert('이미 가입된 아이디입니다.')
+    toastStore.setToastValue({
+      severity: 'error',
+      summary: '회원등록',
+      detail: '이미 가입된 아이디입니다.',
+      life: 3000
+    })
   } else if (result === 'duplicateNickName') {
-    alert('이미 가입된 닉네임입니다.')
+    toastStore.setToastValue({
+      severity: 'error',
+      summary: '회원등록',
+      detail: '이미 가입된 닉네임입니다.',
+      life: 3000
+    })
   } else if (result === 'duplicatePhone') {
-    alert('이미 가입된 전화번호입니다.')
+    toastStore.setToastValue({
+      severity: 'error',
+      summary: '회원등록',
+      detail: '이미 가입된 전화번호입니다.',
+      life: 3000
+    })
   } else {
-    alert('회원 등록이 실패했습니다.')
+    toastStore.setToastValue({
+      severity: 'error',
+      summary: '회원등록',
+      detail: '회원 등록이 실패했습니다.',
+      life: 3000
+    })
     console.log(result)
   }
 }

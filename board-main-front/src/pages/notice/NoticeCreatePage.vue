@@ -38,9 +38,11 @@ import Textarea from 'primevue/textarea'
 import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
 import { useRouter } from 'vue-router'
+import { useToastStore } from '@/stores/toastStore'
 import { ref } from 'vue'
 
 const router = useRouter()
+const toastStore = useToastStore()
 
 const noticeTitleValue = ref('')
 const noticeContentValue = ref('')
@@ -52,9 +54,21 @@ const goNoticeList = () => {
 }
 
 const noticeRegistFunction = () => {
-  if (noticeTitleValue.value === '') alert('제목을 입력해주세요.')
-  else if (noticeContentValue.value === '') alert('내용을 입력해주세요.')
-  else noticeRegistApi()
+  if (noticeTitleValue.value === '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '공지사항 등록 오류',
+      detail: '제목을 입력해주세요.',
+      life: 3000
+    })
+  } else if (noticeContentValue.value === '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '공지사항 등록 오류',
+      detail: '내용을 입력해주세요.',
+      life: 3000
+    })
+  } else noticeRegistApi()
 }
 
 const noticeRegistApi = async () => {
@@ -68,7 +82,12 @@ const noticeRegistApi = async () => {
     }
   })
   if (result === 'success') {
-    alert('등록이 완료되었습니다.')
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '공지사항 등록',
+      detail: '등록이 완료되었습니다.',
+      life: 3000
+    })
     router.push({ name: 'NoticePage' }).catch(() => {
       console.log('NoticePageError')
     })

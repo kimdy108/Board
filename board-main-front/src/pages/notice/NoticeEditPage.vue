@@ -38,6 +38,7 @@ import Textarea from 'primevue/textarea'
 import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
 import { useRouter } from 'vue-router'
+import { useToastStore } from '@/stores/toastStore'
 import { onMounted, ref } from 'vue'
 
 const props = defineProps({
@@ -45,6 +46,7 @@ const props = defineProps({
 })
 
 const router = useRouter()
+const toastStore = useToastStore()
 
 const noticeTitleValue = ref('')
 const noticeContentValue = ref('')
@@ -57,9 +59,21 @@ const goNoticeView = () => {
 }
 
 const noticeEditFunction = () => {
-  if (noticeTitleValue.value === '') alert('제목을 입력해주세요.')
-  else if (noticeContentValue.value === '') alert('내용을 입력해주세요.')
-  else noticeEditApi()
+  if (noticeTitleValue.value === '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '공지사항 수정 오류',
+      detail: '제목을 입력해주세요.',
+      life: 3000
+    })
+  } else if (noticeContentValue.value === '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '공지사항 수정 오류',
+      detail: '내용을 입력해주세요.',
+      life: 3000
+    })
+  } else noticeEditApi()
 }
 
 const getNoticeApi = async () => {
@@ -87,7 +101,12 @@ const noticeEditApi = async () => {
     }
   })
   if (result === 'success') {
-    alert('수정이 완료되었습니다.')
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '공지사항 수정',
+      detail: '수정이 완료되었습니다.',
+      life: 3000
+    })
     goNoticeView()
   }
 }

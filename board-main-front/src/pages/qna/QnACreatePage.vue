@@ -38,9 +38,11 @@ import Textarea from 'primevue/textarea'
 import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
 import { useRouter } from 'vue-router'
+import { useToastStore } from '@/stores/toastStore'
 import { ref } from 'vue'
 
 const router = useRouter()
+const toastStore = useToastStore()
 
 const qnaTitleValue = ref('')
 const qnaContentValue = ref('')
@@ -52,9 +54,21 @@ const goQnAList = () => {
 }
 
 const qnaRegistFunction = () => {
-  if (qnaTitleValue.value === '') alert('제목을 입력해주세요.')
-  else if (qnaContentValue.value === '') alert('내용을 입력해주세요.')
-  else qnaRegistApi()
+  if (qnaTitleValue.value === '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '자주하는 문의 등록',
+      detail: '제목을 입력해주세요.',
+      life: 3000
+    })
+  } else if (qnaContentValue.value === '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '자주하는 문의 등록',
+      detail: '내용을 입력해주세요.',
+      life: 3000
+    })
+  } else qnaRegistApi()
 }
 
 const qnaRegistApi = async () => {
@@ -68,7 +82,12 @@ const qnaRegistApi = async () => {
     }
   })
   if (result === 'success') {
-    alert('등록이 완료되었습니다.')
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '자주하는 문의 등록',
+      detail: '등록이 완료되었습니다.',
+      life: 3000
+    })
     goQnAList()
   }
 }

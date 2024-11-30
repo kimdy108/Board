@@ -38,6 +38,7 @@ import Textarea from 'primevue/textarea'
 import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
 import { useRouter } from 'vue-router'
+import { useToastStore } from '@/stores/toastStore'
 import { onMounted, ref } from 'vue'
 
 const props = defineProps({
@@ -45,6 +46,7 @@ const props = defineProps({
 })
 
 const router = useRouter()
+const toastStore = useToastStore()
 
 const qnaTitleValue = ref('')
 const qnaContentValue = ref('')
@@ -57,9 +59,21 @@ const goQnAView = () => {
 }
 
 const qnaEditFunction = () => {
-  if (qnaTitleValue.value === '') alert('제목을 입력해주세요.')
-  else if (qnaContentValue.value === '') alert('내용을 입력해주세요.')
-  else qnaEditApi()
+  if (qnaTitleValue.value === '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '자주하는 문의 수정',
+      detail: '제목을 입력해주세요.',
+      life: 3000
+    })
+  } else if (qnaContentValue.value === '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '자주하는 문의 수정',
+      detail: '내용을 입력해주세요.',
+      life: 3000
+    })
+  } else qnaEditApi()
 }
 
 const getQnAApi = async () => {
@@ -87,7 +101,12 @@ const qnaEditApi = async () => {
     }
   })
   if (result === 'success') {
-    alert('수정이 완료되었습니다.')
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '자주하는 문의 수정',
+      detail: '수정이 완료되었습니다.',
+      life: 3000
+    })
     goQnAView()
   }
 }
