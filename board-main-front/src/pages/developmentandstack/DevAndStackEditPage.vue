@@ -43,6 +43,7 @@ import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
 import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
+import { useToastStore } from '@/stores/toastStore'
 import { useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 
@@ -51,6 +52,7 @@ const props = defineProps({
 })
 
 const router = useRouter()
+const toastStore = useToastStore()
 
 const devAndStackTitleValue = ref('')
 const devAndStackContentValue = ref('')
@@ -63,9 +65,21 @@ const goDevAndStackView = () => {
 }
 
 const devAndStackEditFunction = () => {
-  if (devAndStackTitleValue.value === '') alert('제목을 입력해주세요.')
-  else if (devAndStackContentValue.value === '') alert('내용을 입력해주세요.')
-  else devAndStackEditApi()
+  if (devAndStackTitleValue.value === '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '게시글 수정',
+      detail: '제목을 입력해주세요.',
+      life: 3000
+    })
+  } else if (devAndStackContentValue.value === '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '게시글 수정',
+      detail: '내용을 입력해주세요.',
+      life: 3000
+    })
+  } else devAndStackEditApi()
 }
 
 const getdevAndStackApi = async () => {
@@ -93,7 +107,12 @@ const devAndStackEditApi = async () => {
     }
   })
   if (result === 'success') {
-    alert('수정이 완료되었습니다.')
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '게시글 수정',
+      detail: '수정이 완료되었습니다.',
+      life: 3000
+    })
     goDevAndStackView()
   }
 }

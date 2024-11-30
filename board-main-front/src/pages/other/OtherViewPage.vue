@@ -35,9 +35,11 @@ import ApiService from '@/services/ApiService'
 import { useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { useUserStore } from '@/stores/userStore'
+import { useToastStore } from '@/stores/toastStore'
 import { decryptStringSalt } from '@/utils/common'
 
 const userStore = useUserStore()
+const toastStore = useToastStore()
 const router = useRouter()
 const props = defineProps({
   boardGuid: String
@@ -103,7 +105,12 @@ const deleteOtherApi = async () => {
     url: `/board/free/delete/${props.boardGuid}`
   })
   if (result === 'success') {
-    alert('삭제가 완료되었습니다.')
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '게시글 삭제',
+      detail: '삭제가 완료되었습니다.',
+      life: 3000
+    })
     goOtherList()
   }
 }

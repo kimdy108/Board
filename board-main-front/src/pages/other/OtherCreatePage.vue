@@ -38,9 +38,11 @@ import Textarea from 'primevue/textarea'
 import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
 import { useRouter } from 'vue-router'
+import { useToastStore } from '@/stores/toastStore'
 import { ref } from 'vue'
 
 const router = useRouter()
+const toastStore = useToastStore()
 
 const otherTitleValue = ref('')
 const otherContentValue = ref('')
@@ -52,9 +54,21 @@ const goOtherList = () => {
 }
 
 const otherRegistFunction = () => {
-  if (otherTitleValue.value === '') alert('제목을 입력해주세요.')
-  else if (otherContentValue.value === '') alert('내용을 입력해주세요.')
-  else otherRegistApi()
+  if (otherTitleValue.value === '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '게시글 등록',
+      detail: '제목을 입력해주세요.',
+      life: 3000
+    })
+  } else if (otherContentValue.value === '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '게시글 등록',
+      detail: '내용을 입력해주세요.',
+      life: 3000
+    })
+  } else otherRegistApi()
 }
 
 const otherRegistApi = async () => {
@@ -68,7 +82,12 @@ const otherRegistApi = async () => {
     }
   })
   if (result === 'success') {
-    alert('등록이 완료되었습니다.')
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '게시글 등록',
+      detail: '등록이 완료되었습니다.',
+      life: 3000
+    })
     goOtherList()
   }
 }

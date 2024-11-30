@@ -43,10 +43,12 @@ import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
 import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
+import { useToastStore } from '@/stores/toastStore'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 
 const router = useRouter()
+const toastStore = useToastStore()
 
 const devAndStackTitleValue = ref('')
 const devAndStackContentValue = ref('')
@@ -58,9 +60,21 @@ const goDevAndStackList = () => {
 }
 
 const devAndStackRegistFunction = () => {
-  if (devAndStackTitleValue.value === '') alert('제목을 입력해주세요.')
-  else if (devAndStackContentValue.value === '') alert('내용을 입력해주세요.')
-  else devAndStackRegistApi()
+  if (devAndStackTitleValue.value === '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '게시글 등록',
+      detail: '제목을 입력해주세요.',
+      life: 3000
+    })
+  } else if (devAndStackContentValue.value === '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '게시글 등록',
+      detail: '내용을 입력해주세요.',
+      life: 3000
+    })
+  } else devAndStackRegistApi()
 }
 
 const devAndStackRegistApi = async () => {
@@ -74,7 +88,12 @@ const devAndStackRegistApi = async () => {
     }
   })
   if (result === 'success') {
-    alert('등록이 완료되었습니다.')
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '게시글 등록',
+      detail: '등록이 완료되었습니다.',
+      life: 3000
+    })
     goDevAndStackList()
   }
 }

@@ -63,6 +63,7 @@ import InputText from 'primevue/inputtext'
 import ApiService from '@/services/ApiService'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
+import { useToastStore } from '@/stores/toastStore'
 import { decryptStringSalt } from '@/utils/common'
 import { onMounted, ref } from 'vue'
 
@@ -72,6 +73,7 @@ const props = defineProps({
 
 const router = useRouter()
 const userStore = useUserStore()
+const toastStore = useToastStore()
 
 const items = ref([])
 
@@ -98,13 +100,25 @@ const isDeleteOwnerFunction = (commentWriterGuid) => {
 }
 
 const registCommentFunction = () => {
-  if (newCommnet.value === '' || newCommnet.value === null) alert('댓글을 입력해주세요.')
-  else registCommentApi()
+  if (newCommnet.value === '' || newCommnet.value === null) {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '댓글 등록',
+      detail: '댓글을 입력해주세요.',
+      life: 3000
+    })
+  } else registCommentApi()
 }
 
 const updateCommentFunction = () => {
-  if (fixComment.value === '' || fixComment.value === null) alert('댓글을 입력해주세요.')
-  else updateCommentApi()
+  if (fixComment.value === '' || fixComment.value === null) {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '댓글 수정',
+      detail: '댓글을 입력해주세요.',
+      life: 3000
+    })
+  } else updateCommentApi()
 }
 
 const updateComment = (commentGuid, commentValue) => {
@@ -137,7 +151,12 @@ const registCommentApi = async () => {
     }
   })
   if (result === 'success') {
-    alert('댓글 등록에 성공했습니다.')
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '댓글 등록',
+      detail: '댓글 등록에 성공했습니다.',
+      life: 3000
+    })
     newCommnet.value = ''
 
     isFixComment.value = false
@@ -159,7 +178,12 @@ const updateCommentApi = async () => {
     }
   })
   if (result === 'success') {
-    alert('댓글 수정에 성공했습니다.')
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '댓글 수정',
+      detail: '댓글 수정에 성공했습니다.',
+      life: 3000
+    })
     isFixComment.value = false
     newCommnet.value = ''
     fixComment.value = ''
@@ -176,7 +200,12 @@ const deleteComment = async (event) => {
     url: `/board/dev/stack/comment/delete/${event}`
   })
   if (result === 'success') {
-    alert('댓글이 삭제되었습니다.')
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '댓글 삭제',
+      detail: '댓글이 삭제되었습니다.',
+      life: 3000
+    })
     newCommnet.value = ''
 
     isFixComment.value = false

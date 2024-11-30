@@ -38,6 +38,7 @@ import Textarea from 'primevue/textarea'
 import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
 import { useRouter } from 'vue-router'
+import { useToastStore } from '@/stores/toastStore'
 import { onMounted, ref } from 'vue'
 
 const props = defineProps({
@@ -45,6 +46,7 @@ const props = defineProps({
 })
 
 const router = useRouter()
+const toastStore = useToastStore()
 
 const otherTitleValue = ref('')
 const otherContentValue = ref('')
@@ -57,9 +59,21 @@ const goOtherView = () => {
 }
 
 const otherEditFunction = () => {
-  if (otherTitleValue.value === '') alert('제목을 입력해주세요.')
-  else if (otherContentValue.value === '') alert('내용을 입력해주세요.')
-  else otherEditApi()
+  if (otherTitleValue.value === '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '게시글 수정',
+      detail: '제목을 입력해주세요.',
+      life: 3000
+    })
+  } else if (otherContentValue.value === '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '게시글 수정',
+      detail: '내용을 입력해주세요.',
+      life: 3000
+    })
+  } else otherEditApi()
 }
 
 const getOtherApi = async () => {
@@ -87,7 +101,12 @@ const otherEditApi = async () => {
     }
   })
   if (result === 'success') {
-    alert('수정이 완료되었습니다.')
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '게시글 수정',
+      detail: '수정이 완료되었습니다.',
+      life: 3000
+    })
     goOtherView()
   }
 }
