@@ -49,11 +49,13 @@ import Column from 'primevue/column'
 import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
 import { useUserStore } from '@/stores/userStore'
+import { useToastStore } from '@/stores/toastStore'
 import { onMounted, ref } from 'vue'
 import { decryptStringSalt } from '@/utils/common'
 
 const items = ref()
 const userStore = useUserStore()
+const toastStore = useToastStore()
 
 const promoteManager = async (event) => {
   const result = await ApiService.requestAPI({
@@ -65,9 +67,21 @@ const promoteManager = async (event) => {
     }
   })
   if (result === 'success') {
-    alert('매니저 수정이 완료되었습니다.')
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '매니저 관리',
+      detail: '매니저 수정이 완료되었습니다.',
+      life: 3000
+    })
     getMemberList()
-  } else alert('매니저 수정이 실패했습니다.')
+  } else {
+    toastStore.setToastValue({
+      severity: 'error',
+      summary: '매니저 관리',
+      detail: '매니저 수정이 실패했습니다.',
+      life: 3000
+    })
+  }
 }
 
 const relegateManager = async (event) => {
@@ -80,9 +94,21 @@ const relegateManager = async (event) => {
     }
   })
   if (result === 'success') {
-    alert('매니저 수정이 완료되었습니다.')
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '매니저 관리',
+      detail: '매니저 수정이 완료되었습니다.',
+      life: 3000
+    })
     getMemberList()
-  } else alert('매니저 수정이 실패했습니다.')
+  } else {
+    toastStore.setToastValue({
+      severity: 'error',
+      summary: '매니저 관리',
+      detail: '매니저 수정이 실패했습니다.',
+      life: 3000
+    })
+  }
 }
 
 const getMemberList = async () => {

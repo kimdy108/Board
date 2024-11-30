@@ -87,10 +87,12 @@ import IconField from 'primevue/iconfield'
 import InputIcon from 'primevue/inputicon'
 import InputText from 'primevue/inputtext'
 import ApiService from '@/services/ApiService'
+import { useToastStore } from '@/stores/toastStore'
 import { useRouter } from 'vue-router'
 import { encryptStringSalt } from '@/utils/common'
 
 const router = useRouter()
+const toastStore = useToastStore()
 
 const isVisibleOldPassword = ref(false)
 const isVisibleNewPassword = ref(false)
@@ -113,10 +115,22 @@ const changeIsVisibleConfirmNewPassword = () => {
 }
 
 const changePassword = () => {
-  if (userOldPassword.value === '' || userOldPassword.value === null)
-    alert('이전 비밀번호를 입력해주세요.')
-  else if (userNewPassword.value === confirmUserNewPassword.value) changePasswordAPI()
-  else alert('비밀번호가 일치하지 않습니다.')
+  if (userOldPassword.value === '' || userOldPassword.value === null) {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '비밀번호 변경 오류',
+      detail: '이전 비밀번호를 입력해주세요.',
+      life: 3000
+    })
+  } else if (userNewPassword.value === confirmUserNewPassword.value) changePasswordAPI()
+  else {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '비밀번호 변경 오류',
+      detail: '비밀번호가 일치하지 않습니다.',
+      life: 3000
+    })
+  }
 }
 
 const moveMyPage = () => {
@@ -137,14 +151,29 @@ const changePasswordAPI = async () => {
       }
     })
     if (result === 'success') {
-      alert('수정이 완료되었습니다.')
+      toastStore.setToastValue({
+        severity: 'success',
+        summary: '비밀번호 변경',
+        detail: '수정이 완료되었습니다.',
+        life: 3000
+      })
       moveMyPage()
     } else {
-      alert('수정에 실패했습니다.')
+      toastStore.setToastValue({
+        severity: 'error',
+        summary: '비밀번호 변경 오류',
+        detail: '수정에 실패했습니다.',
+        life: 3000
+      })
     }
   } catch (error) {
     console.error('API 호출 오류:', error)
-    alert('API 호출에 실패했습니다.')
+    toastStore.setToastValue({
+      severity: 'error',
+      summary: '비밀번호 변경 오류',
+      detail: '수정에 실패했습니다.',
+      life: 3000
+    })
   }
 }
 </script>

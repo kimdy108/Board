@@ -61,12 +61,14 @@ import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
+import { useToastStore } from '@/stores/toastStore'
 import { onMounted, ref } from 'vue'
 import { decryptStringSalt, encryptString } from '@/utils/common'
 
 const items = ref()
 const router = useRouter()
 const userStore = useUserStore()
+const toastStore = useToastStore()
 
 const joinMember = () => {
   router.push({ name: 'JoinMemberPage' }).catch(() => {
@@ -89,7 +91,12 @@ const deleteMember = async (value) => {
     url: `/member/manage/delete/${userGuid}`
   })
   if (result === 'success') {
-    alert('회원삭제가 완료되었습니다.')
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '회원 관리',
+      detail: '회원이 삭제되었습니다.',
+      life: 3000
+    })
     getMemberList()
   }
 }
