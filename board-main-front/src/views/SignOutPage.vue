@@ -48,10 +48,12 @@ import { encryptStringSalt, decryptStringSalt } from '@/utils/common'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
+import { useToastStore } from '@/stores/toastStore'
 
 const userPassword = ref('')
 
 const userStore = useUserStore()
+const toastStore = useToastStore()
 
 const isVisiblePassword = ref(false)
 
@@ -65,8 +67,14 @@ const changeIsVisiblePassword = () => {
 }
 
 const signOutFunction = () => {
-  if (userPassword.value === '' || userPassword.value === null) alert('비밀번호를 입력해주세요.')
-  else confirmSignOut()
+  if (userPassword.value === '' || userPassword.value === null) {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '회원탈퇴',
+      detail: '비밀번호를 입력해주세요.',
+      life: 3000
+    })
+  } else confirmSignOut()
 }
 
 const moveLoginPageFunction = () => {
@@ -77,7 +85,12 @@ const moveLoginPageFunction = () => {
 }
 
 const cancelFunction = () => {
-  alert('회원탈퇴를 취소하셨습니다. 메인페이지로 이동합니다.')
+  toastStore.setToastValue({
+    severity: 'info',
+    summary: '회원탈퇴',
+    detail: '회원탈퇴를 취소하셨습니다. 메인페이지로 이동합니다.',
+    life: 3000
+  })
   router.push({ name: 'MainPage' }).catch(() => {
     console.log('mainPageError')
   })
@@ -94,10 +107,20 @@ const signOutApi = async () => {
     }
   })
   if (result === 'success') {
-    alert('회원탈퇴가 완료되었습니다.')
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '회원탈퇴',
+      detail: '회원탈퇴가 완료되었습니다.',
+      life: 3000
+    })
     moveLoginPageFunction()
   } else {
-    alert('비밀번호가 일치하지 않습니다.')
+    toastStore.setToastValue({
+      severity: 'error',
+      summary: '회원탈퇴',
+      detail: '비밀번호가 일치하지 않습니다.',
+      life: 3000
+    })
   }
 }
 

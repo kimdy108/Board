@@ -81,6 +81,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useToastStore } from '@/stores/toastStore'
 import Button from 'primevue/button'
 import IconField from 'primevue/iconfield'
 import InputIcon from 'primevue/inputicon'
@@ -88,6 +89,8 @@ import InputText from 'primevue/inputtext'
 import ApiService from '@/services/ApiService'
 import { useRouter } from 'vue-router'
 import { encryptStringSalt, decryptStringSalt } from '@/utils/common'
+
+const toastStore = useToastStore()
 
 const router = useRouter()
 
@@ -112,14 +115,44 @@ const toLoginPage = () => {
 }
 
 const checkPossibleToChangePassword = () => {
-  if (userId.value == '') alert('noID')
-  else if (userPhone.value == '') alert('noPhone')
-  else checkPossibleToChangePasswordAPI()
+  if (userId.value == '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '비밀번호 재설정 오류',
+      detail: '아이디를 입력해주세요.',
+      life: 3000
+    })
+  } else if (userPhone.value == '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '비밀번호 재설정 오류',
+      detail: '휴대폰 번호를 입력해주세요.',
+      life: 3000
+    })
+  } else checkPossibleToChangePasswordAPI()
 }
 
 const changePassword = () => {
-  if (userNewPassword.value === confirmUserNewPassword.value) changePasswordAPI()
-  else alert('비밀번호가 일치하지 않습니다.')
+  if (
+    userNewPassword.value == '' ||
+    userNewPassword.value == null ||
+    confirmUserNewPassword.value == '' ||
+    confirmUserNewPassword.value == null
+  ) {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '비밀번호 재설정 오류',
+      detail: '비밀번호를 입력해주세요.',
+      life: 3000
+    })
+  } else if (userNewPassword.value !== confirmUserNewPassword.value)
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '비밀번호 재설정 오류',
+      detail: '비밀번호가 일치하지 않습니다.',
+      life: 3000
+    })
+  else changePasswordAPI()
 }
 
 const changeIsVisibleNewPassword = () => {
@@ -145,11 +178,21 @@ const checkPossibleToChangePasswordAPI = async () => {
       boardMember.value = result
       isPossible.value = true
     } else {
-      alert('NoUser')
+      toastStore.setToastValue({
+        severity: 'error',
+        summary: '비밀번호 재설정 오류',
+        detail: '정보가 일치하지 않습니다.',
+        life: 3000
+      })
     }
   } catch (error) {
     console.error('API 호출 오류:', error)
-    alert('API 호출에 실패했습니다.')
+    toastStore.setToastValue({
+      severity: 'error',
+      summary: '비밀번호 재설정 오류',
+      detail: '정보가 일치하지 않습니다.',
+      life: 3000
+    })
   }
 }
 
@@ -166,16 +209,31 @@ const changePasswordAPI = async () => {
       }
     })
     if (result === 'success') {
-      alert('수정이 완료되었습니다.')
+      toastStore.setToastValue({
+        severity: 'success',
+        summary: '비밀번호 재설정',
+        detail: '비밀번호 재설정이 완료되었습니다.',
+        life: 3000
+      })
       router.push({ name: 'LoginPage' }).catch(() => {
         console.log('loginerror')
       })
     } else {
-      alert('NoUser')
+      toastStore.setToastValue({
+        severity: 'error',
+        summary: '비밀번호 재설정 오류',
+        detail: '비밀번호 재설정이 실패했습니다.',
+        life: 3000
+      })
     }
   } catch (error) {
     console.error('API 호출 오류:', error)
-    alert('API 호출에 실패했습니다.')
+    toastStore.setToastValue({
+      severity: 'error',
+      summary: '비밀번호 재설정 오류',
+      detail: '비밀번호 재설정이 실패했습니다.',
+      life: 3000
+    })
   }
 }
 </script>

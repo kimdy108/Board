@@ -49,11 +49,13 @@ import { encryptStringSalt } from '@/utils/common'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
+import { useToastStore } from '@/stores/toastStore'
 
 const userId = ref('')
 const userPassword = ref('')
 
 const userStore = useUserStore()
+const toastStore = useToastStore()
 
 const isVisiblePassword = ref(false)
 
@@ -61,8 +63,20 @@ let result = null
 const router = useRouter()
 
 const loginFunction = () => {
-  if (userId.value == null || userId.value == '') alert('아이디를 입력해주세요.')
-  else if (userPassword.value == null || userPassword.value == '') alert('비밀번호를 입력해주세요.')
+  if (userId.value == null || userId.value == '') {
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '로그인 오류',
+      detail: '아이디를 입력해주세요.',
+      life: 3000
+    })
+  } else if (userPassword.value == null || userPassword.value == '')
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '로그인 오류',
+      detail: '비밀번호를 입력해주세요.',
+      life: 3000
+    })
   else loginFunctionAPI()
 }
 
@@ -88,7 +102,12 @@ const loginFunctionAPI = async () => {
     userStore.setUserRole(result.userRole)
     loginSuccessFunction()
   } else {
-    alert('아이디 또는 비밀번호를 확인해주세요.')
+    toastStore.setToastValue({
+      severity: 'warn',
+      summary: '로그인 오류',
+      detail: '아이디 또는 비밀번호를 확인해주세요.',
+      life: 3000
+    })
   }
 }
 

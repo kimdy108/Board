@@ -20,11 +20,13 @@
 import Menubar from 'primevue/menubar'
 import SplitButton from 'primevue/splitbutton'
 import { useUserStore } from '@/stores/userStore'
+import { useToastStore } from '@/stores/toastStore'
 import { useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { decryptStringSalt } from '@/utils/common'
 
 const useStore = useUserStore()
+const toastStore = useToastStore()
 const router = useRouter()
 const userNickName = ref('')
 
@@ -120,7 +122,12 @@ const userItems = ref([
 
 onMounted(() => {
   if (!useStore.getUserAccess.at) {
-    alert('로그인을 해주세요.')
+    toastStore.setToastValue({
+      severity: 'error',
+      summary: '로그인 오류',
+      detail: '로그인을 해주세요.',
+      life: 3000
+    })
     router.push({ name: 'LoginPage' }).catch(() => {
       console.log('mainerror')
     })
