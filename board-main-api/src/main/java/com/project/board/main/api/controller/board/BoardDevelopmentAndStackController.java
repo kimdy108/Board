@@ -1,6 +1,7 @@
 package com.project.board.main.api.controller.board;
 
 import com.project.board.main.api.dto.board.BoardList;
+import com.project.board.main.api.dto.board.BoardListInfo;
 import com.project.board.main.api.dto.board.BoardRegist;
 import com.project.board.main.api.dto.board.BoardUpdate;
 import com.project.board.main.api.service.board.BoardDevelopmentAndStackService;
@@ -22,7 +23,7 @@ public class BoardDevelopmentAndStackController {
     }
 
     @GetMapping("/search")
-    public BoardList getList(@RequestParam String developmentAndStackGuid) {
+    public BoardListInfo getList(@RequestParam String developmentAndStackGuid) {
         return boardDevelopmentAndStackService.getDevelopmentAndStack(developmentAndStackGuid);
     }
 

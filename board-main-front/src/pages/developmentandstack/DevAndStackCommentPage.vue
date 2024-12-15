@@ -1,87 +1,123 @@
 <template>
-  <div class="text-left ml-16 mt-16 mb-10">
-    <h2 class="text-8xl mb-5 text-black">댓글</h2>
-  </div>
-  <div class="card">
-    <DataTable class="ml-16 mr-16" :value="items" paginator :rows="5" tableStyle="min-width: 50rem">
-      <Column field="boardComment" header="댓글내용" style="width: 50%"></Column>
-      <Column field="boardCommentMemberNickName" header="작성자" style="width: 15%"></Column>
-      <Column field="boardCommentDate" header="작성일" style="width: 15%"></Column>
-      <Column style="width: 10%">
-        <template #body="items">
+  <Dialog :visible="showModal" modal :closable="false" class="w-11/12">
+    <div class="text-left mb-10 ml-5">
+      <h2 class="text-4xl">댓글</h2>
+    </div>
+    <div class="text-left divide-y ml-5">
+      <div v-if="items.length === 0">
+        <div class="text-2xl font-bold mt-5 mb-5">등록된 댓글이 없습니다.</div>
+      </div>
+      <div v-for="item in items" :key="item.boardCommentGuid" class="mb-5">
+        <div class="font-bold mt-5">
+          {{ item.boardCommentMemberNickName }}
+        </div>
+        <div class="text-xl">{{ item.boardCommentDate }}</div>
+        <div class="text-2xl mt-3">
+          <InputText
+            v-if="isFixComment && fixCommentGuid === item.boardCommentGuid"
+            class="w-full mb-1"
+            type="text"
+            v-model="fixComment"
+          ></InputText>
+          <div v-else>{{ item.boardComment }}</div>
+        </div>
+        <div
+          v-if="isFixComment && fixCommentGuid === item.boardCommentGuid"
+          class="flex justify-end"
+        >
+          <Button label="수정" class="mr-2" severity="info" @click="updateCommentFunction()" />
+          <Button label="취소" class="mr-2" severity="danger" @click="cancelUpdateComment()" />
+        </div>
+        <div v-else class="flex justify-end">
           <Button
             label="수정"
-            rounded
             class="mr-2"
             severity="info"
-            @click="updateComment(items.data.boardCommentGuid, items.data.boardComment)"
-            :style="isEditOwnerFunction(items.data.boardCommentMemberGuid) ? '' : 'display: none'"
+            @click="updateComment(item)"
+            :style="isEditOwnerFunction(item.boardCommentMemberGuid) ? '' : 'display: none'"
           />
-        </template>
-      </Column>
-      <Column style="width: 10%">
-        <template #body="items">
           <Button
             label="삭제"
-            rounded
             class="mr-2"
             severity="danger"
-            @click="deleteComment(items.data.boardCommentGuid)"
-            :style="isDeleteOwnerFunction(items.data.boardCommentMemberGuid) ? '' : 'display: none'"
+            @click="deleteComment(item.boardCommentGuid)"
+            :style="isDeleteOwnerFunction(item.boardCommentMemberGuid) ? '' : 'display: none'"
           />
-        </template>
-      </Column>
-    </DataTable>
-  </div>
-  <hr class="mt-5 ml-16 mr-16 mb-5" />
-  <div class="flex ml-16 mr-16" v-if="!isFixComment">
-    <InputText style="width: 1350px; height: 50px; font-size: 20px" v-model="newCommnet" />
-    <Button label="등록" size="large" style="width: 65px" @click="registCommentFunction()" />
-  </div>
-  <div class="flex ml-16 mr-16" v-else>
-    <InputText style="width: 1350px; height: 50px; font-size: 20px" v-model="fixComment" />
-    <Button
-      label="수정"
-      size="large"
-      severity="info"
-      style="width: 65px"
-      @click="updateCommentFunction()"
-    />
-    <Button label="취소" size="large" style="width: 65px" @click="updateCommentCancel()" />
-  </div>
-  <hr class="mt-5 ml-16 mr-16 mb-10" />
-  <div class="text-left mr-16 flex justify-end">
-    <Button label="뒤로가기" size="large" class="mr-2" @click="goDevAndStackView()" />
-  </div>
+        </div>
+      </div>
+    </div>
+    <hr class="mb-5 ml-5" />
+    <div class="mb-5 ml-5">
+      <InputText class="w-11/12" type="text" v-model="newComment" />
+      <Button @click="registCommentFunction" class="ml-5" label="등록" />
+    </div>
+    <hr class="mb-5 ml-5" />
+    <div class="flex justify-end mr-1">
+      <Button label="닫기" @click="closeCommentModal" />
+    </div>
+  </Dialog>
 </template>
 
 <script setup>
+import Dialog from 'primevue/dialog'
 import Button from 'primevue/button'
-import DataTable from 'primevue/datatable'
-import Column from 'primevue/column'
 import InputText from 'primevue/inputtext'
 import ApiService from '@/services/ApiService'
-import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
 import { useToastStore } from '@/stores/toastStore'
 import { decryptStringSalt } from '@/utils/common'
-import { onMounted, ref } from 'vue'
+import { ref, watch } from 'vue'
 
 const props = defineProps({
+  showModal: Boolean,
   boardGuid: String
 })
+const emit = defineEmits({
+  closeCommentModal: Boolean
+})
 
-const router = useRouter()
 const userStore = useUserStore()
 const toastStore = useToastStore()
 
-const items = ref([])
-
-const newCommnet = ref('')
+const newComment = ref('')
 
 const isFixComment = ref(false)
 const fixComment = ref('')
 const fixCommentGuid = ref('')
+
+const items = ref([
+  // boardGuid
+  // boardCommentGuid
+  // boardComment
+  // boardCommentMemberGuid
+  // boardCommentMemberNickName
+  // boardCommentDate
+])
+
+const initValue = () => {
+  items.value = []
+  newComment.value = ''
+  isFixComment.value = false
+  fixComment.value = ''
+  fixCommentGuid.value = ''
+}
+
+const closeCommentModal = () => {
+  initValue()
+  emit('closeCommentModal')
+}
+
+const updateComment = (item) => {
+  isFixComment.value = true
+  fixComment.value = item.boardComment
+  fixCommentGuid.value = item.boardCommentGuid
+}
+
+const cancelUpdateComment = () => {
+  isFixComment.value = false
+  fixComment.value = ''
+  fixCommentGuid.value = ''
+}
 
 const isEditOwnerFunction = (commentWriterGuid) => {
   const userStoreGuid = userStore.getUserAccess.ugd
@@ -100,7 +136,7 @@ const isDeleteOwnerFunction = (commentWriterGuid) => {
 }
 
 const registCommentFunction = () => {
-  if (newCommnet.value === '' || newCommnet.value === null) {
+  if (newComment.value === '' || newComment.value === null) {
     toastStore.setToastValue({
       severity: 'warn',
       summary: '댓글 등록',
@@ -114,30 +150,11 @@ const updateCommentFunction = () => {
   if (fixComment.value === '' || fixComment.value === null) {
     toastStore.setToastValue({
       severity: 'warn',
-      summary: '댓글 수정',
+      summary: '댓글 등록',
       detail: '댓글을 입력해주세요.',
       life: 3000
     })
   } else updateCommentApi()
-}
-
-const updateComment = (commentGuid, commentValue) => {
-  isFixComment.value = true
-  fixCommentGuid.value = commentGuid
-  fixComment.value = commentValue
-}
-
-const updateCommentCancel = () => {
-  isFixComment.value = false
-  fixComment.value = ''
-  fixCommentGuid.value = ''
-}
-
-const goDevAndStackView = () => {
-  const boardGuid = props.boardGuid
-  router.push({ name: 'DevAndStackViewPage', params: { boardGuid } }).catch(() => {
-    console.log('DevAndStackViewPageError')
-  })
 }
 
 const registCommentApi = async () => {
@@ -147,7 +164,7 @@ const registCommentApi = async () => {
     url: '/board/dev/stack/comment/regist',
     data: {
       boardGuid: props.boardGuid,
-      comment: newCommnet.value
+      comment: newComment.value
     }
   })
   if (result === 'success') {
@@ -157,7 +174,7 @@ const registCommentApi = async () => {
       detail: '댓글 등록에 성공했습니다.',
       life: 3000
     })
-    newCommnet.value = ''
+    newComment.value = ''
 
     isFixComment.value = false
     fixComment.value = ''
@@ -185,7 +202,7 @@ const updateCommentApi = async () => {
       life: 3000
     })
     isFixComment.value = false
-    newCommnet.value = ''
+    newComment.value = ''
     fixComment.value = ''
     fixCommentGuid.value = ''
 
@@ -206,7 +223,7 @@ const deleteComment = async (event) => {
       detail: '댓글이 삭제되었습니다.',
       life: 3000
     })
-    newCommnet.value = ''
+    newComment.value = ''
 
     isFixComment.value = false
     fixComment.value = ''
@@ -231,9 +248,12 @@ const devAndStackCommentListApi = async () => {
   items.value = result
 }
 
-onMounted(() => {
-  devAndStackCommentListApi()
-})
+watch(
+  () => props.showModal,
+  (newVal) => {
+    if (newVal) devAndStackCommentListApi()
+  }
+)
 </script>
 
 <style lang="scss" scoped></style>

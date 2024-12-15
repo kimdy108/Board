@@ -13,4 +13,7 @@ public interface BoardFreeCommentRepository extends JpaRepository<BoardFreeComme
     @Modifying
     @Query("update BoardFreeComment set useFlag = false where memberGuid = :memberGuid")
     void updateUseFlag(String memberGuid);
+
+    @Query("select count(*) from BoardFreeComment where freeGuid = :freeGuid and useFlag = true")
+    int countBoardFreeComment(String freeGuid);
 }

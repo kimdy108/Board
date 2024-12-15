@@ -4,6 +4,7 @@ import com.project.board.main.api.domain.board.BoardDevelopmentAndStack;
 import com.project.board.main.api.domain.board.QBoardDevelopmentAndStack;
 import com.project.board.main.api.domain.member.QBoardMember;
 import com.project.board.main.api.dto.board.BoardList;
+import com.project.board.main.api.dto.board.BoardListInfo;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
@@ -23,10 +24,10 @@ public class BoardDevelopmentAndStackRepositoryImpl extends QuerydslRepositorySu
     QBoardDevelopmentAndStack qboardDevelopmentAndStack = QBoardDevelopmentAndStack.boardDevelopmentAndStack;
     QBoardMember qboardMember = QBoardMember.boardMember;
 
-    public BoardList findBoardDevelopmentAndStack(String boardGuid) {
+    public BoardListInfo findBoardDevelopmentAndStack(String boardGuid) {
         return jpaQueryFactory
                 .select(Projections.fields(
-                        BoardList.class,
+                        BoardListInfo.class,
                         qboardDevelopmentAndStack.developmentStackGuid.as("boardGuid"),
                         qboardDevelopmentAndStack.developmentStackTitle.as("boardTitle"),
                         qboardDevelopmentAndStack.developmentStackContent.as("boardContent"),

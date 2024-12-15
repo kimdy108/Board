@@ -10,7 +10,9 @@
   <hr class="mt-5 ml-16 mr-16 mb-10" />
   <div class="text-left mr-16 flex justify-end">
     <Button label="목록" size="large" class="mr-2" @click="goDevAndStackList" />
-    <Button label="댓글" size="large" severity="help" class="mr-2" @click="goDevAndStackComment" />
+    <Button size="large" severity="help" class="mr-2" @click="goDevAndStackComment"
+      >댓글 {{ commentCount }}건</Button
+    >
     <Button
       label="수정"
       size="large"
@@ -27,6 +29,11 @@
       @click="deleteDevAndStackApi"
     />
   </div>
+  <DevAndStackCommentPage
+    :showModal="isCommentModal"
+    :boardGuid="props.boardGuid"
+    @closeCommentModal="closeCommentModal"
+  />
 </template>
 
 <script setup>
@@ -37,6 +44,7 @@ import { onMounted, ref } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import { useToastStore } from '@/stores/toastStore'
 import { decryptStringSalt } from '@/utils/common'
+import DevAndStackCommentPage from './DevAndStackCommentPage.vue'
 
 const userStore = useUserStore()
 const toastStore = useToastStore()
@@ -53,6 +61,9 @@ const writerGuid = ref('')
 
 const isEditOwner = ref(false)
 const isDeleteOwner = ref(false)
+
+const isCommentModal = ref(false)
+const commentCount = ref(0)
 
 const isOwnerFunction = () => {
   const userStoreGuid = userStore.getUserAccess.ugd
@@ -75,10 +86,12 @@ const goDevAndStackEdit = () => {
 }
 
 const goDevAndStackComment = () => {
-  const boardGuid = props.boardGuid
-  router.push({ name: 'DevAndStackCommentPage', params: { boardGuid } }).catch(() => {
-    console.log('DevAndStackCommentPage')
-  })
+  isCommentModal.value = true
+}
+
+const closeCommentModal = () => {
+  getDevAndStackApi()
+  isCommentModal.value = false
 }
 
 const getDevAndStackApi = async () => {
@@ -95,6 +108,7 @@ const getDevAndStackApi = async () => {
   boardWriter.value = result.memberNickName
   boardDate.value = result.boardInsertDate.split('T')[0]
   writerGuid.value = result.memberGuid
+  commentCount.value = result.commentCount
   isOwnerFunction()
 }
 

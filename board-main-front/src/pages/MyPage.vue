@@ -91,6 +91,10 @@
     />
     <Button label="수정" size="large" severity="info" class="mr-2" @click="userUpdateFunction" />
   </div>
+  <ChangePasswordPage
+    :showModal="isChangePasswordModal"
+    @closeChangePasswordModal="closeChangePasswordModal"
+  />
 </template>
 
 <script setup>
@@ -102,6 +106,7 @@ import { useUserStore } from '@/stores/userStore'
 import { useToastStore } from '@/stores/toastStore'
 import { onMounted, ref } from 'vue'
 import { encryptString, decryptStringSalt, encryptStringSalt } from '@/utils/common'
+import ChangePasswordPage from './ChangePasswordPage.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -116,6 +121,8 @@ const userPhoneValue = ref('')
 const isManager = ref(false)
 const isAdmin = ref(false)
 
+const isChangePasswordModal = ref(false)
+
 const checkIsManager = () => {
   if (decryptStringSalt(userStore.getUserRole) === 'manager') isManager.value = true
 }
@@ -126,9 +133,11 @@ const checkIsAdmin = () => {
 }
 
 const changePasswordFunction = () => {
-  router.push({ name: 'ChangePasswordPage' }).catch(() => {
-    console.log('ChangePasswordPageError')
-  })
+  isChangePasswordModal.value = true
+}
+
+const closeChangePasswordModal = () => {
+  isChangePasswordModal.value = false
 }
 
 const signOutFunction = () => {

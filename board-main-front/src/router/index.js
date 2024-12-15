@@ -68,13 +68,6 @@ const boardChildren = [
     props: true
   },
   {
-    path: '/board/tech/comment/:boardGuid',
-    name: 'DevAndStackCommentPage',
-    component: loadSubView('pages', 'developmentandstack', 'DevAndStackCommentPage'),
-    meta: { id: 'DevAndStackCommentPage' },
-    props: true
-  },
-  {
     path: '/board/other',
     name: 'OtherBoardPage',
     component: loadView('pages', 'OtherBoardPage'),
@@ -98,13 +91,6 @@ const boardChildren = [
     name: 'OtherEditPage',
     component: loadSubView('pages', 'other', 'OtherEditPage'),
     meta: { id: 'OtherEditPage' },
-    props: true
-  },
-  {
-    path: '/board/other/comment/:boardGuid',
-    name: 'OtherCommentPage',
-    component: loadSubView('pages', 'other', 'OtherCommentPage'),
-    meta: { id: 'OtherCommentPage' },
     props: true
   },
   {
@@ -140,12 +126,6 @@ const boardChildren = [
     meta: { id: 'MyPageError' }
   },
   {
-    path: '/board/change/password',
-    name: 'ChangePasswordPage',
-    component: loadView('pages', 'ChangePasswordPage'),
-    meta: { id: 'ChangePasswordPageError' }
-  },
-  {
     path: '/board/promote/manager',
     name: 'PromoteManagerPage',
     component: loadView('pages', 'PromoteManagerPage'),
@@ -156,19 +136,6 @@ const boardChildren = [
     name: 'MemberManagePage',
     component: loadView('pages', 'MemberManagePage'),
     meta: { id: 'MemberManagePageError' }
-  },
-  {
-    path: '/board/manage/member/join',
-    name: 'JoinMemberPage',
-    component: loadSubView('pages', 'membermanage', 'JoinMemberPage'),
-    meta: { id: 'JoinMemberPageError' }
-  },
-  {
-    path: '/board/manage/member/update/:userGuid',
-    name: 'UpdateMemberPage',
-    component: loadSubView('pages', 'membermanage', 'UpdateMemberPage'),
-    meta: { id: 'UpdateMemberPageError' },
-    props: true
   }
 ]
 

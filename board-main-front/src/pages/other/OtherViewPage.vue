@@ -10,7 +10,9 @@
   <hr class="mt-16 ml-16 mr-16 mb-10" />
   <div class="text-left mr-16 flex justify-end">
     <Button label="목록" size="large" class="mr-2" @click="goOtherList" />
-    <Button label="댓글" size="large" severity="help" class="mr-2" @click="goOtherComment" />
+    <Button size="large" severity="help" class="mr-2" @click="goOtherComment"
+      >댓글 {{ commentCount }}건</Button
+    >
     <Button
       label="수정"
       size="large"
@@ -27,6 +29,11 @@
       @click="deleteOtherApi"
     />
   </div>
+  <OtherCommentPage
+    :showModal="isCommentModal"
+    :boardGuid="props.boardGuid"
+    @closeCommentModal="closeCommentModal"
+  />
 </template>
 
 <script setup>
@@ -37,6 +44,7 @@ import { onMounted, ref } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import { useToastStore } from '@/stores/toastStore'
 import { decryptStringSalt } from '@/utils/common'
+import OtherCommentPage from './OtherCommentPage.vue'
 
 const userStore = useUserStore()
 const toastStore = useToastStore()
@@ -50,9 +58,12 @@ const boardContent = ref('')
 const boardWriter = ref('')
 const boardDate = ref('')
 const writerGuid = ref('')
+const commentCount = ref(0)
 
 const isEditOwner = ref(false)
 const isDeleteOwner = ref(false)
+
+const isCommentModal = ref(false)
 
 const isOwnerFunction = () => {
   const userStoreGuid = userStore.getUserAccess.ugd
@@ -68,17 +79,19 @@ const goOtherList = () => {
   })
 }
 
-const goOtherComment = () => {
-  const boardGuid = props.boardGuid
-  router.push({ name: 'OtherCommentPage', params: { boardGuid } }).catch(() => {
-    console.log('OtherCommentPage')
-  })
-}
-
 const goOtherEdit = () => {
   router.push({ name: 'OtherEditPage' }).catch(() => {
     console.log('OtherEditPageError')
   })
+}
+
+const goOtherComment = () => {
+  isCommentModal.value = true
+}
+
+const closeCommentModal = () => {
+  getOtherApi()
+  isCommentModal.value = false
 }
 
 const getOtherApi = async () => {
@@ -95,6 +108,7 @@ const getOtherApi = async () => {
   boardWriter.value = result.memberNickName
   boardDate.value = result.boardInsertDate.split('T')[0]
   writerGuid.value = result.memberGuid
+  commentCount.value = result.commentCount
   isOwnerFunction()
 }
 

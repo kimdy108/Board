@@ -2,8 +2,10 @@ package com.project.board.main.api.service.board;
 
 import com.project.board.main.api.domain.board.BoardDevelopmentAndStack;
 import com.project.board.main.api.dto.board.BoardList;
+import com.project.board.main.api.dto.board.BoardListInfo;
 import com.project.board.main.api.dto.board.BoardRegist;
 import com.project.board.main.api.dto.board.BoardUpdate;
+import com.project.board.main.api.repository.board.BoardDevelopmentAndStackCommentRepository;
 import com.project.board.main.api.repository.board.BoardDevelopmentAndStackRepository;
 import com.project.board.main.api.repository.board.BoardDevelopmentAndStackRepositoryImpl;
 import com.project.board.main.api.utils.Common;
@@ -20,9 +22,13 @@ public class BoardDevelopmentAndStackService {
     private final BoardDevelopmentAndStackRepository boardDevelopmentAndStackRepository;
     private final BoardDevelopmentAndStackRepositoryImpl boardDevelopmentAndStackRepositoryImpl;
 
+    private final BoardDevelopmentAndStackCommentRepository boardDevelopmentAndStackCommentRepository;
+
     @Transactional
-    public BoardList getDevelopmentAndStack(String developmentAndStackGuid) {
-        return boardDevelopmentAndStackRepositoryImpl.findBoardDevelopmentAndStack(developmentAndStackGuid);
+    public BoardListInfo getDevelopmentAndStack(String developmentAndStackGuid) {
+        BoardListInfo boardListInfo = boardDevelopmentAndStackRepositoryImpl.findBoardDevelopmentAndStack(developmentAndStackGuid);
+        boardListInfo.setCommentCount(boardDevelopmentAndStackCommentRepository.countBoardDevelopmentAndStackComment(developmentAndStackGuid));
+        return boardListInfo;
     }
 
     @Transactional

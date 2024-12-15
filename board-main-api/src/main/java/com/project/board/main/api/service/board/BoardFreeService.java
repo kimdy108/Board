@@ -2,8 +2,10 @@ package com.project.board.main.api.service.board;
 
 import com.project.board.main.api.domain.board.BoardFree;
 import com.project.board.main.api.dto.board.BoardList;
+import com.project.board.main.api.dto.board.BoardListInfo;
 import com.project.board.main.api.dto.board.BoardRegist;
 import com.project.board.main.api.dto.board.BoardUpdate;
+import com.project.board.main.api.repository.board.BoardFreeCommentRepository;
 import com.project.board.main.api.repository.board.BoardFreeRepository;
 import com.project.board.main.api.repository.board.BoardFreeRepositoryImpl;
 import com.project.board.main.api.utils.Common;
@@ -20,9 +22,13 @@ public class BoardFreeService {
     private final BoardFreeRepository boardFreeRepository;
     private final BoardFreeRepositoryImpl boardFreeRepositoryImpl;
 
+    private final BoardFreeCommentRepository boardFreeCommentRepository;
+
     @Transactional
-    public BoardList getFree(String freeGuid) {
-        return boardFreeRepositoryImpl.findBoardFree(freeGuid);
+    public BoardListInfo getFree(String freeGuid) {
+        BoardListInfo boardListInfo = boardFreeRepositoryImpl.findBoardFree(freeGuid);
+        boardListInfo.setCommentCount(boardFreeCommentRepository.countBoardFreeComment(freeGuid));
+        return boardListInfo;
     }
 
     @Transactional

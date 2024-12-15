@@ -1,94 +1,72 @@
 <template>
-  <div class="text-left text-black">
-    <div class="ml-5 text-6xl p-10">회원 수정</div>
-  </div>
-  <div class="card flex">
-    <div class="gap-2 text-left ml-16">
-      <label for="userId" class="flex flex-col text-3xl text-black">아이디</label>
-      <InputText
-        id="userId"
-        v-model="userIdValue"
-        size="large"
-        style="width: 650px; height: 50px; font-size: 20px"
-        disabled
-      />
+  <Dialog :visible="showModal" modal :closable="false" class="w-2/3">
+    <div class="text-left text-black">
+      <div class="ml-5 text-3xl p-10">회원 수정</div>
     </div>
-    <div class="gap-2 text-left ml-16">
-      <label for="userName" class="flex flex-col text-3xl text-black">이름</label>
-      <InputText
-        id="userName"
-        v-model="userNameValue"
-        size="large"
-        style="width: 650px; height: 50px; font-size: 20px"
-      />
+    <div class="card flex">
+      <div class="gap-2 text-left ml-16">
+        <label for="userId" class="flex flex-col text-xl text-black">아이디</label>
+        <InputText id="userId" v-model="userIdValue" style="width: 400px" size="large" disabled />
+      </div>
+      <div class="gap-2 text-left ml-16">
+        <label for="userName" class="flex flex-col text-xl text-black">이름</label>
+        <InputText id="userName" v-model="userNameValue" style="width: 400px" size="large" />
+      </div>
     </div>
-  </div>
-  <div class="card flex mt-16">
-    <div class="gap-2 text-left ml-16">
-      <label for="userNickName" class="flex flex-col text-3xl text-black">닉네임</label>
-      <InputText
-        id="userNickName"
-        v-model="userNickNameValue"
-        size="large"
-        style="width: 650px; height: 50px; font-size: 20px"
-        disabled
-      />
+    <div class="card flex mt-16">
+      <div class="gap-2 text-left ml-16">
+        <label for="userNickName" class="flex flex-col text-xl text-black">닉네임</label>
+        <InputText
+          id="userNickName"
+          v-model="userNickNameValue"
+          style="width: 400px"
+          size="large"
+          disabled
+        />
+      </div>
+      <div class="gap-2 text-left ml-16">
+        <Button
+          label="비밀번호 초기화"
+          size="large"
+          class="mt-10"
+          @click="resetPasswordFunction"
+        ></Button>
+      </div>
     </div>
-    <div class="gap-2 text-left ml-16">
-      <Button
-        label="비밀번호 초기화"
-        size="large"
-        class="mt-10"
-        @click="resetPasswordFunction"
-      ></Button>
+    <div class="card flex mt-16">
+      <div class="gap-2 text-left ml-16">
+        <label for="userEmail" class="flex flex-col text-xl text-black">이메일</label>
+        <InputText id="userEmail" v-model="userEmailValue" style="width: 400px" size="large" />
+      </div>
+      <div class="gap-2 text-left ml-16">
+        <label for="userPhone" class="flex flex-col text-xl text-black">전화번호</label>
+        <InputText id="userPhone" v-model="userPhoneValue" style="width: 400px" size="large" />
+      </div>
     </div>
-  </div>
-  <div class="card flex mt-16">
-    <div class="gap-2 text-left ml-16">
-      <label for="userEmail" class="flex flex-col text-3xl text-black">이메일</label>
-      <InputText
-        id="userEmail"
-        v-model="userEmailValue"
-        size="large"
-        style="width: 650px; height: 50px; font-size: 20px"
-      />
+    <hr class="mt-16 ml-16 mr-16 mb-10" />
+    <div class="text-left mr-16 flex justify-end">
+      <Button label="닫기" size="large" severity="help" class="mr-2" @click="closeUpdateModal()" />
+      <Button label="수정" size="large" severity="info" class="mr-2" @click="userUpdateFunction" />
     </div>
-    <div class="gap-2 text-left ml-16">
-      <label for="userPhone" class="flex flex-col text-3xl text-black">전화번호</label>
-      <InputText
-        id="userPhone"
-        v-model="userPhoneValue"
-        size="large"
-        style="width: 650px; height: 50px; font-size: 20px"
-      />
-    </div>
-  </div>
-  <hr class="mt-16 ml-16 mr-16 mb-10" />
-  <div class="text-left mr-16 flex justify-end">
-    <Button
-      label="뒤로"
-      size="large"
-      severity="help"
-      class="mr-2"
-      @click="goUserManageMemberPage"
-    />
-    <Button label="수정" size="large" severity="info" class="mr-2" @click="userUpdateFunction" />
-  </div>
+  </Dialog>
 </template>
 
 <script setup>
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
+import Dialog from 'primevue/dialog'
 import ApiService from '@/services/ApiService'
-import { useRouter } from 'vue-router'
 import { useToastStore } from '@/stores/toastStore'
-import { onMounted, ref } from 'vue'
+import { ref, watch } from 'vue'
 import { decryptStringSalt, encryptStringSalt } from '@/utils/common'
 
-const router = useRouter()
 const toastStore = useToastStore()
 const props = defineProps({
-  userGuid: String
+  userGuid: String,
+  showModal: Boolean
+})
+const emit = defineEmits({
+  closeUpdateModal: Boolean
 })
 
 const userIdValue = ref('')
@@ -97,10 +75,17 @@ const userNickNameValue = ref('')
 const userEmailValue = ref('')
 const userPhoneValue = ref('')
 
-const goUserManageMemberPage = () => {
-  router.push({ name: 'MemberManagePage' }).catch(() => {
-    console.log('MemberManagePageError')
-  })
+const initValue = () => {
+  userIdValue.value = ''
+  userNameValue.value = ''
+  userNickNameValue.value = ''
+  userEmailValue.value = ''
+  userPhoneValue.value = ''
+}
+
+const closeUpdateModal = () => {
+  initValue()
+  emit('closeUpdateModal')
 }
 
 const userUpdateFunction = () => {
@@ -163,7 +148,7 @@ const userUpdateApi = async () => {
       detail: '회원정보가 수정되었습니다',
       life: 3000
     })
-    getUserInfoFunction()
+    closeUpdateModal()
   } else {
     toastStore.setToastValue({
       severity: 'error',
@@ -193,9 +178,12 @@ const resetPasswordFunction = async () => {
   }
 }
 
-onMounted(() => {
-  getUserInfoFunction()
-})
+watch(
+  () => props.showModal,
+  (newVal) => {
+    if (newVal) getUserInfoFunction()
+  }
+)
 </script>
 
 <style lang="scss" scoped></style>

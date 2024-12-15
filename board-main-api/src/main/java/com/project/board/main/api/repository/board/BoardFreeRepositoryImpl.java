@@ -3,8 +3,8 @@ package com.project.board.main.api.repository.board;
 import com.project.board.main.api.domain.board.BoardFree;
 import com.project.board.main.api.domain.board.QBoardFree;
 import com.project.board.main.api.domain.member.QBoardMember;
-import com.project.board.main.api.dto.announce.BoardNotice;
 import com.project.board.main.api.dto.board.BoardList;
+import com.project.board.main.api.dto.board.BoardListInfo;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
@@ -24,10 +24,10 @@ public class BoardFreeRepositoryImpl extends QuerydslRepositorySupport {
     QBoardFree qboardFree = QBoardFree.boardFree;
     QBoardMember qboardMember = QBoardMember.boardMember;
 
-    public BoardList findBoardFree(String boardGuid) {
+    public BoardListInfo findBoardFree(String boardGuid) {
         return jpaQueryFactory
                 .select(Projections.fields(
-                        BoardList.class,
+                        BoardListInfo.class,
                         qboardFree.freeGuid.as("boardGuid"),
                         qboardFree.freeTitle.as("boardTitle"),
                         qboardFree.freeContent.as("boardContent"),

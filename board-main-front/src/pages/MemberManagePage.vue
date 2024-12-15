@@ -52,6 +52,12 @@
   <div class="text-left mr-5 flex justify-end">
     <Button label="회원 등록" size="large" severity="help" @click="joinMember" />
   </div>
+  <JoinMemberPage :showModal="isResistModal" @closeRegistModal="closeRegistModal" />
+  <UpdateMemberPage
+    :showModal="isUpdateModal"
+    :userGuid="updateUserGuid"
+    @closeUpdateModal="closeUpdateModal"
+  />
 </template>
 
 <script setup>
@@ -59,28 +65,40 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Button from 'primevue/button'
 import ApiService from '@/services/ApiService'
-import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
 import { useToastStore } from '@/stores/toastStore'
 import { onMounted, ref } from 'vue'
 import { decryptStringSalt, encryptString } from '@/utils/common'
+import UpdateMemberPage from './membermanage/UpdateMemberPage.vue'
+import JoinMemberPage from './membermanage/JoinMemberPage.vue'
 
 const items = ref()
-const router = useRouter()
 const userStore = useUserStore()
 const toastStore = useToastStore()
 
+const isResistModal = ref(false)
+
+const isUpdateModal = ref(false)
+const updateUserGuid = ref('')
+
 const joinMember = () => {
-  router.push({ name: 'JoinMemberPage' }).catch(() => {
-    console.log('joinMemberPageError')
-  })
+  isResistModal.value = true
+}
+
+const closeRegistModal = () => {
+  getMemberList()
+  isResistModal.value = false
 }
 
 const updateMember = (items) => {
-  const userGuid = items.data.userGuid
-  router.push({ name: 'UpdateMemberPage', params: { userGuid } }).catch(() => {
-    console.log('UpdateMemberPageError')
-  })
+  updateUserGuid.value = items.data.userGuid
+  isUpdateModal.value = true
+}
+
+const closeUpdateModal = () => {
+  getMemberList()
+  isUpdateModal.value = false
+  updateUserGuid.value = ''
 }
 
 const deleteMember = async (value) => {

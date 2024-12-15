@@ -13,4 +13,7 @@ public interface BoardDevelopmentAndStackCommentRepository extends JpaRepository
     @Modifying
     @Query("update BoardDevelopmentAndStackComment set useFlag = false where memberGuid = :memberGuid")
     void updateUseFlag(String memberGuid);
+
+    @Query("select count(*) from BoardDevelopmentAndStackComment where developmentStackGuid = :developmentStackGuid and useFlag = true")
+    int countBoardDevelopmentAndStackComment(String developmentStackGuid);
 }

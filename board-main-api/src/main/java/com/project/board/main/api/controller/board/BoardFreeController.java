@@ -1,6 +1,7 @@
 package com.project.board.main.api.controller.board;
 
 import com.project.board.main.api.dto.board.BoardList;
+import com.project.board.main.api.dto.board.BoardListInfo;
 import com.project.board.main.api.dto.board.BoardRegist;
 import com.project.board.main.api.dto.board.BoardUpdate;
 import com.project.board.main.api.service.board.BoardFreeService;
@@ -22,7 +23,7 @@ public class BoardFreeController {
     }
 
     @GetMapping("/search")
-    public BoardList getList(@RequestParam String freeGuid) {
+    public BoardListInfo getList(@RequestParam String freeGuid) {
         return boardFreeService.getFree(freeGuid);
     }
 

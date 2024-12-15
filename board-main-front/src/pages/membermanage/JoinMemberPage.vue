@@ -1,89 +1,65 @@
 <template>
-  <div class="text-left text-black">
-    <div class="ml-5 text-6xl p-10">회원 등록</div>
-  </div>
-  <div class="card flex">
-    <div class="gap-2 text-left ml-16">
-      <label for="userId" class="flex flex-col text-3xl text-black">아이디</label>
-      <InputText
-        id="userId"
-        v-model="userIdValue"
-        size="large"
-        style="width: 650px; height: 50px; font-size: 20px"
-      />
+  <Dialog :visible="showModal" modal :closable="false" class="w-2/3">
+    <div class="text-left text-black">
+      <div class="ml-5 text-3xl p-10">회원 등록</div>
     </div>
-    <div class="gap-2 text-left ml-16">
-      <label for="userName" class="flex flex-col text-3xl text-black">이름</label>
-      <InputText
-        id="userName"
-        v-model="userNameValue"
-        size="large"
-        style="width: 650px; height: 50px; font-size: 20px"
-      />
+    <div class="card flex">
+      <div class="gap-2 text-left ml-16">
+        <label for="userId" class="flex flex-col text-xl text-black">아이디</label>
+        <InputText id="userId" v-model="userIdValue" size="large" style="width: 400px" />
+      </div>
+      <div class="gap-2 text-left ml-16">
+        <label for="userName" class="flex flex-col text-xl text-black">이름</label>
+        <InputText id="userName" v-model="userNameValue" size="large" style="width: 400px" />
+      </div>
     </div>
-  </div>
-  <div class="card flex mt-16">
-    <div class="gap-2 text-left ml-16">
-      <label for="userNickName" class="flex flex-col text-3xl text-black">닉네임</label>
-      <InputText
-        id="userNickName"
-        v-model="userNickNameValue"
-        size="large"
-        style="width: 650px; height: 50px; font-size: 20px"
-      />
-    </div>
-    <div class="gap-2 text-left ml-16">
-      <label for="userPassword" class="flex flex-row items-center text-3xl text-black">
-        비밀번호
-      </label>
-      <IconField>
+    <div class="card flex mt-16">
+      <div class="gap-2 text-left ml-16">
+        <label for="userNickName" class="flex flex-col text-xl text-black">닉네임</label>
         <InputText
-          id="userPassword"
-          :type="isVisibleSignUpPassword ? 'text' : 'password'"
-          v-model="userPasswordValue"
+          id="userNickName"
+          v-model="userNickNameValue"
           size="large"
-          style="width: 650px; height: 50px; font-size: 20px"
+          style="width: 400px"
         />
-        <InputIcon class="ml-2">
-          <i
-            :class="isVisibleSignUpPassword ? 'pi pi-eye' : 'pi pi-eye-slash'"
-            @click="changeIsVisibleSignUpPassword"
+      </div>
+      <div class="gap-2 text-left ml-16">
+        <label for="userPassword" class="flex flex-row items-center text-xl text-black">
+          비밀번호
+        </label>
+        <IconField>
+          <InputText
+            id="userPassword"
+            :type="isVisibleSignUpPassword ? 'text' : 'password'"
+            v-model="userPasswordValue"
+            size="large"
+            style="width: 400px"
           />
-        </InputIcon>
-      </IconField>
+          <InputIcon class="ml-2">
+            <i
+              :class="isVisibleSignUpPassword ? 'pi pi-eye' : 'pi pi-eye-slash'"
+              @click="changeIsVisibleSignUpPassword"
+            />
+          </InputIcon>
+        </IconField>
+      </div>
     </div>
-  </div>
-  <div class="card flex mt-16">
-    <div class="gap-2 text-left ml-16">
-      <label for="userEmail" class="flex flex-col text-3xl text-black">이메일</label>
-      <InputText
-        id="userEmail"
-        v-model="userEmailValue"
-        size="large"
-        style="width: 650px; height: 50px; font-size: 20px"
-      />
+    <div class="card flex mt-16">
+      <div class="gap-2 text-left ml-16">
+        <label for="userEmail" class="flex flex-col text-xl text-black">이메일</label>
+        <InputText id="userEmail" v-model="userEmailValue" size="large" style="width: 400px" />
+      </div>
+      <div class="gap-2 text-left ml-16">
+        <label for="userPhone" class="flex flex-col text-xl text-black">전화번호</label>
+        <InputText id="userPhone" v-model="userPhoneValue" size="large" style="width: 400px" />
+      </div>
     </div>
-    <div class="gap-2 text-left ml-16">
-      <label for="userPhone" class="flex flex-col text-3xl text-black">전화번호</label>
-      <InputText
-        id="userPhone"
-        v-model="userPhoneValue"
-        size="large"
-        style="width: 650px; height: 50px; font-size: 20px"
-      />
+    <hr class="mt-16 ml-16 mr-16 mb-10" />
+    <div class="text-left mr-16 flex justify-end">
+      <Button label="닫기" size="large" severity="help" class="mr-2" @click="closeRegistModal()" />
+      <Button label="등록" size="large" severity="info" class="mr-2" @click="userJoinFunction" />
     </div>
-  </div>
-  <hr class="mt-16 ml-16 mr-16 mb-10" />
-  <div class="text-left mr-16 flex justify-end">
-    <Button
-      label="뒤로"
-      size="large"
-      severity="help"
-      class="mr-2"
-      @click="goUserManageMemberPage"
-    />
-    <Button label="등록" size="large" severity="info" class="mr-2" @click="userJoinFunction" />
-  </div>
+  </Dialog>
 </template>
 
 <script setup>
@@ -91,13 +67,19 @@ import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import IconField from 'primevue/iconfield'
 import InputIcon from 'primevue/inputicon'
+import Dialog from 'primevue/dialog'
 import ApiService from '@/services/ApiService'
-import { useRouter } from 'vue-router'
 import { useToastStore } from '@/stores/toastStore'
 import { ref } from 'vue'
 import { encryptStringSalt } from '@/utils/common'
 
-const router = useRouter()
+const props = defineProps({
+  showModal: Boolean
+})
+const emit = defineEmits({
+  closeRegistModal: Boolean
+})
+
 const toastStore = useToastStore()
 
 const userIdValue = ref('')
@@ -109,14 +91,23 @@ const userPhoneValue = ref('')
 
 const isVisibleSignUpPassword = ref(false)
 
-const changeIsVisibleSignUpPassword = () => {
-  isVisibleSignUpPassword.value = !isVisibleSignUpPassword.value
+const initValue = () => {
+  userIdValue.value = ''
+  userNameValue.value = ''
+  userNickNameValue.value = ''
+  userPasswordValue.value = ''
+  userEmailValue.value = ''
+  userPhoneValue.value = ''
+  isVisibleSignUpPassword.value = false
 }
 
-const goUserManageMemberPage = () => {
-  router.push({ name: 'MemberManagePage' }).catch(() => {
-    console.log('MemberManagePageError')
-  })
+const closeRegistModal = (isReload) => {
+  initValue()
+  emit('closeRegistModal', isReload)
+}
+
+const changeIsVisibleSignUpPassword = () => {
+  isVisibleSignUpPassword.value = !isVisibleSignUpPassword.value
 }
 
 const userJoinFunction = () => {
@@ -186,7 +177,7 @@ const userJoinApi = async () => {
       detail: '회원등록이 완료되었습니다.',
       life: 3000
     })
-    goUserManageMemberPage()
+    closeRegistModal()
   } else if (result === 'duplicateId') {
     toastStore.setToastValue({
       severity: 'error',
