@@ -33,7 +33,13 @@ public class BoardFreeService {
 
     @Transactional
     public List<BoardList> getFreeListAll() {
-        return boardFreeRepositoryImpl.findBoardFreeListAll();
+        List<BoardList> boardLists = boardFreeRepositoryImpl.findBoardFreeListAll();
+
+        for (BoardList boardList : boardLists) {
+            boardList.setBoardCommentCount(boardFreeCommentRepository.countBoardFreeComment(boardList.getBoardGuid()));
+        }
+
+        return boardLists;
     }
 
     @Transactional

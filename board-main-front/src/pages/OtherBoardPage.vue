@@ -16,9 +16,10 @@
       @row-click="goOtherView"
     >
       <Column field="boardTitle" header="제목" style="width: 25%"></Column>
-      <Column field="boardContent" header="내용" style="width: 45%"></Column>
+      <Column field="boardContent" header="내용" style="width: 35%"></Column>
       <Column field="memberNickName" header="작성자" style="width: 10%"></Column>
       <Column field="boardInsertDate" header="등록날짜" style="width: 10%"></Column>
+      <Column field="boardCommentCount" header="" style="width: 10%"></Column>
     </DataTable>
   </div>
 </template>
@@ -55,6 +56,7 @@ const getOtherList = async () => {
   })
   for (let i in result) {
     result[i].boardInsertDate = result[i].boardInsertDate.split('T')[0]
+    result[i].boardCommentCount = '댓글 ' + result[i].boardCommentCount
   }
   items.value = result
 }

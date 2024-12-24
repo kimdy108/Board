@@ -33,7 +33,13 @@ public class BoardDevelopmentAndStackService {
 
     @Transactional
     public List<BoardList> getDevelopmentAndStackListAll() {
-        return boardDevelopmentAndStackRepositoryImpl.findBoardDevelopmentAndStackListAll();
+        List<BoardList> boardLists = boardDevelopmentAndStackRepositoryImpl.findBoardDevelopmentAndStackListAll();
+
+        for (BoardList boardList : boardLists) {
+            boardList.setBoardCommentCount(boardDevelopmentAndStackCommentRepository.countBoardDevelopmentAndStackComment(boardList.getBoardGuid()));
+        }
+
+        return boardLists;
     }
 
     @Transactional

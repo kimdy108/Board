@@ -13,6 +13,7 @@ public class BoardList {
     private String boardGuid;
     private String boardTitle;
     private String boardContent;
+    private int boardCommentCount;
     private String memberGuid;
     private String memberNickName;
     private LocalDateTime boardInsertDate;
