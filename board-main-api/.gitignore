@@ -35,14 +35,3 @@ out/
 
 ### VS Code ###
 .vscode/
-package-lock.json
-
-### PROJECT ###
-resources/static/
-dist/
-
-### querydsl ###
-generated
-
-### Mac OS ###
-.DS_Store
