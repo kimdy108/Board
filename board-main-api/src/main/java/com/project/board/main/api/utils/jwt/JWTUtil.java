@@ -1,6 +1,6 @@
 package com.project.board.main.api.utils.jwt;
 
-import com.project.board.main.api.dto.constant.admin.AdminRole;
+import com.project.board.main.api.dto.constant.member.MemberRole;
 import com.project.board.main.api.utils.Common;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -54,11 +54,11 @@ public class JWTUtil {
         return claims.getBody();
     }
 
-    public String createAuthToken(String adminName, String adminID, UUID adminUUID, AdminRole role) {
+    public String createAuthToken(String userName, String userID, UUID userUUID, MemberRole role) {
         return Jwts.builder()
-                .claim("adminName", adminName)
-                .claim("adminID", adminID)
-                .claim("adminUUID", adminUUID)
+                .claim("userName", userName)
+                .claim("userID", userID)
+                .claim("userUUID", userUUID)
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expirationTime)) // 10시간
@@ -67,9 +67,9 @@ public class JWTUtil {
                 .compact();
     }
 
-    public String createRefreshToken(String adminID) {
+    public String createRefreshToken(String userID) {
         return Jwts.builder()
-                .claim("adminID", adminID)
+                .claim("userID", userID)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expirationTime * 24 * 7)) // 7일
                 .signWith(secretKey)

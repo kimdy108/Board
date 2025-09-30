@@ -1,7 +1,7 @@
 package com.project.board.main.api.controller.member;
 
 import com.project.board.main.api.dto.auth.RefreshAuthToken;
-import com.project.board.main.api.dto.member.*;
+import com.project.board.main.api.dto.user.*;
 import com.project.board.main.api.service.member.BoardMemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

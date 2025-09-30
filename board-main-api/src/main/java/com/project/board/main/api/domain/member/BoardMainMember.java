@@ -1,9 +1,10 @@
 package com.project.board.main.api.domain.member;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.project.board.main.api.domain.common.BoardCommonBase;
+import com.project.board.main.api.domain.common.BoardCommonDescription;
 import com.project.board.main.api.dto.constant.common.IsYesNo;
 import com.project.board.main.api.dto.constant.member.MemberApprovalType;
+import com.project.board.main.api.dto.constant.member.MemberRole;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -22,7 +23,7 @@ import java.util.UUID;
 })
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BoardMainMember extends BoardCommonBase {
+public class BoardMainMember extends BoardCommonDescription {
     @Comment("사용자 UUID")
     @Column(name = "member_uuid", length = 50, unique = true, nullable = false, updatable = false)
     private UUID memberUUID;
@@ -51,6 +52,15 @@ public class BoardMainMember extends BoardCommonBase {
     @Column(name = "member_email", length = 200, nullable = false)
     private String memberEmail;
 
+    @Comment("사용자 권한")
+    @Column(name = "member_role", columnDefinition = "ENUM('MASTER','ADMIN','MANAGER','MEMBER') NOT NULL DEFAULT 'MEMBER'")
+    @Enumerated(EnumType.STRING)
+    private MemberRole memberRole;
+
+    @Comment("사용자 형식")
+    @Column(name = "member_type", columnDefinition = "ENUM('SYSTEM','NORMAL') NOT NULL DEFAULT 'SYSTEM'")
+    private String memberType;
+
     @Comment("사용자 승인 상태")
     @Column(name = "member_approval", columnDefinition = "ENUM('APPROVE','REJECT','WAIT') NOT NULL DEFAULT 'WAIT'")
     @Enumerated(EnumType.STRING)
@@ -62,7 +72,7 @@ public class BoardMainMember extends BoardCommonBase {
     private LocalDateTime lastDate;
 
     @Builder
-    public BoardMainMember(UUID memberUUID, String memberID, String memberPassword, String memberName, String memberNickName, String memberPhone, String memberEmail, MemberApprovalType memberApproval, LocalDateTime lastDate, IsYesNo isActive, LocalDateTime insertDate, LocalDateTime updateDate, String descriptionNote) {
+    public BoardMainMember(UUID memberUUID, String memberID, String memberPassword, String memberName, String memberNickName, String memberPhone, String memberEmail, MemberRole memberRole, String memberType, MemberApprovalType memberApproval, LocalDateTime lastDate, IsYesNo isActive, LocalDateTime insertDate, LocalDateTime updateDate, String descriptionNote) {
         this.memberUUID = memberUUID;
         this.memberID = memberID;
         this.memberPassword = memberPassword;
@@ -70,6 +80,8 @@ public class BoardMainMember extends BoardCommonBase {
         this.memberNickName = memberNickName;
         this.memberPhone = memberPhone;
         this.memberEmail = memberEmail;
+        this.memberRole = memberRole;
+        this.memberType = memberType;
         this.memberApproval = memberApproval;
         this.lastDate = lastDate;
 

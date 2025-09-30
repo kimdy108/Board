@@ -1,4 +1,4 @@
-package com.project.board.main.api.dto.member;
+package com.project.board.main.api.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

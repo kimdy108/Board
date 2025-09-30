@@ -1,11 +1,11 @@
 package com.project.board.main.api.service.auth;
 
-import com.project.board.main.api.domain.admin.BoardMainAdmin;
-import com.project.board.main.api.dto.admin.AdminAuth;
-import com.project.board.main.api.dto.admin.AdminLogin;
-import com.project.board.main.api.dto.admin.AdminRefresh;
+import com.project.board.main.api.domain.member.BoardMainMember;
+import com.project.board.main.api.dto.user.UserAuth;
 import com.project.board.main.api.dto.constant.common.IsYesNo;
-import com.project.board.main.api.repository.admin.BoardMainAdminRepository;
+import com.project.board.main.api.dto.user.UserLogin;
+import com.project.board.main.api.dto.user.UserRefresh;
+import com.project.board.main.api.repository.member.BoardMainMemberRepository;
 import com.project.board.main.api.service.component.RedisService;
 import com.project.board.main.api.utils.jwt.JWTUtil;
 import lombok.RequiredArgsConstructor;
@@ -24,46 +24,46 @@ public class AuthenticationService {
     private final JWTUtil jwtUtil;
     private final RedisService redisService;
 
-    private final BoardMainAdminRepository boardMainAdminRepository;
+    private final BoardMainMemberRepository boardMainMemberRepository;
 
-    public AdminAuth login(AdminLogin adminLogin) {
-        String adminID = decryptStringSalt(adminLogin.getAdminID());
-        String adminPassword = decryptStringSalt(adminLogin.getAdminPassword());
+    public UserAuth login(UserLogin userLogin) {
+        String memberID = decryptStringSalt(userLogin.getUserID());
+        String memberPassword = decryptStringSalt(userLogin.getUserPassword());
 
-        BoardMainAdmin boardMainAdmin = boardMainAdminRepository.findBoardMainAdminByAdminID(adminID);
-        if (boardMainAdmin == null) throw new RuntimeException("아이디 또는 비밀번호를 확인해주세요.");
-        if (IsYesNo.NO.equals(boardMainAdmin.getIsActive())) throw new RuntimeException("아이디 또는 비밀번호를 확인해주세요.");
-        if (!passwordEncoder.matches(adminPassword, boardMainAdmin.getAdminPassword())) throw new RuntimeException("아이디 또는 비밀번호를 확인해주세요.");
+        BoardMainMember boardMainMember = boardMainMemberRepository.findBoardMainMemberByMemberID(memberID);
+        if (boardMainMember == null) throw new RuntimeException("아이디 또는 비밀번호를 확인해주세요.");
+        if (IsYesNo.NO.equals(boardMainMember.getIsActive())) throw new RuntimeException("아이디 또는 비밀번호를 확인해주세요.");
+        if (!passwordEncoder.matches(memberPassword, boardMainMember.getMemberPassword())) throw new RuntimeException("아이디 또는 비밀번호를 확인해주세요.");
 
-        String accessToken = encryptStringSalt(jwtUtil.createAuthToken(boardMainAdmin.getAdminName(), boardMainAdmin.getAdminID(), boardMainAdmin.getAdminUUID(), boardMainAdmin.getAdminRole()));
-        String refreshToken = encryptStringSalt(jwtUtil.createRefreshToken(boardMainAdmin.getAdminID()));
+        String accessToken = encryptStringSalt(jwtUtil.createAuthToken(boardMainMember.getMemberName(), boardMainMember.getMemberID(), boardMainMember.getMemberUUID(), boardMainMember.getMemberRole()));
+        String refreshToken = encryptStringSalt(jwtUtil.createRefreshToken(boardMainMember.getMemberID()));
         UUID sessionUUID = UUID.randomUUID();
 
-        redisService.setValues(boardMainAdmin.getAdminID() + "-" + sessionUUID, refreshToken);
-        boardMainAdminRepository.updateBoardMainAdminByAdminUUIDForLogin(boardMainAdmin.getAdminUUID(), LocalDateTime.now());
+        redisService.setValues(boardMainMember.getMemberID() + "-" + sessionUUID, refreshToken);
+        boardMainMemberRepository.updateBoardMainMemberByMemberUUIDForLogin(boardMainMember.getMemberUUID(), LocalDateTime.now());
 
-        return AdminAuth.builder()
+        return UserAuth.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .loginResult(encryptString(
-                        boardMainAdmin.getAdminName() + AUTHCHAR +
-                                boardMainAdmin.getAdminUUID() + AUTHCHAR +
-                                boardMainAdmin.getAdminRole() + AUTHCHAR +
+                        decryptStringSalt(boardMainMember.getMemberName()) + AUTHCHAR +
+                                boardMainMember.getMemberUUID() + AUTHCHAR +
+                                boardMainMember.getMemberRole() + AUTHCHAR +
                                 sessionUUID))
                 .build();
     }
 
-    public String refreshToken(AdminRefresh adminRefresh) {
-        String adminAccount = decryptStringSalt(adminRefresh.getAdminAccount());
-        String refreshToken = decryptStringSalt(adminRefresh.getRefreshToken());
+    public String refreshToken(UserRefresh userRefresh) {
+        String memberAccount = decryptStringSalt(userRefresh.getUserAccount());
+        String refreshToken = decryptStringSalt(userRefresh.getRefreshToken());
 
-        String redisRefreshToken = redisService.getValues(adminAccount);
+        String redisRefreshToken = redisService.getValues(memberAccount);
         if (!redisRefreshToken.equals(refreshToken)) throw new RuntimeException("refreshFail");
 
-        String adminID = adminAccount.split("-")[0];
-        BoardMainAdmin boardMainAdmin = boardMainAdminRepository.findBoardMainAdminByAdminID(adminID);
-        if (boardMainAdmin == null) throw new RuntimeException("refreshFail");
+        String memberID = memberAccount.split("-")[0];
+        BoardMainMember boardMainMember = boardMainMemberRepository.findBoardMainMemberByMemberID(memberID);
+        if (boardMainMember == null) throw new RuntimeException("refreshFail");
 
-        return encryptStringSalt(jwtUtil.createAuthToken(boardMainAdmin.getAdminName(), boardMainAdmin.getAdminID(), boardMainAdmin.getAdminUUID(), boardMainAdmin.getAdminRole()));
+        return encryptStringSalt(jwtUtil.createAuthToken(boardMainMember.getMemberName(), boardMainMember.getMemberID(), boardMainMember.getMemberUUID(), boardMainMember.getMemberRole()));
     }
 }

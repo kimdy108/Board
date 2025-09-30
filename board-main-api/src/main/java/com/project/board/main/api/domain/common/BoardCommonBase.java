@@ -35,8 +35,4 @@ public class BoardCommonBase {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     @Column(name = "update_date", columnDefinition = "DATETIME")
     private LocalDateTime updateDate;
-
-    @Comment("비고")
-    @Column(name = "description_note", columnDefinition = "TEXT")
-    private String descriptionNote;
 }

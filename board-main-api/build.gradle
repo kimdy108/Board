@@ -43,7 +43,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.12'
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+//    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
 
     //swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'

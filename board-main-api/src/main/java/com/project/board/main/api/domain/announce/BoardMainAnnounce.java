@@ -1,7 +1,7 @@
 package com.project.board.main.api.domain.announce;
 
-import com.project.board.main.api.domain.admin.BoardMainAdmin;
 import com.project.board.main.api.domain.common.BoardCommonBase;
+import com.project.board.main.api.domain.member.BoardMainMember;
 import com.project.board.main.api.dto.constant.common.IsYesNo;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -36,21 +36,27 @@ public class BoardMainAnnounce extends BoardCommonBase {
     @Column(name = "announce_content", columnDefinition = "TEXT")
     private String announceContent;
 
-    @Comment("관리자 SEQ")
+    @Comment("작성자 SEQ (관리자)")
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "admin_seq", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private BoardMainAdmin boardMainAdmin;
+    @JoinColumn(name = "author_seq", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private BoardMainMember boardMainMember;
 
     @Builder
-    public BoardMainAnnounce(UUID announceUUID, String announceTitle, String announceContent, BoardMainAdmin boardMainAdmin, IsYesNo isActive, LocalDateTime insertDate, LocalDateTime updateDate, String descriptionNote) {
+    public BoardMainAnnounce(UUID announceUUID, String announceTitle, String announceContent, BoardMainMember boardMainMember, IsYesNo isActive, LocalDateTime insertDate, LocalDateTime updateDate) {
         this.announceUUID = announceUUID;
         this.announceTitle = announceTitle;
         this.announceContent = announceContent;
-        this.boardMainAdmin = boardMainAdmin;
+        this.boardMainMember = boardMainMember;
 
         this.setIsActive(isActive);
         this.setInsertDate(insertDate);
         this.setUpdateDate(updateDate);
-        this.setDescriptionNote(descriptionNote);
+    }
+
+    public void update(String announceTitle, String announceContent, LocalDateTime updateDate) {
+        this.announceTitle = announceTitle;
+        this.announceContent = announceContent;
+
+        this.setUpdateDate(updateDate);
     }
 }

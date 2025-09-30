@@ -1,10 +1,11 @@
 package com.project.board.main.api.service.setting;
 
-import com.project.board.main.api.domain.admin.BoardMainAdmin;
+import com.project.board.main.api.domain.member.BoardMainMember;
 import com.project.board.main.api.domain.setting.BoardMainSetting;
-import com.project.board.main.api.dto.constant.admin.AdminRole;
 import com.project.board.main.api.dto.constant.common.IsYesNo;
-import com.project.board.main.api.repository.admin.BoardMainAdminRepository;
+import com.project.board.main.api.dto.constant.member.MemberApprovalType;
+import com.project.board.main.api.dto.constant.member.MemberRole;
+import com.project.board.main.api.repository.member.BoardMainMemberRepository;
 import com.project.board.main.api.repository.setting.BoardMainSettingRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ import static com.project.board.main.api.utils.Common.encryptStringSalt;
 public class BaseSettingService {
     private final BCryptPasswordEncoder passwordEncoder;
 
-    private final BoardMainAdminRepository boardMainAdminRepository;
+    private final BoardMainMemberRepository boardMainMemberRepository;
     private final BoardMainSettingRepository boardMainSettingRepository;
 
     @Transactional
@@ -32,20 +33,22 @@ public class BaseSettingService {
 
         LocalDateTime nowDate = LocalDateTime.now();
 
-        boardMainAdminRepository.save(BoardMainAdmin.builder()
-                .adminUUID(UUID.randomUUID())
-                .adminID("master")
-                .adminPassword(passwordEncoder.encode("chlrhrhksflwk12345!"))
-                .adminName(encryptStringSalt("최고관리자"))
-                .adminPhone(encryptStringSalt("01031611450"))
-                .adminEmail(encryptStringSalt("kimbrothers123@daum.net"))
-                .adminRole(AdminRole.MASTER)
-                .adminType("SYSTEM")
+        boardMainMemberRepository.save(BoardMainMember.builder()
+                .memberUUID(UUID.randomUUID())
+                .memberID("master")
+                .memberPassword(passwordEncoder.encode("chlrhrhksflwk12345!"))
+                .memberName(encryptStringSalt("최고관리자"))
+                .memberNickName(encryptStringSalt("최고관리자"))
+                .memberPhone(encryptStringSalt("01031611450"))
+                .memberEmail(encryptStringSalt("kimbrothers123@daum.net"))
+                .memberRole(MemberRole.MASTER)
+                .memberType("SYSTEM")
+                .memberApproval(MemberApprovalType.APPROVE)
                 .lastDate(LocalDateTime.parse("2000-01-29T00:00:00"))
                 .isActive(IsYesNo.YES)
                 .insertDate(nowDate)
                 .updateDate(nowDate)
-                .descriptionNote("")
+                .descriptionNote("master")
                 .build());
 
         boardMainSettingRepository.save(BoardMainSetting.builder().settingKey("INSTALL").settingVal("SUCCESS").build());

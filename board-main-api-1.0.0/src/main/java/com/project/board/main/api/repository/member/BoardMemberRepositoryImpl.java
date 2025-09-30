@@ -2,7 +2,7 @@ package com.project.board.main.api.repository.member;
 
 import com.project.board.main.api.domain.announce.BoardAnnounce;
 import com.project.board.main.api.domain.member.QBoardMember;
-import com.project.board.main.api.dto.member.BoardMemberInfoAll;
+import com.project.board.main.api.dto.user.BoardMemberInfoAll;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
