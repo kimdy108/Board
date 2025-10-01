@@ -70,7 +70,7 @@ const userLogin = () => {
   if(userID.value == '' || userPassword.value == '') {
     toastStore.setToastValue({
       severity: 'warn',
-      summary: '로그인 오류',
+      summary: '로그인',
       detail: '아이디 또는 비밀번호를 확인해주세요.',
       life: 3000
     })
@@ -105,9 +105,9 @@ const userLoginAction = async () => {
     })
   } else {
     toastStore.setToastValue({
-      severity: 'error',
-      summary: '로그인 오류',
-      detail: loginResult.retData,
+      severity: loginResult.retData == 'isWait' ? 'warn' : 'error',
+      summary: '로그인',
+      detail: loginResult.retData == 'isWait' ? '승인 대기 중 입니다. 잠시후 다시 시도해 주세요.' : '아이디 또는 비밀번호를 확인해주세요.',
       life: 3000
     })
   }

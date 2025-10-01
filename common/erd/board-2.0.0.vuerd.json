@@ -4,9 +4,9 @@
   "settings": {
     "width": 2000,
     "height": 2000,
-    "scrollTop": -176,
-    "scrollLeft": -370,
-    "zoomLevel": 0.88,
+    "scrollTop": 0,
+    "scrollLeft": -400,
+    "zoomLevel": 1,
     "show": 431,
     "database": 4,
     "databaseName": "",
@@ -169,6 +169,7 @@
           "V-XdbK-mgUWZHz0J-v8hV",
           "FtdTWQxqfn8TV537qEBt4",
           "bnDLQELKapcLsVByf489S",
+          "4-vPvRPa2LxAt2QeXmHBT",
           "CFI6ty6PpSZgLEd59gJ49",
           "Mk6AshKBp9vMk0y-pa-jd",
           "8rdaHRkLJxxI3V7P3ol1A",
@@ -182,6 +183,7 @@
           "bnDLQELKapcLsVByf489S",
           "Q4Bn1SNlcvVOYdpgYQ0-6",
           "ZJ8rdA52e0EqiaqRdWzME",
+          "4-vPvRPa2LxAt2QeXmHBT",
           "CFI6ty6PpSZgLEd59gJ49",
           "Mk6AshKBp9vMk0y-pa-jd",
           "8rdaHRkLJxxI3V7P3ol1A",
@@ -189,15 +191,15 @@
           "y5BUIUS8o9KQWf3mlPOse"
         ],
         "ui": {
-          "x": 1066.4547,
-          "y": 211.9092,
+          "x": 1088.0456,
+          "y": 198.2727,
           "zIndex": 34,
           "widthName": 122,
           "widthComment": 60,
           "color": ""
         },
         "meta": {
-          "updateAt": 1759196837610,
+          "updateAt": 1759289041278,
           "createAt": 1759125695573
         }
       }
@@ -1002,6 +1004,26 @@
           "updateAt": 1759196831018,
           "createAt": 1759196817275
         }
+      },
+      "4-vPvRPa2LxAt2QeXmHBT": {
+        "id": "4-vPvRPa2LxAt2QeXmHBT",
+        "tableId": "9wihaGdv9p8l2r0SoX0tc",
+        "name": "view_counter",
+        "comment": "조회 수",
+        "dataType": "INT",
+        "default": "",
+        "options": 0,
+        "ui": {
+          "keys": 0,
+          "widthName": 71,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1759302949128,
+          "createAt": 1759289023261
+        }
       }
     },
     "relationshipEntities": {
@@ -1052,8 +1074,8 @@
           "columnIds": [
             "CFI6ty6PpSZgLEd59gJ49"
           ],
-          "x": 1066.4547,
-          "y": 347.9092,
+          "x": 1088.0456,
+          "y": 346.2727,
           "direction": 1
         },
         "meta": {

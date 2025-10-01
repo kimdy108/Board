@@ -36,7 +36,7 @@ public class BaseSettingService {
         boardMainMemberRepository.save(BoardMainMember.builder()
                 .memberUUID(UUID.randomUUID())
                 .memberID("master")
-                .memberPassword(passwordEncoder.encode("chlrhrhksflwk12345!"))
+                .memberPassword(passwordEncoder.encode("rhksflwk12345!"))
                 .memberName(encryptStringSalt("최고관리자"))
                 .memberNickName(encryptStringSalt("최고관리자"))
                 .memberPhone(encryptStringSalt("01031611450"))

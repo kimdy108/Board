@@ -2,6 +2,7 @@ package com.project.board.main.api.service.announce;
 
 import com.project.board.main.api.domain.announce.BoardMainAnnounce;
 import com.project.board.main.api.domain.member.BoardMainMember;
+import com.project.board.main.api.dto.announce.AnnounceListPage;
 import com.project.board.main.api.dto.announce.AnnounceRegist;
 import com.project.board.main.api.dto.announce.AnnounceUpdate;
 import com.project.board.main.api.dto.constant.common.IsYesNo;
@@ -62,5 +63,9 @@ public class AnnounceService {
                 IsYesNo.NO,
                 LocalDateTime.now()
         );
+    }
+
+    public AnnounceListPage announceListPage(String searchType, String searchValue) {
+        return boardMainAnnounceRepository.findBoardMainAnnounceListPage(searchType, searchValue);
     }
 }

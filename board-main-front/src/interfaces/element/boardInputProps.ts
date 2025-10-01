@@ -4,6 +4,5 @@ export default interface boardInputProps {
   isRequire: boolean,
   isPassword: boolean,
   inputPlaceholder: string,
-  inputType: string,
-  inputHint: string
+  inputType: string
 }

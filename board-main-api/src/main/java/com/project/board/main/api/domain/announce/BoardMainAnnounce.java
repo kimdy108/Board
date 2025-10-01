@@ -19,7 +19,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Table(name = "board_main_announce", indexes = {
         @Index(name = "idx_announce_uuid", columnList = "announce_uuid"),
         @Index(name = "idx_announce_title", columnList = "announce_title"),
-        @Index(name = "idx_admin_seq", columnList = "admin_seq")
+        @Index(name = "idx_author_seq", columnList = "author_seq")
 })
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -36,17 +36,22 @@ public class BoardMainAnnounce extends BoardCommonBase {
     @Column(name = "announce_content", columnDefinition = "TEXT")
     private String announceContent;
 
+    @Comment("조회 수")
+    @Column(name = "view_counter", length = 10, nullable = false)
+    private int viewCounter;
+
     @Comment("작성자 SEQ (관리자)")
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "author_seq", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private BoardMainMember boardMainMember;
 
     @Builder
-    public BoardMainAnnounce(UUID announceUUID, String announceTitle, String announceContent, BoardMainMember boardMainMember, IsYesNo isActive, LocalDateTime insertDate, LocalDateTime updateDate) {
+    public BoardMainAnnounce(UUID announceUUID, String announceTitle, String announceContent, BoardMainMember boardMainMember, int viewCounter, IsYesNo isActive, LocalDateTime insertDate, LocalDateTime updateDate) {
         this.announceUUID = announceUUID;
         this.announceTitle = announceTitle;
         this.announceContent = announceContent;
         this.boardMainMember = boardMainMember;
+        this.viewCounter = viewCounter;
 
         this.setIsActive(isActive);
         this.setInsertDate(insertDate);

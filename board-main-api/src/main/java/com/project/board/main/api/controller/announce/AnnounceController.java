@@ -39,4 +39,13 @@ public class AnnounceController {
         announceService.announceDelete(announceUUID);
         return ResponseMsg.successResponse("success");
     }
+
+    @Operation(summary = "announce list page", description = "공지사항 리스트 페이지")
+    @GetMapping("/list/page")
+    public ResponseEntity<ResponseMsg> announceListPage(
+            @RequestParam String searchType,
+            @RequestParam String searchValue
+    ) {
+        return ResponseMsg.successResponse(announceService.announceListPage(searchType, searchValue));
+    }
 }

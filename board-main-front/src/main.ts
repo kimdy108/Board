@@ -12,6 +12,8 @@ import Aura from '@primevue/themes/aura'
 import 'primeicons/primeicons.css'
 import ToastService from 'primevue/toastservice';
 
+import Tooltip from 'primevue/tooltip';
+
 import PerfectScrollbar from 'vue3-perfect-scrollbar'
 import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 
@@ -31,6 +33,7 @@ app.use(PrimeVue, {
   }
 })
 app.use(ToastService)
+app.directive('tooltip', Tooltip);
 app.config.globalProperties.$_dayjs = dayjs
 app.mount('#app')
 

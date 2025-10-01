@@ -1,6 +1,7 @@
 package com.project.board.main.api.service.auth;
 
 import com.project.board.main.api.domain.member.BoardMainMember;
+import com.project.board.main.api.dto.constant.member.MemberApprovalType;
 import com.project.board.main.api.dto.user.UserAuth;
 import com.project.board.main.api.dto.constant.common.IsYesNo;
 import com.project.board.main.api.dto.user.UserLogin;
@@ -31,9 +32,11 @@ public class AuthenticationService {
         String memberPassword = decryptStringSalt(userLogin.getUserPassword());
 
         BoardMainMember boardMainMember = boardMainMemberRepository.findBoardMainMemberByMemberID(memberID);
-        if (boardMainMember == null) throw new RuntimeException("아이디 또는 비밀번호를 확인해주세요.");
-        if (IsYesNo.NO.equals(boardMainMember.getIsActive())) throw new RuntimeException("아이디 또는 비밀번호를 확인해주세요.");
-        if (!passwordEncoder.matches(memberPassword, boardMainMember.getMemberPassword())) throw new RuntimeException("아이디 또는 비밀번호를 확인해주세요.");
+        if (boardMainMember == null) throw new RuntimeException("noMember");
+        if (IsYesNo.NO.equals(boardMainMember.getIsActive())) throw new RuntimeException("noIsActive");
+        if (!passwordEncoder.matches(memberPassword, boardMainMember.getMemberPassword())) throw new RuntimeException("wrongPassword");
+        if (MemberApprovalType.REJECT.equals(boardMainMember.getMemberApproval())) throw new RuntimeException("isReject");
+        if (MemberApprovalType.WAIT.equals(boardMainMember.getMemberApproval())) throw new RuntimeException("isWait");
 
         String accessToken = encryptStringSalt(jwtUtil.createAuthToken(boardMainMember.getMemberName(), boardMainMember.getMemberID(), boardMainMember.getMemberUUID(), boardMainMember.getMemberRole()));
         String refreshToken = encryptStringSalt(jwtUtil.createRefreshToken(boardMainMember.getMemberID()));
