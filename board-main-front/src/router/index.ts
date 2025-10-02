@@ -8,12 +8,37 @@ const loadSubPage = (path: string, dir: string, view: string) => {
   return () => import(`@/${path}/${dir}/${view}.vue`)
 }
 
-const boardChild: Array<RouteRecordRaw> = [
-  { path: '/board/announce', name: 'AnnounceAdmin', component: loadSubPage('pages', 'announce', 'AnnounceAdmin'), meta: { id: 'AnnounceAdmin' }},
+const announceChild: Array<RouteRecordRaw> = [
+  { path: '/board/announce/main', name: 'AnnounceMain', component: loadSubPage('pages', 'announce', 'AnnounceMain'), meta: { id: 'AnnounceMain' } },
+  { path: '/board/announce/regist', name: 'AnnounceRegist', component: loadSubPage('pages', 'announce', 'AnnounceRegist'), meta: { id: 'AnnounceRegist' } },
+  { path: '/board/announce/update', name: 'AnnounceUpdate', component: loadSubPage('pages', 'announce', 'AnnounceUpdate'), meta: { id: 'AnnounceUpdate' } },
+  { path: '/board/announce/info', name: 'AnnounceInfo', component: loadSubPage('pages', 'announce', 'AnnounceInfo'), meta: { id: 'AnnounceInfo' } }
+]
 
-  { path: '/board/development', name: 'DevelopmentAdmin', component: loadSubPage('pages', 'board/development', 'DevelopmentAdmin'), meta: { id: 'DevelopmentAdmin' }},
-  { path: '/board/stack', name: 'StackAdmin', component: loadSubPage('pages', 'board/stack', 'StackAdmin'), meta: { id: 'StackAdmin' }},
-  { path: '/board/free', name: 'FreeAdmin', component: loadSubPage('pages', 'board/free', 'FreeAdmin'), meta: { id: 'FreeAdmin' }},
+const developmentChild: Array<RouteRecordRaw> = [
+  { path: '/board/development/main', name: 'DevelopmentMain', component: loadSubPage('pages', 'board/development', 'DevelopmentMain'), meta: { id: 'DevelopmentMain' } }
+]
+
+const stackChild: Array<RouteRecordRaw> = [
+  { path: '/board/stack/main', name: 'StackMain', component: loadSubPage('pages', 'board/stack', 'StackMain'), meta: { id: 'StackMain' } }
+]
+
+const freeChild: Array<RouteRecordRaw> = [
+  { path: '/board/free/main', name: 'FreeMain', component: loadSubPage('pages', 'board/free', 'FreeMain'), meta: { id: 'FreeMain' } }
+]
+
+const qnaChild: Array<RouteRecordRaw> = [
+  { path: '/board/qna/main', name: 'QnAMain', component: loadSubPage('pages', 'qna', 'QnAMain'), meta: { id: 'QnAMain' } }
+]
+
+const boardChild: Array<RouteRecordRaw> = [
+  { path: '/board/announce', name: 'AnnounceAdmin', children: announceChild, redirect: '/board/announce/main' },
+
+  { path: '/board/development', name: 'DevelopmentAdmin', children: developmentChild, redirect: '/board/development/main' },
+  { path: '/board/stack', name: 'StackAdmin', children: stackChild, redirect: '/board/stack/main' },
+  { path: '/board/free', name: 'FreeAdmin', children: freeChild, redirect: '/board/free/main' },
+
+  { path: '/board/qna', name: 'QnAAdmin', children: qnaChild, redirect: '/board/qna/main' }
 ]
 
 const routes: Array<RouteRecordRaw> = [

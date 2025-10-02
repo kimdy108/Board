@@ -1,6 +1,6 @@
 <template>
   <div>
-    DevelopmentAdmin 
+    QnAMain
   </div>
 </template>
 
@@ -8,6 +8,6 @@
 
 </script>
 
-<style lang="sass" scoped>
+<style lang="css" scoped>
 
 </style>

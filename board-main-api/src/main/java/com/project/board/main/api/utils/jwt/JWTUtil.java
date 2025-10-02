@@ -26,12 +26,8 @@ public class JWTUtil {
         this.expirationTime = expirationTime;
     }
 
-    public String getAdminName(String token) {
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("adminName", String.class);
-    }
-
-    public String getRole(String token) {
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role", String.class);
+    public UUID getUserUUID(String token) {
+        return UUID.fromString(String.valueOf(decodeAccessToken(token).get("userUUID")));
     }
 
     public Boolean isExpired(String token) {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    FreeAdmin 
+    FreeMain
   </div>
 </template>
 

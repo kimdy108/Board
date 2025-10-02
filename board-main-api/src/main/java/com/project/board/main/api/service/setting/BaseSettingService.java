@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static com.project.board.main.api.utils.Common.encryptStringSalt;
+import static com.project.board.main.api.utils.Common.initEncryptStr;
 
 @Service
 @RequiredArgsConstructor
@@ -37,10 +37,10 @@ public class BaseSettingService {
                 .memberUUID(UUID.randomUUID())
                 .memberID("master")
                 .memberPassword(passwordEncoder.encode("rhksflwk12345!"))
-                .memberName(encryptStringSalt("최고관리자"))
-                .memberNickName(encryptStringSalt("최고관리자"))
-                .memberPhone(encryptStringSalt("01031611450"))
-                .memberEmail(encryptStringSalt("kimbrothers123@daum.net"))
+                .memberName(initEncryptStr("최고관리자"))
+                .memberNickName(initEncryptStr("최고관리자"))
+                .memberPhone(initEncryptStr("01031611450"))
+                .memberEmail(initEncryptStr("kimbrothers123@daum.net"))
                 .memberRole(MemberRole.MASTER)
                 .memberType("SYSTEM")
                 .memberApproval(MemberApprovalType.APPROVE)

@@ -65,6 +65,12 @@ const items = ref([
       }
     ]
   },
+  {
+    label: 'QnA',
+    command: () => {
+      movePage('QnAAdmin')
+    }
+  },
 ])
 
 const userItems = ref([
@@ -78,7 +84,7 @@ const userItems = ref([
     label: '로그아웃',
     command: () => {
       userStore.setUserLogout()
-      console.log('logout')
+      movePage('IndexPage')
     }
   }
 ])

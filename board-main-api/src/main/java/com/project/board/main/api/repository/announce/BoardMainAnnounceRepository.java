@@ -14,14 +14,4 @@ import java.util.UUID;
 @Repository
 public interface BoardMainAnnounceRepository extends JpaRepository<BoardMainAnnounce, Long>, BoardMainAnnounceRepositoryCustom {
     BoardMainAnnounce findBoardMainAnnounceByAnnounceUUID(UUID announceUUID);
-
-    @Query(value = "update BoardMainAnnounce set isActive = :isActive, updateDate = :updateDate where announceUUID = :announceUUID")
-    @Modifying
-    @Transactional
-    void updateBoardMainAnnounceByActiveStatus(UUID announceUUID, IsYesNo isActive, LocalDateTime updateDate);
-
-    @Query(value = "update BoardMainAnnounce set viewCounter = viewCounter + 1 where announceUUID = :announceUUID")
-    @Modifying
-    @Transactional
-    void updateBoardMainAnnounceByViewCounter(UUID announceUUID);
 }

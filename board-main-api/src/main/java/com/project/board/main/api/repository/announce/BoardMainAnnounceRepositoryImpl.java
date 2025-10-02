@@ -4,6 +4,8 @@ import com.project.board.main.api.domain.announce.QBoardMainAnnounce;
 import com.project.board.main.api.domain.member.QBoardMainMember;
 import com.project.board.main.api.dto.announce.AnnounceList;
 import com.project.board.main.api.dto.announce.AnnounceListPage;
+import com.project.board.main.api.dto.constant.common.IsYesNo;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -20,10 +22,12 @@ public class BoardMainAnnounceRepositoryImpl implements BoardMainAnnounceReposit
     }
 
     QBoardMainAnnounce qBoardMainAnnounce = QBoardMainAnnounce.boardMainAnnounce;
-    QBoardMainMember qBoardMainMember = QBoardMainMember.boardMainMember;
 
     @Override
     public AnnounceListPage findBoardMainAnnounceListPage(String searchType, String searchValue) {
+        BooleanBuilder bb = new BooleanBuilder();
+        bb.and(qBoardMainAnnounce.isActive.eq(IsYesNo.YES));
+
         List<AnnounceList> announceLists = jpaQueryFactory
                 .select(Projections.fields(
                         AnnounceList.class,
@@ -34,15 +38,14 @@ public class BoardMainAnnounceRepositoryImpl implements BoardMainAnnounceReposit
                         qBoardMainAnnounce.updateDate.as("updateDate")
                 ))
                 .from(qBoardMainAnnounce)
-                .leftJoin(qBoardMainAnnounce.boardMainMember, qBoardMainMember)
-                .where(eqAnnounceTitle(searchType, searchValue), eqAnnounceContent(searchType, searchValue))
+                .where(bb, eqAnnounceTitle(searchType, searchValue), eqAnnounceContent(searchType, searchValue))
+                .orderBy(qBoardMainAnnounce.seq.desc())
                 .fetch();
 
         Long count = jpaQueryFactory
                 .select(qBoardMainAnnounce.seq.count())
                 .from(qBoardMainAnnounce)
-                .leftJoin(qBoardMainAnnounce.boardMainMember, qBoardMainMember)
-                .where(eqAnnounceTitle(searchType, searchValue), eqAnnounceContent(searchType, searchValue))
+                .where(bb, eqAnnounceTitle(searchType, searchValue), eqAnnounceContent(searchType, searchValue))
                 .fetchOne();
 
         return AnnounceListPage.builder()

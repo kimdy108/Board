@@ -64,4 +64,13 @@ public class BoardMainAnnounce extends BoardCommonBase {
 
         this.setUpdateDate(updateDate);
     }
+
+    public void updateStatus(IsYesNo isActive, LocalDateTime updateDate) {
+        this.setIsActive(isActive);
+        this.setUpdateDate(updateDate);
+    }
+
+    public void addViewCounter() {
+        this.viewCounter += 1;
+    }
 }

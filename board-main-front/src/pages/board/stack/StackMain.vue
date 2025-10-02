@@ -1,6 +1,6 @@
 <template>
   <div>
-    StackAdmin 
+    StackMain 
   </div>
 </template>
 

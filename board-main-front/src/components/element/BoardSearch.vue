@@ -24,6 +24,13 @@ import type boardSearchProps from '@/interfaces/element/boardSearchProps'
 
 const props = defineProps<boardSearchProps>()
 const inputValue = defineModel('inputValue', { required: true })
+const emit = defineEmits<{
+  searchSubmit: [],
+}>()
+
+const searchSubmit = () => {
+  emit('searchSubmit')
+}
 </script>
 
 <style lang="sass" scoped>

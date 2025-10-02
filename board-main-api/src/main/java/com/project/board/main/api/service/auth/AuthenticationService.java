@@ -49,7 +49,7 @@ public class AuthenticationService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .loginResult(encryptString(
-                        decryptStringSalt(boardMainMember.getMemberName()) + AUTHCHAR +
+                        initDecryptStr(boardMainMember.getMemberName()) + AUTHCHAR +
                                 boardMainMember.getMemberUUID() + AUTHCHAR +
                                 boardMainMember.getMemberRole() + AUTHCHAR +
                                 sessionUUID))
