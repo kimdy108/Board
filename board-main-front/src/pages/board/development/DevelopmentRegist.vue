@@ -1,17 +1,17 @@
 <template>
   <div>
     <div class="text-left mb-5">
-      <div class="text-2xl font-bold text-gray-900">공지사항 등록</div>
+      <div class="text-2xl font-bold text-gray-900">게시글 등록</div>
     </div>
 
     <div class="w-full mb-24">
-      <BoardInput inputType="text" inputTitle="제목" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="announceTitle" />
-      <BoardEditor :isReadOnly="false" inputTitle="내용" :isRequire="true" v-model:inputValue="announceContent" />
+      <BoardInput inputType="text" inputTitle="제목" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="developmentTitle" />
+      <BoardEditor :isReadOnly="false" inputTitle="내용" :isRequire="true" v-model:inputValue="developmentContent" />
     </div>
 
     <div class="flex justify-end">
       <Button class="m-2 !px-4 !py-3 !bg-sky-400 !border !border-sky-400 hover:!bg-sky-500 hover:!border hover:!border-sky-500" @click="moveMainPage">메인</Button>
-      <Button class="m-2 !px-4 !py-3 !bg-green-400 !border !border-green-400 hover:!bg-green-500 hover:!border hover:!border-green-500" @click="announceRegist">등록</Button>
+      <Button class="m-2 !px-4 !py-3 !bg-green-400 !border !border-green-400 hover:!bg-green-500 hover:!border hover:!border-green-500" @click="developmentRegist">등록</Button>
     </div>
   </div>
 </template>
@@ -31,22 +31,22 @@ import BoardEditor from '@/components/element/BoardEditor.vue'
 const router = useRouter()
 const toastStore = useToastStore()
 
-const announceTitle = ref('')
-const announceContent = ref('')
+const developmentTitle = ref('')
+const developmentContent = ref('')
 
 onMounted(() => {
-  announceTitle.value = ''
-  announceContent.value = ''
+  developmentTitle.value = ''
+  developmentContent.value = ''
 })
 
 const moveMainPage = () => {
-  router.push({ name: 'AnnounceMain' }).catch(() => {
-    console.log('AnnounceMain Error')
+  router.push({ name: 'DevelopmentMain' }).catch(() => {
+    console.log('DevelopmentMain Error')
   })
 }
 
-const announceRegist = () => {
-  if (announceTitle.value == null || announceTitle.value == '') {
+const developmentRegist = () => {
+  if (developmentTitle.value == null || developmentTitle.value == '') {
     toastStore.setToastValue({
       severity: 'warn',
       summary: '공지사항 관리',
@@ -56,7 +56,7 @@ const announceRegist = () => {
     return
   }
 
-  if (announceContent.value == null || announceContent.value == '') {
+  if (developmentContent.value == null || developmentContent.value == '') {
     toastStore.setToastValue({
       severity: 'warn',
       summary: '공지사항 관리',
@@ -66,19 +66,19 @@ const announceRegist = () => {
     return
   }
 
-  announceRegistAction()
+  developmentRegistAction()
 }
 
-const announceRegistAction = async () => {
+const developmentRegistAction = async () => {
   const reqHeader = { accept: 'application/json' }
   const reqData = {
-    'announceTitle': announceTitle.value,
-    'announceContent': announceContent.value
+    'developmentTitle': developmentTitle.value,
+    'developmentContent': developmentContent.value
   }
   const registResult: responseData = await ApiService.requestAPI({
     headers: reqHeader,
     method: 'POST',
-    url: `/board/announce/regist`,
+    url: `/board/development/regist`,
     data: reqData
   })
   if (registResult.retStatus) {

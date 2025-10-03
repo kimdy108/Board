@@ -1,4 +1,4 @@
-package com.project.board.main.api.dto.announce;
+package com.project.board.main.api.dto.board.development;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,9 +10,9 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnnounceList {
-    private UUID announceUUID;
-    private String announceTitle;
+public class DevelopmentList {
+    private UUID developmentUUID;
+    private String developmentTitle;
     private String authorName;
     private int viewCounter;
     private LocalDateTime insertDate;

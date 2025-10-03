@@ -15,7 +15,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -32,50 +31,39 @@ public class AnnounceService {
         if (boardMainMember == null) throw new RuntimeException("존재하는 사용자가 없습니다.");
         if (boardMainMember.getMemberRole() != MemberRole.MASTER && boardMainMember.getMemberRole() != MemberRole.ADMIN) throw new RuntimeException("등록 할 수 있는 권한이 없습니다.");
 
-        LocalDateTime nowDate = LocalDateTime.now();
-
         boardMainAnnounceRepository.save(BoardMainAnnounce.builder()
-                .announceUUID(UUID.randomUUID())
                 .announceTitle(announceRegist.getAnnounceTitle())
                 .announceContent(announceRegist.getAnnounceContent())
                 .boardMainMember(boardMainMember)
-                .isActive(IsYesNo.YES)
-                .insertDate(nowDate)
-                .updateDate(nowDate)
                 .build());
     }
 
     @Transactional
     public void announceUpdate(AnnounceUpdate announceUpdate, String accessToken) {
-        if (checkAdmin(jwtUtil.getUserUUID(accessToken))) throw new RuntimeException("수정할 수 있는 권한이 없습니다.");
+        if (!checkAdmin(jwtUtil.getUserUUID(accessToken))) throw new RuntimeException("수정할 수 있는 권한이 없습니다.");
 
         BoardMainAnnounce boardMainAnnounce = boardMainAnnounceRepository.findBoardMainAnnounceByAnnounceUUID(announceUpdate.getAnnounceUUID());
         if (boardMainAnnounce == null) throw new RuntimeException("존재하는 공지사항이 없습니다.");
 
-        boardMainAnnounce.update(
-                announceUpdate.getAnnounceTitle(),
-                announceUpdate.getAnnounceContent(),
-                LocalDateTime.now()
-        );
+        boardMainAnnounce.update(announceUpdate.getAnnounceTitle(), announceUpdate.getAnnounceContent());
     }
 
     @Transactional
     public void announceDelete(UUID announceUUID, String accessToken) {
-        if (checkAdmin(jwtUtil.getUserUUID(accessToken))) throw new RuntimeException("삭제 할 수 있는 권한이 없습니다.");
+        if (!checkAdmin(jwtUtil.getUserUUID(accessToken))) throw new RuntimeException("삭제 할 수 있는 권한이 없습니다.");
 
         BoardMainAnnounce boardMainAnnounce = boardMainAnnounceRepository.findBoardMainAnnounceByAnnounceUUID(announceUUID);
         if (boardMainAnnounce == null) throw new RuntimeException("존재하는 공지사항이 없습니다.");
 
-        boardMainAnnounce.updateStatus(
-                IsYesNo.NO,
-                LocalDateTime.now()
-        );
+        boardMainAnnounce.updateStatus(IsYesNo.NO);
     }
 
     @Transactional
-    public AnnounceInfo announceInfo(UUID announceUUID) {
+    public AnnounceInfo announceInfo(UUID announceUUID, String accessToken) {
         BoardMainAnnounce boardMainAnnounce = boardMainAnnounceRepository.findBoardMainAnnounceByAnnounceUUID(announceUUID);
-        boardMainAnnounce.addViewCounter();
+        if (boardMainAnnounce == null) throw new RuntimeException("존재하는 공지사항이 없습니다.");
+
+        if (!checkAdmin(jwtUtil.getUserUUID(accessToken))) boardMainAnnounce.addViewCounter();
 
         return AnnounceInfo.create(boardMainAnnounce);
     }
@@ -86,6 +74,6 @@ public class AnnounceService {
 
     private boolean checkAdmin(UUID memberUUID) {
         BoardMainMember boardMainMember = boardMainMemberRepository.findBoardMainMemberByMemberUUID(memberUUID);
-        return boardMainMember == null || (boardMainMember.getMemberRole() != MemberRole.MASTER && boardMainMember.getMemberRole() != MemberRole.ADMIN);
+        return !(boardMainMember == null || (boardMainMember.getMemberRole() != MemberRole.MASTER && boardMainMember.getMemberRole() != MemberRole.ADMIN));
     }
 }

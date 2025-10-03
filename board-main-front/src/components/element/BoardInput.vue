@@ -31,7 +31,7 @@
 import { ref, defineModel } from 'vue'
 import type boardInputProps from '@/interfaces/element/boardInputProps'
 
-const props = defineProps<boardInputProps>()
+defineProps<boardInputProps>()
 const inputValue = defineModel('inputValue', { required: true })
 
 const isShowPassword = ref(false)

@@ -46,31 +46,31 @@ public class BoardMainAnnounce extends BoardCommonBase {
     private BoardMainMember boardMainMember;
 
     @Builder
-    public BoardMainAnnounce(UUID announceUUID, String announceTitle, String announceContent, BoardMainMember boardMainMember, int viewCounter, IsYesNo isActive, LocalDateTime insertDate, LocalDateTime updateDate) {
-        this.announceUUID = announceUUID;
+    public BoardMainAnnounce(String announceTitle, String announceContent, BoardMainMember boardMainMember) {
+        this.announceUUID = UUID.randomUUID();
         this.announceTitle = announceTitle;
         this.announceContent = announceContent;
         this.boardMainMember = boardMainMember;
-        this.viewCounter = viewCounter;
+        this.viewCounter = 0;
 
-        this.setIsActive(isActive);
-        this.setInsertDate(insertDate);
-        this.setUpdateDate(updateDate);
+        this.setIsActive(IsYesNo.YES);
+        this.setInsertDate(LocalDateTime.now());
+        this.setUpdateDate(LocalDateTime.now());
     }
 
-    public void update(String announceTitle, String announceContent, LocalDateTime updateDate) {
+    public void update(String announceTitle, String announceContent) {
         this.announceTitle = announceTitle;
         this.announceContent = announceContent;
 
-        this.setUpdateDate(updateDate);
+        this.setUpdateDate(LocalDateTime.now());
     }
 
-    public void updateStatus(IsYesNo isActive, LocalDateTime updateDate) {
+    public void updateStatus(IsYesNo isActive) {
         this.setIsActive(isActive);
-        this.setUpdateDate(updateDate);
+        this.setUpdateDate(LocalDateTime.now());
     }
 
     public void addViewCounter() {
-        this.viewCounter += 1;
+        this.viewCounter++;
     }
 }

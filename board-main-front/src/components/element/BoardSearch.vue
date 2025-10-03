@@ -19,10 +19,9 @@
 </template>
 
 <script setup lang="ts">
-import Select from 'primevue/select';
 import type boardSearchProps from '@/interfaces/element/boardSearchProps'
 
-const props = defineProps<boardSearchProps>()
+defineProps<boardSearchProps>()
 const inputValue = defineModel('inputValue', { required: true })
 const emit = defineEmits<{
   searchSubmit: [],

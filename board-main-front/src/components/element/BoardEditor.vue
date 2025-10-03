@@ -17,11 +17,9 @@
             <button v-tooltip.bottom="'Italic'" class="ql-italic"></button>
             <button v-tooltip.bottom="'Underline'" class="ql-underline"></button>
             <button v-tooltip.bottom="'Strike'" class="ql-strike"></button>
-            <button v-tooltip.bottom="'Ordered List'" class="ql-list" value="ordered"></button>
             <select v-tooltip.bottom="'Align'" class="ql-align"></select>
             <select class="ql-color" v-tooltip.bottom="'Text Color'"></select>
             <select class="ql-background" v-tooltip.bottom="'Background Color'"></select>
-            <button v-tooltip.bottom="'Code'" class="ql-code"></button>
           </span>
         </template>
       </Editor>

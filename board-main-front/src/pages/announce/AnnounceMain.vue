@@ -64,11 +64,10 @@ const totalCount = ref(0)
 const contents = ref([])
 
 const columnHeader = ref([
-  { seq: 1, field: 'announceTitle', header: '제목', style: 'padding-left: 7rem; width: 80rem' },
-  { seq: 2, field: 'authorName', header: '작성자', style: '' },
-  { seq: 3, field: 'viewCounter', header: '조회수', style: '' },
-  { seq: 4, field: 'insertDate', header: '등록일', style: '' },
-  { seq: 5, field: 'updateDate', header: '수정일', style: '' },
+  { seq: 1, field: 'announceTitle', header: '제목', style: 'padding-left: 7rem; width: 40%' },
+  { seq: 2, field: 'authorName', header: '작성자', style: 'width: 10%' },
+  { seq: 3, field: 'viewCounter', header: '조회수', style: 'width: 10%' },
+  { seq: 4, field: 'insertDate', header: '등록일', style: 'width: 20%' }
 ])
 
 const searchSubmit = () => {
@@ -103,7 +102,6 @@ const getAnnounceList = async () => {
     for (let i = 0; i < announceResult.retData.totalCount; i++) {
       announceResult.retData.announceContents[i].authorName = '관리자'
       announceResult.retData.announceContents[i].insertDate = announceResult.retData.announceContents[i].insertDate.replace("T", " ")
-      announceResult.retData.announceContents[i].updateDate = announceResult.retData.announceContents[i].updateDate.replace("T", " ")
     }
 
     contents.value = announceResult.retData.announceContents

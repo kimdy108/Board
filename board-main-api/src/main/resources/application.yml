@@ -71,7 +71,7 @@ logging:
     org.hibernate.resource: info
     com.zaxxer.hikari.pool.HikariPool: debug
     com.zaxxer.hikari: trace
-  dir: E:\data\workSpace\sampleData\board\logs
+  dir: /Users/kimdy/data/workSpace/sampleData/board/logs
 
 ---
 spring:

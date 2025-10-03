@@ -16,7 +16,10 @@ const announceChild: Array<RouteRecordRaw> = [
 ]
 
 const developmentChild: Array<RouteRecordRaw> = [
-  { path: '/board/development/main', name: 'DevelopmentMain', component: loadSubPage('pages', 'board/development', 'DevelopmentMain'), meta: { id: 'DevelopmentMain' } }
+  { path: '/board/development/main', name: 'DevelopmentMain', component: loadSubPage('pages', 'board/development', 'DevelopmentMain'), meta: { id: 'DevelopmentMain' } },
+  { path: '/board/development/regist', name: 'DevelopmentRegist', component: loadSubPage('pages', 'board/development', 'DevelopmentRegist'), meta: { id: 'DevelopmentRegist' } },
+  { path: '/board/development/update', name: 'DevelopmentUpdate', component: loadSubPage('pages', 'board/development', 'DevelopmentUpdate'), meta: { id: 'DevelopmentUpdate' } },
+  { path: '/board/development/info', name: 'DevelopmentInfo', component: loadSubPage('pages', 'board/development', 'DevelopmentInfo'), meta: { id: 'DevelopmentInfo' } }
 ]
 
 const stackChild: Array<RouteRecordRaw> = [

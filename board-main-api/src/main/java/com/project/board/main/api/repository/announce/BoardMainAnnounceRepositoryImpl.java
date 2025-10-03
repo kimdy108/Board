@@ -34,8 +34,7 @@ public class BoardMainAnnounceRepositoryImpl implements BoardMainAnnounceReposit
                         qBoardMainAnnounce.announceUUID.as("announceUUID"),
                         qBoardMainAnnounce.announceTitle.as("announceTitle"),
                         qBoardMainAnnounce.viewCounter.as("viewCounter"),
-                        qBoardMainAnnounce.insertDate.as("insertDate"),
-                        qBoardMainAnnounce.updateDate.as("updateDate")
+                        qBoardMainAnnounce.insertDate.as("insertDate")
                 ))
                 .from(qBoardMainAnnounce)
                 .where(bb, eqAnnounceTitle(searchType, searchValue), eqAnnounceContent(searchType, searchValue))

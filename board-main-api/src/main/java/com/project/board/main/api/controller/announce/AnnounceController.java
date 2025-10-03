@@ -43,8 +43,8 @@ public class AnnounceController {
 
     @Operation(summary = "announce info", description = "공지사항 정보")
     @GetMapping("/info/{announceUUID}")
-    public ResponseEntity<ResponseMsg> announceInfo(@PathVariable UUID announceUUID) {
-        return ResponseMsg.successResponse(announceService.announceInfo(announceUUID));
+    public ResponseEntity<ResponseMsg> announceInfo(@PathVariable UUID announceUUID, HttpServletRequest request) {
+        return ResponseMsg.successResponse(announceService.announceInfo(announceUUID, request.getHeader("Authorization")));
     }
 
     @Operation(summary = "announce list page", description = "공지사항 리스트 페이지")

@@ -1,17 +1,17 @@
 <template>
   <div>
     <div class="text-left mb-5">
-      <div class="text-2xl font-bold text-gray-900">공지사항 수정</div>
+      <div class="text-2xl font-bold text-gray-900">게시글 수정</div>
     </div>
 
     <div class="w-full mb-24">
-      <BoardInput inputType="text" inputTitle="제목" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="announceTitle" />
-      <BoardEditor :isReadOnly="false" inputTitle="내용" :isRequire="true" v-model:inputValue="announceContent" />
+      <BoardInput inputType="text" inputTitle="제목" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="developmentTitle" />
+      <BoardEditor :isReadOnly="false" inputTitle="내용" :isRequire="true" v-model:inputValue="developmentContent" />
     </div>
 
     <div class="flex justify-end">
       <Button class="m-2 !px-4 !py-3 !bg-violet-400 !border !border-violet-400 hover:!bg-violet-500 hover:!border hover:!border-violet-500" @click="movePrevPage">이전</Button>
-      <Button class="m-2 !px-4 !py-3 !bg-orange-400 !border !border-orange-400 hover:!bg-orange-500 hover:!border hover:!border-orange-500" @click="announceUpdate">수정</Button>
+      <Button class="m-2 !px-4 !py-3 !bg-orange-400 !border !border-orange-400 hover:!bg-orange-500 hover:!border hover:!border-orange-500" @click="developmentUpdate">수정</Button>
     </div>
   </div>
 </template>
@@ -31,86 +31,86 @@ import BoardEditor from '@/components/element/BoardEditor.vue'
 const router = useRouter()
 const toastStore = useToastStore()
 
-const announceUUID = ref('')
-const announceTitle = ref('')
-const announceContent = ref('')
+const developmentUUID = ref('')
+const developmentTitle = ref('')
+const developmentContent = ref('')
 
 onMounted(() => {
-  announceUUID.value = history.state.uuid
-  announceTitle.value = ''
-  announceContent.value = ''
+  developmentUUID.value = history.state.uuid
+  developmentTitle.value = ''
+  developmentContent.value = ''
 
-  getAnnounceInfo()
+  getDevelopmentInfo()
 })
 
 const movePrevPage = () => {
-  router.push({ name: 'AnnounceInfo', state: {uuid: announceUUID.value} }).catch(() => {
-    console.log('AnnounceInfo Error')
+  router.push({ name: 'DevelopmentInfo', state: {uuid: developmentUUID.value} }).catch(() => {
+    console.log('DevelopmentInfo Error')
   })
 }
 
-const announceUpdate = () => {
-  if (announceTitle.value == null || announceTitle.value == '') {
+const developmentUpdate = () => {
+  if (developmentTitle.value == null || developmentTitle.value == '') {
     toastStore.setToastValue({
       severity: 'warn',
-      summary: '공지사항 관리',
+      summary: '게시글 관리',
       detail: '제목을 입력해주세요.',
       life: 3000
     })
     return
   }
 
-  if (announceContent.value == null || announceContent.value == '') {
+  if (developmentContent.value == null || developmentContent.value == '') {
     toastStore.setToastValue({
       severity: 'warn',
-      summary: '공지사항 관리',
+      summary: '게시글 관리',
       detail: '내용을 입력해주세요.',
       life: 3000
     })
     return
   }
 
-  announceUpdateAction()
+  developmentUpdateAction()
 }
 
-const getAnnounceInfo = async () => {
+const getDevelopmentInfo = async () => {
   const reqHeader = { accept: 'application/json' }
   const infoResult: responseData = await ApiService.requestAPI({
     headers: reqHeader,
     method: 'GET',
-    url: `/board/announce/info/${announceUUID.value}`,
+    url: `/board/development/info/${developmentUUID.value}`,
   })
   if (infoResult.retStatus) {
-    announceTitle.value = infoResult.retData.announceTitle
-    announceContent.value = infoResult.retData.announceContent
+    developmentTitle.value = infoResult.retData.developmentTitle
+    developmentContent.value = infoResult.retData.developmentContent
   }
 }
 
-const announceUpdateAction = async () => {
+const developmentUpdateAction = async () => {
   const reqHeader = { accept: 'application/json' }
   const reqData = {
-    'announceUUID': announceUUID.value,
-    'announceTitle': announceTitle.value,
-    'announceContent': announceContent.value
+    'developmentUUID': developmentUUID.value,
+    'developmentTitle': developmentTitle.value,
+    'developmentContent': developmentContent.value
   }
   const updateResult: responseData = await ApiService.requestAPI({
     headers: reqHeader,
     method: 'PUT',
-    url: `/board/announce/update`,
+    url: `/board/development/update`,
     data: reqData
   })
   if (updateResult.retStatus) {
     toastStore.setToastValue({
       severity: 'success',
-      summary: '공지사항 관리',
-      detail: '공지사항을 수정했습니다.',
+      summary: '게시글 관리',
+      detail: '게시글을 수정했습니다.',
       life: 3000
     })
     movePrevPage()
   } else {
     toastStore.setToastValue({
       severity: 'error',
-      summary: '공지사항 관리',
+      summary: '게시글 관리',
       detail: updateResult.retData,
       life: 3000
     })
