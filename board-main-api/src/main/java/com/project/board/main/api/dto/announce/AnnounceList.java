@@ -13,7 +13,6 @@ import java.util.UUID;
 public class AnnounceList {
     private UUID announceUUID;
     private String announceTitle;
-    private String authorName;
-    private int viewCounter;
+    private int viewCount;
     private LocalDateTime insertDate;
 }

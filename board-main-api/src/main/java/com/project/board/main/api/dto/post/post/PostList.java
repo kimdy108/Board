@@ -1,4 +1,4 @@
-package com.project.board.main.api.dto.board.development;
+package com.project.board.main.api.dto.post.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,10 +10,10 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DevelopmentList {
-    private UUID developmentUUID;
-    private String developmentTitle;
-    private String authorName;
-    private int viewCounter;
+public class PostList {
+    private UUID postUUID;
+    private String postTitle;
+    private String memberName;
+    private int viewCount;
     private LocalDateTime insertDate;
 }

@@ -6,7 +6,7 @@
 
     <div class="w-full">
 
-      <BoardInfo :title="developmentTitle" :content="developmentContent" :viewCounter="developmentViewCounter" :author="developmentAuthorName" :insertDate="developmentInsertDate" :updateDate="developmentUpdateDate" />
+      <BoardInfo :title="developmentTitle" :content="developmentContent" :viewCount="developmentViewCount" :author="developmentAuthorName" :insertDate="developmentInsertDate" :updateDate="developmentUpdateDate" />
 
       <div class="flex justify-end">
         <Button class="m-2 !px-4 !py-3 !bg-sky-400 !border !border-sky-400 hover:!bg-sky-500 hover:!border hover:!border-sky-500" @click="moveMainPage">메인</Button>
@@ -15,6 +15,8 @@
         <Button v-if="isOwner() || isMaster()" class="m-2 !px-4 !py-3 !bg-red-400 !border !border-red-400 hover:!bg-red-500 hover:!border hover:!border-red-500" @click="deleteAction">삭제</Button>
       </div>
     </div>
+
+    <DevelopmentComment :showModal="isCommentModal" @closeCommentModal="closeCommentModal" />
   </div>
 </template>
 
@@ -31,6 +33,8 @@ import BoardInfo from '@/components/element/BoardInfo.vue'
 import responseData from "@/interfaces/common/responseData";
 import ApiService from "@/services/ApiService";
 
+import DevelopmentComment from './DevelopmentComment.vue'
+
 const userStore = useUserStore()
 const toastStore = useToastStore()
 
@@ -39,17 +43,19 @@ const router = useRouter();
 const developmentUUID = ref('')
 const developmentTitle = ref('')
 const developmentContent = ref('')
-const developmentViewCounter = ref()
+const developmentViewCount = ref()
 const developmentAuthorName = ref('')
 const developmentAuthorUUID = ref('')
 const developmentInsertDate = ref('')
 const developmentUpdateDate = ref('')
 
+const isCommentModal = ref(false)
+
 onMounted(() => {
   developmentUUID.value = history.state.uuid
   developmentTitle.value = ''
   developmentContent.value = ''
-  developmentViewCounter.value = 1
+  developmentViewCount.value = 1
   developmentAuthorName.value = ''
   developmentAuthorUUID.value = ''
   developmentInsertDate.value = ''
@@ -57,6 +63,14 @@ onMounted(() => {
 
   getDevelopmentInfo()
 })
+
+const showCommentModal = () => {
+  isCommentModal.value = true
+}
+
+const closeCommentModal = () => {
+  isCommentModal.value = false
+}
 
 const isOwner = () => {
   return developmentAuthorUUID.value == decryptStringSalt(userStore.getCurrentUser.uud)
@@ -83,12 +97,12 @@ const getDevelopmentInfo = async () => {
   const infoResult: responseData = await ApiService.requestAPI({
     headers: reqHeader,
     method: 'GET',
-    url: `/board/development/info/${developmentUUID.value}`,
+    url: `/board/post/info/${developmentUUID.value}`,
   })
   if (infoResult.retStatus) {
-    developmentTitle.value = infoResult.retData.developmentTitle
-    developmentContent.value = infoResult.retData.developmentContent
-    developmentViewCounter.value = infoResult.retData.viewCounter
+    developmentTitle.value = infoResult.retData.postTitle
+    developmentContent.value = infoResult.retData.postContent
+    developmentViewCount.value = infoResult.retData.viewCount
     developmentAuthorName.value = decryptStringSalt(infoResult.retData.memberName)
     developmentAuthorUUID.value = infoResult.retData.memberUUID
     developmentInsertDate.value = infoResult.retData.insertDate.replace("T", " ")
@@ -101,7 +115,7 @@ const deleteAction = async () => {
   const deleteResult: responseData = await ApiService.requestAPI({
     headers: reqHeader,
     method: 'DELETE',
-    url: `/board/development/delete/${developmentUUID.value}`
+    url: `/board/post/delete/${developmentUUID.value}`
   })
   if (deleteResult.retStatus) {
     toastStore.setToastValue({

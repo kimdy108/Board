@@ -26,7 +26,7 @@
         :totalCount="totalCount"
         :isUpdate="true"
         :isDelete="true"
-        keyName="developmentUUID"
+        keyName="postUUID"
         @showInfo="moveInfoPage"
       />
     </div>
@@ -53,11 +53,11 @@ onMounted(() => {
 
 const searchValue = ref('')
 
-const searchCategory = ref('developmentTitle')
+const searchCategory = ref('postTitle')
 const searchCategoryList = ref([
-  { key: 'developmentTitle', name: '제목' },
-  { key: 'developmentContent', name: '내용' },
-  { key: 'authorName', name: '작성자' },
+  { key: 'postTitle', name: '제목' },
+  { key: 'postContent', name: '내용' },
+  { key: 'memberName', name: '작성자' },
 ])
 
 const totalCount = ref(0)
@@ -65,9 +65,9 @@ const totalCount = ref(0)
 const contents = ref([])
 
 const columnHeader = ref([
-  { seq: 1, field: 'developmentTitle', header: '제목', style: 'padding-left: 7rem; width: 40%' },
-  { seq: 2, field: 'authorName', header: '작성자', style: 'width: 10%' },
-  { seq: 3, field: 'viewCounter', header: '조회수', style: 'width: 10%' },
+  { seq: 1, field: 'postTitle', header: '제목', style: 'padding-left: 7rem; width: 40%' },
+  { seq: 2, field: 'memberName', header: '작성자', style: 'width: 10%' },
+  { seq: 3, field: 'viewCount', header: '조회수', style: 'width: 10%' },
   { seq: 4, field: 'insertDate', header: '등록일', style: 'width: 20%' }
 ])
 
@@ -92,20 +92,26 @@ const getDevelopmentList = async () => {
   const reqParams = {
     searchType: searchCategory.value ? searchCategory.value : '',
     searchValue: searchValue.value ? searchValue.value : '',
+    postType: 'DEVELOPMENT'
   }
   const developmentResult: responseData = await ApiService.requestAPI({
     headers: reqHeader,
     method: 'GET',
-    url: `/board/development/list/page`,
+    url: `/board/post/list/page`,
     params: reqParams
   })
+  console.log(developmentResult)
   if (developmentResult.retStatus) {
-    for (let i = 0; i < developmentResult.retData.totalCount; i++) {
-      developmentResult.retData.developmentContents[i].insertDate = developmentResult.retData.developmentContents[i].insertDate.replace("T", " ")
+    if (developmentResult.retData.postContents && Array.isArray(developmentResult.retData.postContents)) {
+      for (let i = 0; i < developmentResult.retData.postContents.length; i++) {
+        if (developmentResult.retData.postContents[i] && developmentResult.retData.postContents[i].insertDate) {
+          developmentResult.retData.postContents[i].insertDate = developmentResult.retData.postContents[i].insertDate.replace("T", " ")
+        }
+      }
     }
 
-    contents.value = developmentResult.retData.developmentContents
-    totalCount.value = developmentResult.retData.totalCount
+    contents.value = developmentResult.retData.postContents || []
+    totalCount.value = developmentResult.retData.totalCount || 0
   }
 }
 </script>

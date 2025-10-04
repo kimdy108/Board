@@ -1,11 +1,11 @@
-package com.project.board.main.api.service.board;
+package com.project.board.main.api.service.post;
 
-import com.project.board.main.api.domain.board.BoardDevelopmentAndStackComment;
-import com.project.board.main.api.dto.board.BoardComment;
-import com.project.board.main.api.dto.board.BoardCommentRegist;
-import com.project.board.main.api.dto.board.BoardCommentUpdate;
-import com.project.board.main.api.repository.board.BoardDevelopmentAndStackCommentRepository;
-import com.project.board.main.api.repository.board.BoardDevelopmentAndStackCommentRepositoryImpl;
+import com.project.board.main.api.domain.post.BoardDevelopmentAndStackComment;
+import com.project.board.main.api.dto.post.BoardComment;
+import com.project.board.main.api.dto.post.BoardCommentRegist;
+import com.project.board.main.api.dto.post.BoardCommentUpdate;
+import com.project.board.main.api.repository.post.BoardDevelopmentAndStackCommentRepository;
+import com.project.board.main.api.repository.post.BoardDevelopmentAndStackCommentRepositoryImpl;
 import com.project.board.main.api.utils.Common;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

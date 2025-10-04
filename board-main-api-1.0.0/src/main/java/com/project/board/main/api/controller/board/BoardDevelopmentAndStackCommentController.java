@@ -1,9 +1,9 @@
-package com.project.board.main.api.controller.board;
+package com.project.board.main.api.controller.post;
 
-import com.project.board.main.api.dto.board.BoardComment;
-import com.project.board.main.api.dto.board.BoardCommentRegist;
-import com.project.board.main.api.dto.board.BoardCommentUpdate;
-import com.project.board.main.api.service.board.BoardDevelopmentAndStackCommentService;
+import com.project.board.main.api.dto.post.BoardComment;
+import com.project.board.main.api.dto.post.BoardCommentRegist;
+import com.project.board.main.api.dto.post.BoardCommentUpdate;
+import com.project.board.main.api.service.post.BoardDevelopmentAndStackCommentService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

@@ -78,25 +78,25 @@ const getDevelopmentInfo = async () => {
   const infoResult: responseData = await ApiService.requestAPI({
     headers: reqHeader,
     method: 'GET',
-    url: `/board/development/info/${developmentUUID.value}`,
+    url: `/board/post/info/${developmentUUID.value}`,
   })
   if (infoResult.retStatus) {
-    developmentTitle.value = infoResult.retData.developmentTitle
-    developmentContent.value = infoResult.retData.developmentContent
+    developmentTitle.value = infoResult.retData.postTitle
+    developmentContent.value = infoResult.retData.postContent
   }
 }
 
 const developmentUpdateAction = async () => {
   const reqHeader = { accept: 'application/json' }
   const reqData = {
-    'developmentUUID': developmentUUID.value,
-    'developmentTitle': developmentTitle.value,
-    'developmentContent': developmentContent.value
+    'postUUID': developmentUUID.value,
+    'postTitle': developmentTitle.value,
+    'postContent': developmentContent.value,
   }
   const updateResult: responseData = await ApiService.requestAPI({
     headers: reqHeader,
     method: 'PUT',
-    url: `/board/development/update`,
+    url: `/board/post/update`,
     data: reqData
   })
   if (updateResult.retStatus) {

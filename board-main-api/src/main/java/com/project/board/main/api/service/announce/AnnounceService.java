@@ -20,15 +20,13 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class AnnounceService {
-    private final JWTUtil jwtUtil;
-
     private final BoardMainMemberRepository boardMainMemberRepository;
     private final BoardMainAnnounceRepository boardMainAnnounceRepository;
 
     @Transactional
-    public void announceRegist(AnnounceRegist announceRegist, String accessToken) {
-        BoardMainMember boardMainMember = boardMainMemberRepository.findBoardMainMemberByMemberUUID(jwtUtil.getUserUUID(accessToken));
-        if (boardMainMember == null) throw new RuntimeException("존재하는 사용자가 없습니다.");
+    public void announceRegist(AnnounceRegist announceRegist, UUID memberUUID) {
+        BoardMainMember boardMainMember = boardMainMemberRepository.findBoardMainMemberByMemberUUID(memberUUID)
+                .orElseThrow(() -> new RuntimeException("존재하는 사용자가 없습니다."));
         if (boardMainMember.getMemberRole() != MemberRole.MASTER && boardMainMember.getMemberRole() != MemberRole.ADMIN) throw new RuntimeException("등록 할 수 있는 권한이 없습니다.");
 
         boardMainAnnounceRepository.save(BoardMainAnnounce.builder()
@@ -39,31 +37,31 @@ public class AnnounceService {
     }
 
     @Transactional
-    public void announceUpdate(AnnounceUpdate announceUpdate, String accessToken) {
-        if (!checkAdmin(jwtUtil.getUserUUID(accessToken))) throw new RuntimeException("수정할 수 있는 권한이 없습니다.");
+    public void announceUpdate(AnnounceUpdate announceUpdate, UUID memberUUID) {
+        if (!checkAdmin(memberUUID)) throw new RuntimeException("수정할 수 있는 권한이 없습니다.");
 
-        BoardMainAnnounce boardMainAnnounce = boardMainAnnounceRepository.findBoardMainAnnounceByAnnounceUUID(announceUpdate.getAnnounceUUID());
-        if (boardMainAnnounce == null) throw new RuntimeException("존재하는 공지사항이 없습니다.");
+        BoardMainAnnounce boardMainAnnounce = boardMainAnnounceRepository.findBoardMainAnnounceByAnnounceUUID(announceUpdate.getAnnounceUUID())
+                        .orElseThrow(() -> new RuntimeException("존재하는 공지사항이 없습니다."));
 
         boardMainAnnounce.update(announceUpdate.getAnnounceTitle(), announceUpdate.getAnnounceContent());
     }
 
     @Transactional
-    public void announceDelete(UUID announceUUID, String accessToken) {
-        if (!checkAdmin(jwtUtil.getUserUUID(accessToken))) throw new RuntimeException("삭제 할 수 있는 권한이 없습니다.");
+    public void announceDelete(UUID announceUUID, UUID memberUUID) {
+        if (!checkAdmin(memberUUID)) throw new RuntimeException("삭제 할 수 있는 권한이 없습니다.");
 
-        BoardMainAnnounce boardMainAnnounce = boardMainAnnounceRepository.findBoardMainAnnounceByAnnounceUUID(announceUUID);
-        if (boardMainAnnounce == null) throw new RuntimeException("존재하는 공지사항이 없습니다.");
+        BoardMainAnnounce boardMainAnnounce = boardMainAnnounceRepository.findBoardMainAnnounceByAnnounceUUID(announceUUID)
+                .orElseThrow(() -> new RuntimeException("존재하는 공지사항이 없습니다."));
 
         boardMainAnnounce.updateStatus(IsYesNo.NO);
     }
 
     @Transactional
-    public AnnounceInfo announceInfo(UUID announceUUID, String accessToken) {
-        BoardMainAnnounce boardMainAnnounce = boardMainAnnounceRepository.findBoardMainAnnounceByAnnounceUUID(announceUUID);
-        if (boardMainAnnounce == null) throw new RuntimeException("존재하는 공지사항이 없습니다.");
+    public AnnounceInfo announceInfo(UUID announceUUID, UUID memberUUID) {
+        BoardMainAnnounce boardMainAnnounce = boardMainAnnounceRepository.findBoardMainAnnounceByAnnounceUUID(announceUUID)
+                .orElseThrow(() -> new RuntimeException("존재하는 공지사항이 없습니다."));
 
-        if (!checkAdmin(jwtUtil.getUserUUID(accessToken))) boardMainAnnounce.addViewCounter();
+        if (!checkAdmin(memberUUID)) boardMainAnnounce.addViewCount();
 
         return AnnounceInfo.create(boardMainAnnounce);
     }
@@ -73,7 +71,8 @@ public class AnnounceService {
     }
 
     private boolean checkAdmin(UUID memberUUID) {
-        BoardMainMember boardMainMember = boardMainMemberRepository.findBoardMainMemberByMemberUUID(memberUUID);
-        return !(boardMainMember == null || (boardMainMember.getMemberRole() != MemberRole.MASTER && boardMainMember.getMemberRole() != MemberRole.ADMIN));
+        BoardMainMember boardMainMember = boardMainMemberRepository.findBoardMainMemberByMemberUUID(memberUUID)
+                .orElseThrow(() -> new RuntimeException("존재하는 사용자가 없습니다."));
+        return boardMainMember.getMemberRole() == MemberRole.MASTER || boardMainMember.getMemberRole() == MemberRole.ADMIN;
     }
 }

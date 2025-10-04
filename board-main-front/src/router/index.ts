@@ -16,18 +16,18 @@ const announceChild: Array<RouteRecordRaw> = [
 ]
 
 const developmentChild: Array<RouteRecordRaw> = [
-  { path: '/board/development/main', name: 'DevelopmentMain', component: loadSubPage('pages', 'board/development', 'DevelopmentMain'), meta: { id: 'DevelopmentMain' } },
-  { path: '/board/development/regist', name: 'DevelopmentRegist', component: loadSubPage('pages', 'board/development', 'DevelopmentRegist'), meta: { id: 'DevelopmentRegist' } },
-  { path: '/board/development/update', name: 'DevelopmentUpdate', component: loadSubPage('pages', 'board/development', 'DevelopmentUpdate'), meta: { id: 'DevelopmentUpdate' } },
-  { path: '/board/development/info', name: 'DevelopmentInfo', component: loadSubPage('pages', 'board/development', 'DevelopmentInfo'), meta: { id: 'DevelopmentInfo' } }
+  { path: '/board/development/main', name: 'DevelopmentMain', component: loadSubPage('pages', 'post/development', 'DevelopmentMain'), meta: { id: 'DevelopmentMain' } },
+  { path: '/board/development/regist', name: 'DevelopmentRegist', component: loadSubPage('pages', 'post/development', 'DevelopmentRegist'), meta: { id: 'DevelopmentRegist' } },
+  { path: '/board/development/update', name: 'DevelopmentUpdate', component: loadSubPage('pages', 'post/development', 'DevelopmentUpdate'), meta: { id: 'DevelopmentUpdate' } },
+  { path: '/board/development/info', name: 'DevelopmentInfo', component: loadSubPage('pages', 'post/development', 'DevelopmentInfo'), meta: { id: 'DevelopmentInfo' } }
 ]
 
 const stackChild: Array<RouteRecordRaw> = [
-  { path: '/board/stack/main', name: 'StackMain', component: loadSubPage('pages', 'board/stack', 'StackMain'), meta: { id: 'StackMain' } }
+  { path: '/board/stack/main', name: 'StackMain', component: loadSubPage('pages', 'post/stack', 'StackMain'), meta: { id: 'StackMain' } }
 ]
 
 const freeChild: Array<RouteRecordRaw> = [
-  { path: '/board/free/main', name: 'FreeMain', component: loadSubPage('pages', 'board/free', 'FreeMain'), meta: { id: 'FreeMain' } }
+  { path: '/board/free/main', name: 'FreeMain', component: loadSubPage('pages', 'post/free', 'FreeMain'), meta: { id: 'FreeMain' } }
 ]
 
 const qnaChild: Array<RouteRecordRaw> = [

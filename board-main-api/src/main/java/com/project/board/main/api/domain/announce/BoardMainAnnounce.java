@@ -37,8 +37,8 @@ public class BoardMainAnnounce extends BoardCommonBase {
     private String announceContent;
 
     @Comment("조회 수")
-    @Column(name = "view_counter", length = 10, nullable = false)
-    private int viewCounter;
+    @Column(name = "view_count", length = 10, nullable = false)
+    private int viewCount;
 
     @Comment("작성자 SEQ (관리자)")
     @ManyToOne(fetch = LAZY)
@@ -51,7 +51,7 @@ public class BoardMainAnnounce extends BoardCommonBase {
         this.announceTitle = announceTitle;
         this.announceContent = announceContent;
         this.boardMainMember = boardMainMember;
-        this.viewCounter = 0;
+        this.viewCount = 0;
 
         this.setIsActive(IsYesNo.YES);
         this.setInsertDate(LocalDateTime.now());
@@ -70,7 +70,7 @@ public class BoardMainAnnounce extends BoardCommonBase {
         this.setUpdateDate(LocalDateTime.now());
     }
 
-    public void addViewCounter() {
-        this.viewCounter++;
+    public void addViewCount() {
+        this.viewCount++;
     }
 }

@@ -72,8 +72,8 @@ public class BoardMainMember extends BoardCommonDescription {
     private LocalDateTime lastDate;
 
     @Builder
-    public BoardMainMember(UUID memberUUID, String memberID, String memberPassword, String memberName, String memberNickName, String memberPhone, String memberEmail, MemberRole memberRole, String memberType, MemberApprovalType memberApproval, LocalDateTime lastDate, IsYesNo isActive, LocalDateTime insertDate, LocalDateTime updateDate, String descriptionNote) {
-        this.memberUUID = memberUUID;
+    public BoardMainMember(String memberID, String memberPassword, String memberName, String memberNickName, String memberPhone, String memberEmail, MemberRole memberRole, String memberType, MemberApprovalType memberApproval, String descriptionNote) {
+        this.memberUUID = UUID.randomUUID();
         this.memberID = memberID;
         this.memberPassword = memberPassword;
         this.memberName = memberName;
@@ -83,11 +83,15 @@ public class BoardMainMember extends BoardCommonDescription {
         this.memberRole = memberRole;
         this.memberType = memberType;
         this.memberApproval = memberApproval;
-        this.lastDate = lastDate;
+        this.lastDate = LocalDateTime.parse("2000-01-29T00:00:00");
 
-        this.setIsActive(isActive);
-        this.setInsertDate(insertDate);
-        this.setUpdateDate(updateDate);
+        this.setIsActive(IsYesNo.YES);
+        this.setInsertDate(LocalDateTime.now());
+        this.setUpdateDate(LocalDateTime.now());
         this.setDescriptionNote(descriptionNote);
+    }
+
+    public void updateLastDate() {
+        this.lastDate = LocalDateTime.now();
     }
 }

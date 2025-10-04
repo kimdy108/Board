@@ -15,7 +15,7 @@ public class AnnounceInfo {
     private UUID announceUUID;
     private String announceTitle;
     private String announceContent;
-    private int viewCounter;
+    private int viewCount;
     private LocalDateTime insertDate;
     private LocalDateTime updateDate;
 
@@ -24,7 +24,7 @@ public class AnnounceInfo {
         announceInfo.setAnnounceUUID(boardMainAnnounce.getAnnounceUUID());
         announceInfo.setAnnounceTitle(boardMainAnnounce.getAnnounceTitle());
         announceInfo.setAnnounceContent(boardMainAnnounce.getAnnounceContent());
-        announceInfo.setViewCounter(boardMainAnnounce.getViewCounter());
+        announceInfo.setViewCount(boardMainAnnounce.getViewCount());
         announceInfo.setInsertDate(boardMainAnnounce.getInsertDate());
         announceInfo.setUpdateDate(boardMainAnnounce.getUpdateDate());
         return announceInfo;

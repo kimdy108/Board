@@ -1,6 +1,6 @@
-package com.project.board.main.api.repository.board;
+package com.project.board.main.api.repository.post;
 
-import com.project.board.main.api.domain.board.BoardFreeComment;
+import com.project.board.main.api.domain.post.BoardFreeComment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

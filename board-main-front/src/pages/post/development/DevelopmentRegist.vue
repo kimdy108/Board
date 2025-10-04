@@ -72,13 +72,14 @@ const developmentRegist = () => {
 const developmentRegistAction = async () => {
   const reqHeader = { accept: 'application/json' }
   const reqData = {
-    'developmentTitle': developmentTitle.value,
-    'developmentContent': developmentContent.value
+    'postTitle': developmentTitle.value,
+    'postContent': developmentContent.value,
+    'postType': 'DEVELOPMENT'
   }
   const registResult: responseData = await ApiService.requestAPI({
     headers: reqHeader,
     method: 'POST',
-    url: `/board/development/regist`,
+    url: `/board/post/regist`,
     data: reqData
   })
   if (registResult.retStatus) {

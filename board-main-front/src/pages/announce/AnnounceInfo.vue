@@ -6,7 +6,7 @@
 
     <div class="w-full">
 
-      <BoardInfo :title="announceTitle" :content="announceContent" :viewCounter="announceViewCounter" author="관리자" :insertDate="announceInsertDate" :updateDate="announceUpdateDate" />
+      <BoardInfo :title="announceTitle" :content="announceContent" :viewCount="announceViewCount" author="관리자" :insertDate="announceInsertDate" :updateDate="announceUpdateDate" />
 
       <div class="flex justify-end">
         <Button class="m-2 !px-4 !py-3 !bg-sky-400 !border !border-sky-400 hover:!bg-sky-500 hover:!border hover:!border-sky-500" @click="moveMainPage">메인</Button>
@@ -38,7 +38,7 @@ const router = useRouter();
 const announceUUID = ref('')
 const announceTitle = ref('')
 const announceContent = ref('')
-const announceViewCounter = ref()
+const announceViewCount = ref()
 const announceInsertDate = ref('')
 const announceUpdateDate = ref('')
 
@@ -46,7 +46,7 @@ onMounted(() => {
   announceUUID.value = history.state.uuid
   announceTitle.value = ''
   announceContent.value = ''
-  announceViewCounter.value = 0
+  announceViewCount.value = 0
   announceInsertDate.value = ''
   announceUpdateDate.value = ''
 
@@ -79,7 +79,7 @@ const getAnnounceInfo = async () => {
   if (infoResult.retStatus) {
     announceTitle.value = infoResult.retData.announceTitle
     announceContent.value = infoResult.retData.announceContent
-    announceViewCounter.value = infoResult.retData.viewCounter
+    announceViewCount.value = infoResult.retData.viewCount
     announceInsertDate.value = infoResult.retData.insertDate.replace("T", " ")
     announceUpdateDate.value = infoResult.retData.updateDate.replace("T", " ")
   }

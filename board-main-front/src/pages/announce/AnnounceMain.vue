@@ -66,7 +66,7 @@ const contents = ref([])
 const columnHeader = ref([
   { seq: 1, field: 'announceTitle', header: '제목', style: 'padding-left: 7rem; width: 40%' },
   { seq: 2, field: 'authorName', header: '작성자', style: 'width: 10%' },
-  { seq: 3, field: 'viewCounter', header: '조회수', style: 'width: 10%' },
+  { seq: 3, field: 'viewCount', header: '조회수', style: 'width: 10%' },
   { seq: 4, field: 'insertDate', header: '등록일', style: 'width: 20%' }
 ])
 

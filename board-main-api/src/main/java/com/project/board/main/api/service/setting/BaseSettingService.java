@@ -34,7 +34,6 @@ public class BaseSettingService {
         LocalDateTime nowDate = LocalDateTime.now();
 
         boardMainMemberRepository.save(BoardMainMember.builder()
-                .memberUUID(UUID.randomUUID())
                 .memberID("master")
                 .memberPassword(passwordEncoder.encode("rhksflwk12345!"))
                 .memberName(initEncryptStr("최고관리자"))
@@ -44,10 +43,6 @@ public class BaseSettingService {
                 .memberRole(MemberRole.MASTER)
                 .memberType("SYSTEM")
                 .memberApproval(MemberApprovalType.APPROVE)
-                .lastDate(LocalDateTime.parse("2000-01-29T00:00:00"))
-                .isActive(IsYesNo.YES)
-                .insertDate(nowDate)
-                .updateDate(nowDate)
                 .descriptionNote("master")
                 .build());
 

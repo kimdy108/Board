@@ -1,13 +1,13 @@
-package com.project.board.main.api.service.board;
+package com.project.board.main.api.service.post;
 
-import com.project.board.main.api.domain.board.BoardFree;
-import com.project.board.main.api.dto.board.BoardList;
-import com.project.board.main.api.dto.board.BoardListInfo;
-import com.project.board.main.api.dto.board.BoardRegist;
-import com.project.board.main.api.dto.board.BoardUpdate;
-import com.project.board.main.api.repository.board.BoardFreeCommentRepository;
-import com.project.board.main.api.repository.board.BoardFreeRepository;
-import com.project.board.main.api.repository.board.BoardFreeRepositoryImpl;
+import com.project.board.main.api.domain.post.BoardFree;
+import com.project.board.main.api.dto.post.BoardList;
+import com.project.board.main.api.dto.post.BoardListInfo;
+import com.project.board.main.api.dto.post.BoardRegist;
+import com.project.board.main.api.dto.post.BoardUpdate;
+import com.project.board.main.api.repository.post.BoardFreeCommentRepository;
+import com.project.board.main.api.repository.post.BoardFreeRepository;
+import com.project.board.main.api.repository.post.BoardFreeRepositoryImpl;
 import com.project.board.main.api.utils.Common;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

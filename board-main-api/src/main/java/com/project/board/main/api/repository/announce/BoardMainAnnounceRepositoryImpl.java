@@ -33,7 +33,7 @@ public class BoardMainAnnounceRepositoryImpl implements BoardMainAnnounceReposit
                         AnnounceList.class,
                         qBoardMainAnnounce.announceUUID.as("announceUUID"),
                         qBoardMainAnnounce.announceTitle.as("announceTitle"),
-                        qBoardMainAnnounce.viewCounter.as("viewCounter"),
+                        qBoardMainAnnounce.viewCount.as("viewCount"),
                         qBoardMainAnnounce.insertDate.as("insertDate")
                 ))
                 .from(qBoardMainAnnounce)

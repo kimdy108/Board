@@ -4,6 +4,7 @@ import com.project.board.main.api.dto.announce.AnnounceRegist;
 import com.project.board.main.api.dto.announce.AnnounceUpdate;
 import com.project.board.main.api.dto.common.ResponseMsg;
 import com.project.board.main.api.service.announce.AnnounceService;
+import com.project.board.main.api.utils.jwt.JWTUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,33 +19,35 @@ import java.util.UUID;
 @RequestMapping("/api/board/announce")
 @Tag(name = "공지사항 관리 컨트롤러", description = "공지사항 API Controller 입니다.")
 public class AnnounceController {
+    private final JWTUtil jwtUtil;
+
     private final AnnounceService announceService;
 
     @Operation(summary = "announce regist", description = "공지사항 등록")
     @PostMapping("/regist")
     public ResponseEntity<ResponseMsg> announceRegist(@RequestBody AnnounceRegist announceRegist, HttpServletRequest request) {
-        announceService.announceRegist(announceRegist, request.getHeader("Authorization"));
+        announceService.announceRegist(announceRegist, jwtUtil.getUserUUID(request.getHeader("Authorization")));
         return ResponseMsg.successResponse("success");
     }
 
     @Operation(summary = "announce update", description = "공지사항 수정")
     @PutMapping("/update")
     public ResponseEntity<ResponseMsg> announceUpdate(@RequestBody AnnounceUpdate announceUpdate, HttpServletRequest request) {
-        announceService.announceUpdate(announceUpdate, request.getHeader("Authorization"));
+        announceService.announceUpdate(announceUpdate, jwtUtil.getUserUUID(request.getHeader("Authorization")));
         return ResponseMsg.successResponse("success");
     }
 
     @Operation(summary = "announce delete", description = "공지사항 삭제")
     @DeleteMapping("/delete/{announceUUID}")
     public ResponseEntity<ResponseMsg> announceDelete(@PathVariable UUID announceUUID, HttpServletRequest request) {
-        announceService.announceDelete(announceUUID, request.getHeader("Authorization"));
+        announceService.announceDelete(announceUUID, jwtUtil.getUserUUID(request.getHeader("Authorization")));
         return ResponseMsg.successResponse("success");
     }
 
     @Operation(summary = "announce info", description = "공지사항 정보")
     @GetMapping("/info/{announceUUID}")
     public ResponseEntity<ResponseMsg> announceInfo(@PathVariable UUID announceUUID, HttpServletRequest request) {
-        return ResponseMsg.successResponse(announceService.announceInfo(announceUUID, request.getHeader("Authorization")));
+        return ResponseMsg.successResponse(announceService.announceInfo(announceUUID, jwtUtil.getUserUUID(request.getHeader("Authorization"))));
     }
 
     @Operation(summary = "announce list page", description = "공지사항 리스트 페이지")

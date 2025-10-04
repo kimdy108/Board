@@ -8,16 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface BoardMainMemberRepository extends JpaRepository<BoardMainMember, Long> {
-    BoardMainMember findBoardMainMemberByMemberID(String memberID);
+    Optional<BoardMainMember> findBoardMainMemberByMemberID(String memberID);
 
-    BoardMainMember findBoardMainMemberByMemberUUID(UUID memberUUID);
-
-    @Query(value = "update BoardMainMember set lastDate = :lastDate where memberUUID = :memberUUID")
-    @Modifying
-    @Transactional
-    void updateBoardMainMemberByMemberUUIDForLogin(UUID memberUUID, LocalDateTime lastDate);
+    Optional<BoardMainMember> findBoardMainMemberByMemberUUID(UUID memberUUID);
 }

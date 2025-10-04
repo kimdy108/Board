@@ -1,9 +1,9 @@
-package com.project.board.main.api.repository.board;
+package com.project.board.main.api.repository.post;
 
-import com.project.board.main.api.domain.board.BoardDevelopmentAndStackComment;
-import com.project.board.main.api.domain.board.QBoardDevelopmentAndStackComment;
+import com.project.board.main.api.domain.post.BoardDevelopmentAndStackComment;
+import com.project.board.main.api.domain.post.QBoardDevelopmentAndStackComment;
 import com.project.board.main.api.domain.member.QBoardMember;
-import com.project.board.main.api.dto.board.BoardComment;
+import com.project.board.main.api.dto.post.BoardComment;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;

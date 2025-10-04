@@ -1,10 +1,10 @@
-package com.project.board.main.api.repository.board;
+package com.project.board.main.api.repository.post;
 
-import com.project.board.main.api.domain.board.BoardFree;
-import com.project.board.main.api.domain.board.QBoardFree;
+import com.project.board.main.api.domain.post.BoardFree;
+import com.project.board.main.api.domain.post.QBoardFree;
 import com.project.board.main.api.domain.member.QBoardMember;
-import com.project.board.main.api.dto.board.BoardList;
-import com.project.board.main.api.dto.board.BoardListInfo;
+import com.project.board.main.api.dto.post.BoardList;
+import com.project.board.main.api.dto.post.BoardListInfo;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;

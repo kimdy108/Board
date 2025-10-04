@@ -9,11 +9,11 @@ import com.project.board.main.api.dto.user.UserRefresh;
 import com.project.board.main.api.repository.member.BoardMainMemberRepository;
 import com.project.board.main.api.service.component.RedisService;
 import com.project.board.main.api.utils.jwt.JWTUtil;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static com.project.board.main.api.utils.Common.*;
@@ -27,12 +27,13 @@ public class AuthenticationService {
 
     private final BoardMainMemberRepository boardMainMemberRepository;
 
+    @Transactional
     public UserAuth login(UserLogin userLogin) {
         String memberID = decryptStringSalt(userLogin.getUserID());
         String memberPassword = decryptStringSalt(userLogin.getUserPassword());
 
-        BoardMainMember boardMainMember = boardMainMemberRepository.findBoardMainMemberByMemberID(memberID);
-        if (boardMainMember == null) throw new RuntimeException("noMember");
+        BoardMainMember boardMainMember = boardMainMemberRepository.findBoardMainMemberByMemberID(memberID)
+                .orElseThrow(() -> new RuntimeException("noMember"));
         if (IsYesNo.NO.equals(boardMainMember.getIsActive())) throw new RuntimeException("noIsActive");
         if (!passwordEncoder.matches(memberPassword, boardMainMember.getMemberPassword())) throw new RuntimeException("wrongPassword");
         if (MemberApprovalType.REJECT.equals(boardMainMember.getMemberApproval())) throw new RuntimeException("isReject");
@@ -43,7 +44,7 @@ public class AuthenticationService {
         UUID sessionUUID = UUID.randomUUID();
 
         redisService.setValues(boardMainMember.getMemberID() + "-" + sessionUUID, refreshToken);
-        boardMainMemberRepository.updateBoardMainMemberByMemberUUIDForLogin(boardMainMember.getMemberUUID(), LocalDateTime.now());
+        boardMainMember.updateLastDate();
 
         return UserAuth.builder()
                 .accessToken(accessToken)
@@ -64,8 +65,8 @@ public class AuthenticationService {
         if (!redisRefreshToken.equals(refreshToken)) throw new RuntimeException("refreshFail");
 
         String memberID = memberAccount.split("-")[0];
-        BoardMainMember boardMainMember = boardMainMemberRepository.findBoardMainMemberByMemberID(memberID);
-        if (boardMainMember == null) throw new RuntimeException("refreshFail");
+        BoardMainMember boardMainMember = boardMainMemberRepository.findBoardMainMemberByMemberID(memberID)
+                .orElseThrow(() -> new RuntimeException("refreshFail"));
 
         return encryptStringSalt(jwtUtil.createAuthToken(boardMainMember.getMemberName(), boardMainMember.getMemberID(), boardMainMember.getMemberUUID(), boardMainMember.getMemberRole()));
     }
