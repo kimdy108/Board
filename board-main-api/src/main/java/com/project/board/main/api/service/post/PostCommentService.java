@@ -5,6 +5,7 @@ import com.project.board.main.api.domain.post.BoardMainPost;
 import com.project.board.main.api.domain.post.BoardMainPostComment;
 import com.project.board.main.api.dto.constant.common.IsYesNo;
 import com.project.board.main.api.dto.constant.member.MemberRole;
+import com.project.board.main.api.dto.post.comment.PostCommentList;
 import com.project.board.main.api.dto.post.comment.PostCommentRegist;
 import com.project.board.main.api.dto.post.comment.PostCommentUpdate;
 import com.project.board.main.api.repository.member.BoardMainMemberRepository;
@@ -14,6 +15,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -66,5 +68,11 @@ public class PostCommentService {
             throw new RuntimeException("삭제할 수 있는 권한이 없습니다.");
 
         boardMainPostComment.updateStatus(IsYesNo.NO);
+    }
+
+    public List<PostCommentList> postCommentList(UUID postUUID) {
+        BoardMainPost boardMainPost = boardMainPostRepository.findBoardMainPostByPostUUID(postUUID)
+                .orElseThrow(() -> new RuntimeException("존재하는 게시글이 없습니다."));
+        return boardMainPostCommentRepository.findPostCommentListByBoardMainPost(boardMainPost);
     }
 }

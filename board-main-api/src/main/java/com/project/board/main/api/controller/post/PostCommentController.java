@@ -44,4 +44,10 @@ public class PostCommentController {
         postCommentService.postCommentDelete(commentUUID, jwtUtil.getUserUUID(request.getHeader("Authorization")));
         return ResponseMsg.successResponse("success");
     }
+
+    @Operation(summary = "post comment list", description = "게시글 댓글 리스트")
+    @GetMapping("/list/{postUUID}")
+    public ResponseEntity<ResponseMsg> postCommentList(@PathVariable UUID postUUID) {
+        return ResponseMsg.successResponse(postCommentService.postCommentList(postUUID));
+    }
 }

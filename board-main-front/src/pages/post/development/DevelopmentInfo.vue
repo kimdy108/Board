@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <DevelopmentComment :showModal="isCommentModal" @closeCommentModal="closeCommentModal" />
+    <DevelopmentComment :infoUUID="developmentUUID" :infoAuthorUUID="developmentAuthorUUID" :showModal="isCommentModal" @closeCommentModal="closeCommentModal" />
   </div>
 </template>
 

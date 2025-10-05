@@ -1,3 +1,5 @@
 export default interface commonModalProps {
-  showModal: boolean
+  showModal: boolean,
+  infoUUID: string,
+  infoAuthorUUID: string
 }
