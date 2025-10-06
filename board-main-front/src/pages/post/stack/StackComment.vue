@@ -188,7 +188,7 @@ const commnetRegistAction = async () => {
       life: 3000
     })
     initData()
-    getDevelopmentCommentList()
+    getStackCommentList()
   } else {
     toastStore.setToastValue({
       severity: 'error',
@@ -220,7 +220,7 @@ const commentUpdateAction = async () => {
       life: 3000
     })
     initUpdateData()
-    getDevelopmentCommentList()
+    getStackCommentList()
   } else {
     toastStore.setToastValue({
       severity: 'error',
@@ -245,7 +245,7 @@ const commentDeleteAction = async (uuid: string) => {
       detail: '댓글을 삭제했습니다.',
       life: 3000
     })
-    getDevelopmentCommentList()
+    getStackCommentList()
   } else {
     toastStore.setToastValue({
       severity: 'error',
@@ -256,7 +256,7 @@ const commentDeleteAction = async (uuid: string) => {
   }
 }
 
-const getDevelopmentCommentList = async () => {
+const getStackCommentList = async () => {
   const reqHeader = { accept: 'application/json' }
   const listResult: responseData = await ApiService.requestAPI({
     headers: reqHeader,
@@ -277,7 +277,7 @@ watch(() => props.showModal, (newVal) => {
     initData()
     initUpdateData()
 
-    getDevelopmentCommentList()
+    getStackCommentList()
   }
 })
 

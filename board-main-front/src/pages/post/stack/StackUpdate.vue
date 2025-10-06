@@ -5,13 +5,13 @@
     </div>
 
     <div class="w-full mb-24">
-      <BoardInput inputType="text" inputTitle="제목" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="developmentTitle" />
-      <BoardEditor :isReadOnly="false" inputTitle="내용" :isRequire="true" v-model:inputValue="developmentContent" />
+      <BoardInput inputType="text" inputTitle="제목" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="stackTitle" />
+      <BoardEditor :isReadOnly="false" inputTitle="내용" :isRequire="true" v-model:inputValue="stackContent" />
     </div>
 
     <div class="flex justify-end">
       <Button class="m-2 !px-4 !py-3 !bg-violet-400 !border !border-violet-400 hover:!bg-violet-500 hover:!border hover:!border-violet-500" @click="movePrevPage">이전</Button>
-      <Button class="m-2 !px-4 !py-3 !bg-orange-400 !border !border-orange-400 hover:!bg-orange-500 hover:!border hover:!border-orange-500" @click="developmentUpdate">수정</Button>
+      <Button class="m-2 !px-4 !py-3 !bg-orange-400 !border !border-orange-400 hover:!bg-orange-500 hover:!border hover:!border-orange-500" @click="stackUpdate">수정</Button>
     </div>
   </div>
 </template>
@@ -31,26 +31,26 @@ import BoardEditor from '@/components/element/BoardEditor.vue'
 const router = useRouter()
 const toastStore = useToastStore()
 
-const developmentUUID = ref('')
-const developmentTitle = ref('')
-const developmentContent = ref('')
+const stackUUID = ref('')
+const stackTitle = ref('')
+const stackContent = ref('')
 
 onMounted(() => {
-  developmentUUID.value = history.state.uuid
-  developmentTitle.value = ''
-  developmentContent.value = ''
+  stackUUID.value = history.state.uuid
+  stackTitle.value = ''
+  stackContent.value = ''
 
-  getDevelopmentInfo()
+  getStackInfo()
 })
 
 const movePrevPage = () => {
-  router.push({ name: 'DevelopmentInfo', state: {uuid: developmentUUID.value} }).catch(() => {
-    console.log('DevelopmentInfo Error')
+  router.push({ name: 'StackInfo', state: {uuid: stackUUID.value} }).catch(() => {
+    console.log('StackInfo Error')
   })
 }
 
-const developmentUpdate = () => {
-  if (developmentTitle.value == null || developmentTitle.value == '') {
+const stackUpdate = () => {
+  if (stackTitle.value == null || stackTitle.value == '') {
     toastStore.setToastValue({
       severity: 'warn',
       summary: '개발 게시판 관리',
@@ -60,7 +60,7 @@ const developmentUpdate = () => {
     return
   }
 
-  if (developmentContent.value == null || developmentContent.value == '') {
+  if (stackContent.value == null || stackContent.value == '') {
     toastStore.setToastValue({
       severity: 'warn',
       summary: '개발 게시판 관리',
@@ -70,28 +70,28 @@ const developmentUpdate = () => {
     return
   }
 
-  developmentUpdateAction()
+  stackUpdateAction()
 }
 
-const getDevelopmentInfo = async () => {
+const getStackInfo = async () => {
   const reqHeader = { accept: 'application/json' }
   const infoResult: responseData = await ApiService.requestAPI({
     headers: reqHeader,
     method: 'GET',
-    url: `/board/post/info/${developmentUUID.value}`,
+    url: `/board/post/info/${stackUUID.value}`,
   })
   if (infoResult.retStatus) {
-    developmentTitle.value = infoResult.retData.postTitle
-    developmentContent.value = infoResult.retData.postContent
+    stackTitle.value = infoResult.retData.postTitle
+    stackContent.value = infoResult.retData.postContent
   }
 }
 
-const developmentUpdateAction = async () => {
+const stackUpdateAction = async () => {
   const reqHeader = { accept: 'application/json' }
   const reqData = {
-    'postUUID': developmentUUID.value,
-    'postTitle': developmentTitle.value,
-    'postContent': developmentContent.value,
+    'postUUID': stackUUID.value,
+    'postTitle': stackTitle.value,
+    'postContent': stackContent.value,
   }
   const updateResult: responseData = await ApiService.requestAPI({
     headers: reqHeader,
@@ -102,15 +102,15 @@ const developmentUpdateAction = async () => {
   if (updateResult.retStatus) {
     toastStore.setToastValue({
       severity: 'success',
-      summary: '개발 게시판 관리',
-      detail: '개발 게시글을 수정했습니다.',
+      summary: '스택 게시판 관리',
+      detail: '스택 게시글을 수정했습니다.',
       life: 3000
     })
     movePrevPage()
   } else {
     toastStore.setToastValue({
       severity: 'error',
-      summary: '개발 게시판 관리',
+      summary: '스택 게시판 관리',
       detail: updateResult.retData,
       life: 3000
     })

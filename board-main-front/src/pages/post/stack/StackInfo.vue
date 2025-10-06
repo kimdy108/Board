@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="text-left mb-10">
-      <div class="text-2xl font-bold text-gray-900">개발 게시판</div>
+      <div class="text-2xl font-bold text-gray-900">스택 게시판</div>
     </div>
 
     <div class="w-full">
 
-      <BoardInfo :title="developmentTitle" :content="developmentContent" :viewCount="developmentViewCount" :author="developmentAuthorName" :insertDate="developmentInsertDate" :updateDate="developmentUpdateDate" />
+      <BoardInfo :title="stackTitle" :content="stackContent" :viewCount="stackViewCount" :author="stackAuthorName" :insertDate="stackInsertDate" :updateDate="stackUpdateDate" />
 
       <div class="flex justify-end">
         <Button class="m-2 !px-4 !py-3 !bg-sky-400 !border !border-sky-400 hover:!bg-sky-500 hover:!border hover:!border-sky-500" @click="moveMainPage">메인</Button>
@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <DevelopmentComment :infoUUID="developmentUUID" :infoAuthorUUID="developmentAuthorUUID" :showModal="isCommentModal" @closeCommentModal="closeCommentModal" />
+    <StackComment :infoUUID="stackUUID" :infoAuthorUUID="stackAuthorUUID" :showModal="isCommentModal" @closeCommentModal="closeCommentModal" />
   </div>
 </template>
 
@@ -33,35 +33,35 @@ import BoardInfo from '@/components/element/BoardInfo.vue'
 import responseData from "@/interfaces/common/responseData";
 import ApiService from "@/services/ApiService";
 
-import DevelopmentComment from './DevelopmentComment.vue'
+import StackComment from "./StackComment.vue";
 
 const userStore = useUserStore()
 const toastStore = useToastStore()
 
 const router = useRouter();
 
-const developmentUUID = ref('')
-const developmentTitle = ref('')
-const developmentContent = ref('')
-const developmentViewCount = ref()
-const developmentAuthorName = ref('')
-const developmentAuthorUUID = ref('')
-const developmentInsertDate = ref('')
-const developmentUpdateDate = ref('')
+const stackUUID = ref('')
+const stackTitle = ref('')
+const stackContent = ref('')
+const stackViewCount = ref()
+const stackAuthorName = ref('')
+const stackAuthorUUID = ref('')
+const stackInsertDate = ref('')
+const stackUpdateDate = ref('')
 
 const isCommentModal = ref(false)
 
 onMounted(() => {
-  developmentUUID.value = history.state.uuid
-  developmentTitle.value = ''
-  developmentContent.value = ''
-  developmentViewCount.value = 1
-  developmentAuthorName.value = ''
-  developmentAuthorUUID.value = ''
-  developmentInsertDate.value = ''
-  developmentUpdateDate.value = ''
+  stackUUID.value = history.state.uuid
+  stackTitle.value = ''
+  stackContent.value = ''
+  stackViewCount.value = 1
+  stackAuthorName.value = ''
+  stackAuthorUUID.value = ''
+  stackInsertDate.value = ''
+  stackUpdateDate.value = ''
 
-  getDevelopmentInfo()
+  getStackInfo()
 })
 
 const showCommentModal = () => {
@@ -73,7 +73,7 @@ const closeCommentModal = () => {
 }
 
 const isOwner = () => {
-  return developmentAuthorUUID.value == decryptStringSalt(userStore.getCurrentUser.uud)
+  return stackAuthorUUID.value == decryptStringSalt(userStore.getCurrentUser.uud)
 }
 
 const isMaster = () => {
@@ -81,32 +81,32 @@ const isMaster = () => {
 }
 
 const moveMainPage = () => {
-  router.push({ name: 'DevelopmentMain' }).catch(() => {
-    console.log('DevelopmentMain Error')
+  router.push({ name: 'StackMain' }).catch(() => {
+    console.log('StackMain Error')
   })
 }
 
 const moveUpdatePage = () => {
-  router.push({ name: 'DevelopmentUpdate', state: {uuid: developmentUUID.value} }).catch(() => {
-    console.log('DevelopmentUpdate Error')
+  router.push({ name: 'StackUpdate', state: {uuid: stackUUID.value} }).catch(() => {
+    console.log('StackUpdate Error')
   })
 }
 
-const getDevelopmentInfo = async () => {
+const getStackInfo = async () => {
   const reqHeader = { accept: 'application/json' }
   const infoResult: responseData = await ApiService.requestAPI({
     headers: reqHeader,
     method: 'GET',
-    url: `/board/post/info/${developmentUUID.value}`,
+    url: `/board/post/info/${stackUUID.value}`,
   })
   if (infoResult.retStatus) {
-    developmentTitle.value = infoResult.retData.postTitle
-    developmentContent.value = infoResult.retData.postContent
-    developmentViewCount.value = infoResult.retData.viewCount
-    developmentAuthorName.value = decryptStringSalt(infoResult.retData.memberName)
-    developmentAuthorUUID.value = infoResult.retData.memberUUID
-    developmentInsertDate.value = infoResult.retData.insertDate.replace("T", " ")
-    developmentUpdateDate.value = infoResult.retData.updateDate.replace("T", " ")
+    stackTitle.value = infoResult.retData.postTitle
+    stackContent.value = infoResult.retData.postContent
+    stackViewCount.value = infoResult.retData.viewCount
+    stackAuthorName.value = decryptStringSalt(infoResult.retData.memberName)
+    stackAuthorUUID.value = infoResult.retData.memberUUID
+    stackInsertDate.value = infoResult.retData.insertDate.replace("T", " ")
+    stackUpdateDate.value = infoResult.retData.updateDate.replace("T", " ")
   }
 }
 
@@ -115,22 +115,22 @@ const deleteAction = async () => {
   const deleteResult: responseData = await ApiService.requestAPI({
     headers: reqHeader,
     method: 'DELETE',
-    url: `/board/post/delete/${developmentUUID.value}`
+    url: `/board/post/delete/${stackUUID.value}`
   })
   if (deleteResult.retStatus) {
     toastStore.setToastValue({
       severity: 'success',
-      summary: '개발 게시판 관리',
-      detail: '개발 게시판 삭제 되었습니다.',
+      summary: '스택 게시판 관리',
+      detail: '스택 게시판 삭제 되었습니다.',
       life: 3000
     })
-    router.push({ name: 'DevelopmentAdmin' }).catch(() => {
-      console.log('DevelopmentAdmin Error')
+    router.push({ name: 'StackAdmin' }).catch(() => {
+      console.log('StackAdmin Error')
     })
   } else {
     toastStore.setToastValue({
       severity: 'error',
-      summary: '개발 게시판 관리',
+      summary: '스택 게시판 관리',
       detail: deleteResult.retData,
       life: 3000
     })

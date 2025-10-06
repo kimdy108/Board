@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-left mb-5">
-      <div class="text-2xl font-bold text-gray-900">개발</div>
+      <div class="text-2xl font-bold text-gray-900">개발 게시판</div>
     </div>
     
     <div class="bg-white rounded-lg flex justify-between items-center px-8 py-4 mb-5 border border-gray-200">
@@ -100,7 +100,6 @@ const getDevelopmentList = async () => {
     url: `/board/post/list/page`,
     params: reqParams
   })
-  console.log(developmentResult)
   if (developmentResult.retStatus) {
     if (developmentResult.retData.postContents && Array.isArray(developmentResult.retData.postContents)) {
       for (let i = 0; i < developmentResult.retData.postContents.length; i++) {

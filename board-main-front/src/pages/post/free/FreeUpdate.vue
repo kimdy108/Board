@@ -5,13 +5,13 @@
     </div>
 
     <div class="w-full mb-24">
-      <BoardInput inputType="text" inputTitle="제목" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="developmentTitle" />
-      <BoardEditor :isReadOnly="false" inputTitle="내용" :isRequire="true" v-model:inputValue="developmentContent" />
+      <BoardInput inputType="text" inputTitle="제목" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="freeTitle" />
+      <BoardEditor :isReadOnly="false" inputTitle="내용" :isRequire="true" v-model:inputValue="freeContent" />
     </div>
 
     <div class="flex justify-end">
       <Button class="m-2 !px-4 !py-3 !bg-violet-400 !border !border-violet-400 hover:!bg-violet-500 hover:!border hover:!border-violet-500" @click="movePrevPage">이전</Button>
-      <Button class="m-2 !px-4 !py-3 !bg-orange-400 !border !border-orange-400 hover:!bg-orange-500 hover:!border hover:!border-orange-500" @click="developmentUpdate">수정</Button>
+      <Button class="m-2 !px-4 !py-3 !bg-orange-400 !border !border-orange-400 hover:!bg-orange-500 hover:!border hover:!border-orange-500" @click="freeUpdate">수정</Button>
     </div>
   </div>
 </template>
@@ -31,26 +31,26 @@ import BoardEditor from '@/components/element/BoardEditor.vue'
 const router = useRouter()
 const toastStore = useToastStore()
 
-const developmentUUID = ref('')
-const developmentTitle = ref('')
-const developmentContent = ref('')
+const freeUUID = ref('')
+const freeTitle = ref('')
+const freeContent = ref('')
 
 onMounted(() => {
-  developmentUUID.value = history.state.uuid
-  developmentTitle.value = ''
-  developmentContent.value = ''
+  freeUUID.value = history.state.uuid
+  freeTitle.value = ''
+  freeContent.value = ''
 
-  getDevelopmentInfo()
+  getFreeInfo()
 })
 
 const movePrevPage = () => {
-  router.push({ name: 'DevelopmentInfo', state: {uuid: developmentUUID.value} }).catch(() => {
-    console.log('DevelopmentInfo Error')
+  router.push({ name: 'FreeInfo', state: {uuid: freeUUID.value} }).catch(() => {
+    console.log('FreeInfo Error')
   })
 }
 
-const developmentUpdate = () => {
-  if (developmentTitle.value == null || developmentTitle.value == '') {
+const freeUpdate = () => {
+  if (freeTitle.value == null || freeTitle.value == '') {
     toastStore.setToastValue({
       severity: 'warn',
       summary: '개발 게시판 관리',
@@ -60,7 +60,7 @@ const developmentUpdate = () => {
     return
   }
 
-  if (developmentContent.value == null || developmentContent.value == '') {
+  if (freeContent.value == null || freeContent.value == '') {
     toastStore.setToastValue({
       severity: 'warn',
       summary: '개발 게시판 관리',
@@ -70,28 +70,28 @@ const developmentUpdate = () => {
     return
   }
 
-  developmentUpdateAction()
+  freeUpdateAction()
 }
 
-const getDevelopmentInfo = async () => {
+const getFreeInfo = async () => {
   const reqHeader = { accept: 'application/json' }
   const infoResult: responseData = await ApiService.requestAPI({
     headers: reqHeader,
     method: 'GET',
-    url: `/board/post/info/${developmentUUID.value}`,
+    url: `/board/post/info/${freeUUID.value}`,
   })
   if (infoResult.retStatus) {
-    developmentTitle.value = infoResult.retData.postTitle
-    developmentContent.value = infoResult.retData.postContent
+    freeTitle.value = infoResult.retData.postTitle
+    freeContent.value = infoResult.retData.postContent
   }
 }
 
-const developmentUpdateAction = async () => {
+const freeUpdateAction = async () => {
   const reqHeader = { accept: 'application/json' }
   const reqData = {
-    'postUUID': developmentUUID.value,
-    'postTitle': developmentTitle.value,
-    'postContent': developmentContent.value,
+    'postUUID': freeUUID.value,
+    'postTitle': freeTitle.value,
+    'postContent': freeContent.value,
   }
   const updateResult: responseData = await ApiService.requestAPI({
     headers: reqHeader,
@@ -102,15 +102,15 @@ const developmentUpdateAction = async () => {
   if (updateResult.retStatus) {
     toastStore.setToastValue({
       severity: 'success',
-      summary: '개발 게시판 관리',
-      detail: '개발 게시글을 수정했습니다.',
+      summary: '자유 게시판 관리',
+      detail: '자유 게시글을 수정했습니다.',
       life: 3000
     })
     movePrevPage()
   } else {
     toastStore.setToastValue({
       severity: 'error',
-      summary: '개발 게시판 관리',
+      summary: '자유 게시판 관리',
       detail: updateResult.retData,
       life: 3000
     })

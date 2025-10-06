@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="text-left mb-10">
-      <div class="text-2xl font-bold text-gray-900">개발 게시판</div>
+      <div class="text-2xl font-bold text-gray-900">자유 게시판</div>
     </div>
 
     <div class="w-full">
 
-      <BoardInfo :title="developmentTitle" :content="developmentContent" :viewCount="developmentViewCount" :author="developmentAuthorName" :insertDate="developmentInsertDate" :updateDate="developmentUpdateDate" />
+      <BoardInfo :title="freeTitle" :content="freeContent" :viewCount="freeViewCount" :author="freeAuthorName" :insertDate="freeInsertDate" :updateDate="freeUpdateDate" />
 
       <div class="flex justify-end">
         <Button class="m-2 !px-4 !py-3 !bg-sky-400 !border !border-sky-400 hover:!bg-sky-500 hover:!border hover:!border-sky-500" @click="moveMainPage">메인</Button>
@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <DevelopmentComment :infoUUID="developmentUUID" :infoAuthorUUID="developmentAuthorUUID" :showModal="isCommentModal" @closeCommentModal="closeCommentModal" />
+    <FreeComment :infoUUID="freeUUID" :infoAuthorUUID="freeAuthorUUID" :showModal="isCommentModal" @closeCommentModal="closeCommentModal" />
   </div>
 </template>
 
@@ -33,35 +33,35 @@ import BoardInfo from '@/components/element/BoardInfo.vue'
 import responseData from "@/interfaces/common/responseData";
 import ApiService from "@/services/ApiService";
 
-import DevelopmentComment from './DevelopmentComment.vue'
+import FreeComment from "./FreeComment.vue";
 
 const userStore = useUserStore()
 const toastStore = useToastStore()
 
 const router = useRouter();
 
-const developmentUUID = ref('')
-const developmentTitle = ref('')
-const developmentContent = ref('')
-const developmentViewCount = ref()
-const developmentAuthorName = ref('')
-const developmentAuthorUUID = ref('')
-const developmentInsertDate = ref('')
-const developmentUpdateDate = ref('')
+const freeUUID = ref('')
+const freeTitle = ref('')
+const freeContent = ref('')
+const freeViewCount = ref()
+const freeAuthorName = ref('')
+const freeAuthorUUID = ref('')
+const freeInsertDate = ref('')
+const freeUpdateDate = ref('')
 
 const isCommentModal = ref(false)
 
 onMounted(() => {
-  developmentUUID.value = history.state.uuid
-  developmentTitle.value = ''
-  developmentContent.value = ''
-  developmentViewCount.value = 1
-  developmentAuthorName.value = ''
-  developmentAuthorUUID.value = ''
-  developmentInsertDate.value = ''
-  developmentUpdateDate.value = ''
+  freeUUID.value = history.state.uuid
+  freeTitle.value = ''
+  freeContent.value = ''
+  freeViewCount.value = 1
+  freeAuthorName.value = ''
+  freeAuthorUUID.value = ''
+  freeInsertDate.value = ''
+  freeUpdateDate.value = ''
 
-  getDevelopmentInfo()
+  getFreeInfo()
 })
 
 const showCommentModal = () => {
@@ -73,7 +73,7 @@ const closeCommentModal = () => {
 }
 
 const isOwner = () => {
-  return developmentAuthorUUID.value == decryptStringSalt(userStore.getCurrentUser.uud)
+  return freeAuthorUUID.value == decryptStringSalt(userStore.getCurrentUser.uud)
 }
 
 const isMaster = () => {
@@ -81,32 +81,32 @@ const isMaster = () => {
 }
 
 const moveMainPage = () => {
-  router.push({ name: 'DevelopmentMain' }).catch(() => {
-    console.log('DevelopmentMain Error')
+  router.push({ name: 'FreeMain' }).catch(() => {
+    console.log('FreeMain Error')
   })
 }
 
 const moveUpdatePage = () => {
-  router.push({ name: 'DevelopmentUpdate', state: {uuid: developmentUUID.value} }).catch(() => {
-    console.log('DevelopmentUpdate Error')
+  router.push({ name: 'FreeUpdate', state: {uuid: freeUUID.value} }).catch(() => {
+    console.log('FreeUpdate Error')
   })
 }
 
-const getDevelopmentInfo = async () => {
+const getFreeInfo = async () => {
   const reqHeader = { accept: 'application/json' }
   const infoResult: responseData = await ApiService.requestAPI({
     headers: reqHeader,
     method: 'GET',
-    url: `/board/post/info/${developmentUUID.value}`,
+    url: `/board/post/info/${freeUUID.value}`,
   })
   if (infoResult.retStatus) {
-    developmentTitle.value = infoResult.retData.postTitle
-    developmentContent.value = infoResult.retData.postContent
-    developmentViewCount.value = infoResult.retData.viewCount
-    developmentAuthorName.value = decryptStringSalt(infoResult.retData.memberName)
-    developmentAuthorUUID.value = infoResult.retData.memberUUID
-    developmentInsertDate.value = infoResult.retData.insertDate.replace("T", " ")
-    developmentUpdateDate.value = infoResult.retData.updateDate.replace("T", " ")
+    freeTitle.value = infoResult.retData.postTitle
+    freeContent.value = infoResult.retData.postContent
+    freeViewCount.value = infoResult.retData.viewCount
+    freeAuthorName.value = decryptStringSalt(infoResult.retData.memberName)
+    freeAuthorUUID.value = infoResult.retData.memberUUID
+    freeInsertDate.value = infoResult.retData.insertDate.replace("T", " ")
+    freeUpdateDate.value = infoResult.retData.updateDate.replace("T", " ")
   }
 }
 
@@ -115,22 +115,22 @@ const deleteAction = async () => {
   const deleteResult: responseData = await ApiService.requestAPI({
     headers: reqHeader,
     method: 'DELETE',
-    url: `/board/post/delete/${developmentUUID.value}`
+    url: `/board/post/delete/${freeUUID.value}`
   })
   if (deleteResult.retStatus) {
     toastStore.setToastValue({
       severity: 'success',
-      summary: '개발 게시판 관리',
-      detail: '개발 게시판 삭제 되었습니다.',
+      summary: '자유 게시판 관리',
+      detail: '자유 게시판 삭제 되었습니다.',
       life: 3000
     })
-    router.push({ name: 'DevelopmentAdmin' }).catch(() => {
-      console.log('DevelopmentAdmin Error')
+    router.push({ name: 'FreeAdmin' }).catch(() => {
+      console.log('FreeAdmin Error')
     })
   } else {
     toastStore.setToastValue({
       severity: 'error',
-      summary: '개발 게시판 관리',
+      summary: '자유 게시판 관리',
       detail: deleteResult.retData,
       life: 3000
     })

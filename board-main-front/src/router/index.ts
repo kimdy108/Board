@@ -23,11 +23,17 @@ const developmentChild: Array<RouteRecordRaw> = [
 ]
 
 const stackChild: Array<RouteRecordRaw> = [
-  { path: '/board/stack/main', name: 'StackMain', component: loadSubPage('pages', 'post/stack', 'StackMain'), meta: { id: 'StackMain' } }
+  { path: '/board/stack/main', name: 'StackMain', component: loadSubPage('pages', 'post/stack', 'StackMain'), meta: { id: 'StackMain' } },
+  { path: '/board/stack/regist', name: 'StackRegist', component: loadSubPage('pages', 'post/stack', 'StackRegist'), meta: { id: 'StackRegist' } },
+  { path: '/board/stack/update', name: 'StackUpdate', component: loadSubPage('pages', 'post/stack', 'StackUpdate'), meta: { id: 'StackUpdate' } },
+  { path: '/board/stack/info', name: 'StackInfo', component: loadSubPage('pages', 'post/stack', 'StackInfo'), meta: { id: 'StackInfo' } }
 ]
 
 const freeChild: Array<RouteRecordRaw> = [
-  { path: '/board/free/main', name: 'FreeMain', component: loadSubPage('pages', 'post/free', 'FreeMain'), meta: { id: 'FreeMain' } }
+  { path: '/board/free/main', name: 'FreeMain', component: loadSubPage('pages', 'post/free', 'FreeMain'), meta: { id: 'FreeMain' } },
+  { path: '/board/free/regist', name: 'FreeRegist', component: loadSubPage('pages', 'post/free', 'FreeRegist'), meta: { id: 'FreeRegist' } },
+  { path: '/board/free/update', name: 'FreeUpdate', component: loadSubPage('pages', 'post/free', 'FreeUpdate'), meta: { id: 'FreeUpdate' } },
+  { path: '/board/free/info', name: 'FreeInfo', component: loadSubPage('pages', 'post/free', 'FreeInfo'), meta: { id: 'FreeInfo' } }
 ]
 
 const qnaChild: Array<RouteRecordRaw> = [
