@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.project.board.main.api.utils.Common.initDecryptStr;
+import static com.project.board.main.api.utils.Common.decryptString;
 
 @Repository
 public class BoardMainPostCommentRepositoryImpl implements BoardMainPostCommentRepositoryCustom {
@@ -49,7 +49,7 @@ public class BoardMainPostCommentRepositoryImpl implements BoardMainPostCommentR
                 .fetch();
 
         for (PostCommentList postCommentList : postCommentLists) {
-            postCommentList.setMemberNickName(initDecryptStr(postCommentList.getMemberNickName()));
+            postCommentList.setMemberNickName(decryptString(postCommentList.getMemberNickName()));
         }
 
         return postCommentLists;

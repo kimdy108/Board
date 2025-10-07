@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.project.board.main.api.utils.Common.initDecryptStr;
-import static com.project.board.main.api.utils.Common.initEncryptStr;
+import static com.project.board.main.api.utils.Common.decryptString;
+import static com.project.board.main.api.utils.Common.encryptString;
 
 @Repository
 public class BoardMainPostRepositoryImpl implements BoardMainPostRepositoryCustom {
@@ -37,7 +37,7 @@ public class BoardMainPostRepositoryImpl implements BoardMainPostRepositoryCusto
                         PostList.class,
                         qBoardMainPost.postUUID.as("postUUID"),
                         qBoardMainPost.postTitle.as("postTitle"),
-                        qBoardMainPost.boardMainMember.memberName.as("memberName"),
+                        qBoardMainPost.boardMainMember.memberNickName.as("memberNickName"),
                         qBoardMainPost.viewCount.as("viewCount"),
                         qBoardMainPost.insertDate.as("insertDate")
                 ))
@@ -53,7 +53,7 @@ public class BoardMainPostRepositoryImpl implements BoardMainPostRepositoryCusto
                 .fetchOne();
 
         for (PostList postList : postLists) {
-            postList.setMemberName(initDecryptStr(postList.getMemberName()));
+            postList.setMemberNickName(decryptString(postList.getMemberNickName()));
         }
 
         return PostListPage.builder()
@@ -74,6 +74,6 @@ public class BoardMainPostRepositoryImpl implements BoardMainPostRepositoryCusto
 
     private BooleanExpression eqPostAuthor(String searchType, String searchValue) {
         if (!searchType.equals("postAuthor") || "".equals(searchValue)) return null;
-        return qBoardMainPost.boardMainMember.memberName.eq(initEncryptStr(searchValue));
+        return qBoardMainPost.boardMainMember.memberNickName.eq(encryptString(searchValue));
     }
 }

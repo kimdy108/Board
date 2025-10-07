@@ -4,7 +4,7 @@
   </div>
 
   <div class="mb-5">
-    <div class="text-ml font-bold flex justify-end my-1">조회수 : {{ viewCount }}</div>
+    <div v-if="viewCount != undefined" class="text-ml font-bold flex justify-end my-1">조회수 : {{ viewCount }}</div>
     <div class="text-ml font-bold flex justify-end my-1">작성자 : {{ author }}</div>
     <div class="text-ml font-bold flex justify-end my-1">등록일 : {{ insertDate }}</div>
   </div>

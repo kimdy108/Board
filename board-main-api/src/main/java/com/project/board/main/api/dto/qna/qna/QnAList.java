@@ -1,5 +1,6 @@
-package com.project.board.main.api.dto.post.post;
+package com.project.board.main.api.dto.qna.qna;
 
+import com.project.board.main.api.dto.constant.common.IsYesNo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,10 +11,10 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostList {
-    private UUID postUUID;
-    private String postTitle;
+public class QnAList {
+    private UUID qnaUUID;
+    private String qnaTitle;
     private String memberNickName;
-    private int viewCount;
+    private IsYesNo isAnswer;
     private LocalDateTime insertDate;
 }

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static com.project.board.main.api.utils.Common.encryptStringSalt;
-import static com.project.board.main.api.utils.Common.initDecryptStr;
+import static com.project.board.main.api.utils.Common.decryptString;
 
 @Data
 @AllArgsConstructor
@@ -18,7 +18,7 @@ public class PostInfo {
     private String postTitle;
     private String postContent;
     private int viewCount;
-    private String memberName;
+    private String memberNickName;
     private UUID memberUUID;
     private LocalDateTime insertDate;
     private LocalDateTime updateDate;
@@ -28,7 +28,7 @@ public class PostInfo {
         postInfo.setPostTitle(boardMainPost.getPostTitle());
         postInfo.setPostContent(boardMainPost.getPostContent());
         postInfo.setViewCount(boardMainPost.getViewCount());
-        postInfo.setMemberName(encryptStringSalt(initDecryptStr(boardMainPost.getBoardMainMember().getMemberName())));
+        postInfo.setMemberNickName(encryptStringSalt(decryptString(boardMainPost.getBoardMainMember().getMemberNickName())));
         postInfo.setMemberUUID(boardMainPost.getBoardMainMember().getMemberUUID());
         postInfo.setInsertDate(boardMainPost.getInsertDate());
         postInfo.setUpdateDate(boardMainPost.getUpdateDate());

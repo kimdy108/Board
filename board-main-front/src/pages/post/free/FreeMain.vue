@@ -57,7 +57,7 @@ const searchCategory = ref('postTitle')
 const searchCategoryList = ref([
   { key: 'postTitle', name: '제목' },
   { key: 'postContent', name: '내용' },
-  { key: 'memberName', name: '작성자' },
+  { key: 'postAuthor', name: '작성자' },
 ])
 
 const totalCount = ref(0)
@@ -66,7 +66,7 @@ const contents = ref([])
 
 const columnHeader = ref([
   { seq: 1, field: 'postTitle', header: '제목', style: 'padding-left: 7rem; width: 40%' },
-  { seq: 2, field: 'memberName', header: '작성자', style: 'width: 10%' },
+  { seq: 2, field: 'memberNickName', header: '작성자', style: 'width: 10%' },
   { seq: 3, field: 'viewCount', header: '조회수', style: 'width: 10%' },
   { seq: 4, field: 'insertDate', header: '등록일', style: 'width: 20%' }
 ])

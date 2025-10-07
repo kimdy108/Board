@@ -103,7 +103,7 @@ const getDevelopmentInfo = async () => {
     developmentTitle.value = infoResult.retData.postTitle
     developmentContent.value = infoResult.retData.postContent
     developmentViewCount.value = infoResult.retData.viewCount
-    developmentAuthorName.value = decryptStringSalt(infoResult.retData.memberName)
+    developmentAuthorName.value = decryptStringSalt(infoResult.retData.memberNickName)
     developmentAuthorUUID.value = infoResult.retData.memberUUID
     developmentInsertDate.value = infoResult.retData.insertDate.replace("T", " ")
     developmentUpdateDate.value = infoResult.retData.updateDate.replace("T", " ")

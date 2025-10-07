@@ -236,7 +236,7 @@
           "ITwXsEWYCMKmbzsjilVQg",
           "kP0u0l807bqqKRxzx1lBS",
           "i5l-Cn12SRX0ABOjUr8p_",
-          "yU_J5mxmDsYu6ygIhYb3V",
+          "tTSR5qMmzgNDDaYhPX4_i",
           "3N20DawN5HJQohpPw_ina",
           "YZ5rOQmDzwsA_TcxBPHWH",
           "VeCEShpuD33t-rkqcRgic"
@@ -248,6 +248,7 @@
           "kP0u0l807bqqKRxzx1lBS",
           "i5l-Cn12SRX0ABOjUr8p_",
           "yU_J5mxmDsYu6ygIhYb3V",
+          "tTSR5qMmzgNDDaYhPX4_i",
           "3N20DawN5HJQohpPw_ina",
           "YZ5rOQmDzwsA_TcxBPHWH",
           "VeCEShpuD33t-rkqcRgic"
@@ -261,7 +262,7 @@
           "color": ""
         },
         "meta": {
-          "updateAt": 1759502200067,
+          "updateAt": 1759818844558,
           "createAt": 1759501816982
         }
       },
@@ -275,7 +276,6 @@
           "NgU-iBTBgyQ31ZfxFRs8Y",
           "-6tLHxoVEC9vBUUTalEvO",
           "Wy8LUwmFFVhvvrU6NOgsI",
-          "FUaXiRR9Qd9ElTEjTVLej",
           "rdvoNdxKZ6jZxI4DTRIzg",
           "HvWkvjM3eN-xrm5pnrpeH",
           "9HvKKJaYkbnzhMcxeJ9ki"
@@ -292,15 +292,15 @@
           "9HvKKJaYkbnzhMcxeJ9ki"
         ],
         "ui": {
-          "x": 1298.6364,
-          "y": 1435.2727,
+          "x": 1297.6364,
+          "y": 1434.2727,
           "zIndex": 118,
           "widthName": 156,
           "widthComment": 60,
           "color": ""
         },
         "meta": {
-          "updateAt": 1759502203833,
+          "updateAt": 1759817328699,
           "createAt": 1759502032033
         }
       }
@@ -1625,6 +1625,26 @@
           "updateAt": 1759502171324,
           "createAt": 1759502107995
         }
+      },
+      "tTSR5qMmzgNDDaYhPX4_i": {
+        "id": "tTSR5qMmzgNDDaYhPX4_i",
+        "tableId": "HsyKdPJvACnJapP9FZHF1",
+        "name": "is_answer",
+        "comment": "답변 여부",
+        "dataType": "ENUM",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1759818842283,
+          "createAt": 1759818833180
+        }
       }
     },
     "relationshipEntities": {
@@ -1787,8 +1807,8 @@
           "columnIds": [
             "-6tLHxoVEC9vBUUTalEvO"
           ],
-          "x": 1298.6364,
-          "y": 1571.2727,
+          "x": 1297.6364,
+          "y": 1558.2727,
           "direction": 1
         },
         "meta": {
@@ -1815,8 +1835,8 @@
           "columnIds": [
             "Wy8LUwmFFVhvvrU6NOgsI"
           ],
-          "x": 1516.6364,
-          "y": 1435.2727,
+          "x": 1515.6364,
+          "y": 1434.2727,
           "direction": 4
         },
         "meta": {

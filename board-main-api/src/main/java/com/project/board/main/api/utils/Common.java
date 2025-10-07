@@ -11,8 +11,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.UUID;
 
-import static com.project.board.main.api.utils.seed.KISA_SEED_MAIN.*;
-
 @Slf4j
 public class Common {
 
@@ -24,31 +22,12 @@ public class Common {
         public static final int RETURN_ERROR = 9999;
     }
 
-    public class SeedCCMKey {
-        private static final String keyString = "52A496XIBEOQ0N0LJB9DNU3QW7XGV2TC";
-        private static final String nonceString = "7YKWYRKXUNQEUZFE47KXPDIN";
-        private static final String addString = "7G9ZO9CTJFYJQW9MDB95FZH17UEUFTC95R15DGMON0DDUJ4JZI2LJMUZRDFI7YCC";
-    }
-
     public static final String AUTHCHAR = "🄱🄾🄰🅁🄳"; // 🄰🄱🄲🄳🄴🄵🄶🄷🄸🄹🄺🄻🄼🄽🄾🄿🅀🅁🅂🅃🅄🅅🅆🅇🅈🅉
     public static final String DEFINEAUTHKEY = "zb7vhcQZ6QUTwKhKtj8SPmUrXkg1THNQ";
     public static final String DEFINEAUTHIV = "KIMDY@BOARDADMIN";
 
     public static final UUID EMPTY_UUID = UUID.fromString("00000000-0000-0000-0000-000000000000");
     public static final Long EMPTY_SEQ = 0L;
-
-    public static String initEncryptStr(String plainStr) {
-        byte[] initStrByte = plainStr.getBytes(StandardCharsets.UTF_8);
-        return makeSeedCCMEncrypt(SeedCCMKey.keyString, SeedCCMKey.nonceString, SeedCCMKey.addString, bytesToHexString(initStrByte, initStrByte.length));
-    }
-
-    public static String initDecryptStr(String cipherStr) {
-        try {
-            return makeSeedCCMDecrypt(SeedCCMKey.keyString, SeedCCMKey.nonceString, SeedCCMKey.addString, cipherStr);
-        } catch (Exception e) {
-            return "";
-        }
-    }
 
     public static String encryptString(String data) {
         try {

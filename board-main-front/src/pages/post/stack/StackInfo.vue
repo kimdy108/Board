@@ -103,7 +103,7 @@ const getStackInfo = async () => {
     stackTitle.value = infoResult.retData.postTitle
     stackContent.value = infoResult.retData.postContent
     stackViewCount.value = infoResult.retData.viewCount
-    stackAuthorName.value = decryptStringSalt(infoResult.retData.memberName)
+    stackAuthorName.value = decryptStringSalt(infoResult.retData.memberNickName)
     stackAuthorUUID.value = infoResult.retData.memberUUID
     stackInsertDate.value = infoResult.retData.insertDate.replace("T", " ")
     stackUpdateDate.value = infoResult.retData.updateDate.replace("T", " ")

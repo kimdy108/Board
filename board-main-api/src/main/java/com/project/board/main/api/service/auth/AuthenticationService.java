@@ -50,7 +50,7 @@ public class AuthenticationService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .loginResult(encryptString(
-                        initDecryptStr(boardMainMember.getMemberName()) + AUTHCHAR +
+                        decryptString(boardMainMember.getMemberName()) + AUTHCHAR +
                                 boardMainMember.getMemberUUID() + AUTHCHAR +
                                 boardMainMember.getMemberRole() + AUTHCHAR +
                                 sessionUUID))

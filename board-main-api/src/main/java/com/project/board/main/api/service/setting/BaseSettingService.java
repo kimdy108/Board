@@ -2,7 +2,6 @@ package com.project.board.main.api.service.setting;
 
 import com.project.board.main.api.domain.member.BoardMainMember;
 import com.project.board.main.api.domain.setting.BoardMainSetting;
-import com.project.board.main.api.dto.constant.common.IsYesNo;
 import com.project.board.main.api.dto.constant.member.MemberApprovalType;
 import com.project.board.main.api.dto.constant.member.MemberRole;
 import com.project.board.main.api.repository.member.BoardMainMemberRepository;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static com.project.board.main.api.utils.Common.initEncryptStr;
+import static com.project.board.main.api.utils.Common.encryptString;
 
 @Service
 @RequiredArgsConstructor
@@ -36,10 +35,10 @@ public class BaseSettingService {
         boardMainMemberRepository.save(BoardMainMember.builder()
                 .memberID("master")
                 .memberPassword(passwordEncoder.encode("rhksflwk12345!"))
-                .memberName(initEncryptStr("최고관리자"))
-                .memberNickName(initEncryptStr("최고관리자"))
-                .memberPhone(initEncryptStr("01031611450"))
-                .memberEmail(initEncryptStr("kimbrothers123@daum.net"))
+                .memberName(encryptString("최고관리자"))
+                .memberNickName(encryptString("최고관리자"))
+                .memberPhone(encryptString("01031611450"))
+                .memberEmail(encryptString("kimbrothers123@daum.net"))
                 .memberRole(MemberRole.MASTER)
                 .memberType("SYSTEM")
                 .memberApproval(MemberApprovalType.APPROVE)

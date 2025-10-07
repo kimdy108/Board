@@ -103,7 +103,7 @@ const getFreeInfo = async () => {
     freeTitle.value = infoResult.retData.postTitle
     freeContent.value = infoResult.retData.postContent
     freeViewCount.value = infoResult.retData.viewCount
-    freeAuthorName.value = decryptStringSalt(infoResult.retData.memberName)
+    freeAuthorName.value = decryptStringSalt(infoResult.retData.memberNickName)
     freeAuthorUUID.value = infoResult.retData.memberUUID
     freeInsertDate.value = infoResult.retData.insertDate.replace("T", " ")
     freeUpdateDate.value = infoResult.retData.updateDate.replace("T", " ")

@@ -37,7 +37,10 @@ const freeChild: Array<RouteRecordRaw> = [
 ]
 
 const qnaChild: Array<RouteRecordRaw> = [
-  { path: '/board/qna/main', name: 'QnAMain', component: loadSubPage('pages', 'qna', 'QnAMain'), meta: { id: 'QnAMain' } }
+  { path: '/board/qna/main', name: 'QnAMain', component: loadSubPage('pages', 'qna', 'QnAMain'), meta: { id: 'QnAMain' } },
+  { path: '/board/qna/regist', name: 'QnARegist', component: loadSubPage('pages', 'qna', 'QnARegist'), meta: { id: 'QnARegist' } },
+  { path: '/board/qna/update', name: 'QnAUpdate', component: loadSubPage('pages', 'qna', 'QnAUpdate'), meta: { id: 'QnAUpdate' } },
+  { path: '/board/qna/info', name: 'QnAInfo', component: loadSubPage('pages', 'qna', 'QnAInfo'), meta: { id: 'QnAInfo' } },
 ]
 
 const boardChild: Array<RouteRecordRaw> = [
