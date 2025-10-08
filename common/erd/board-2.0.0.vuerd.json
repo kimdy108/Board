@@ -268,7 +268,7 @@
       },
       "SbET3TLhNPuKZrpWhERQb": {
         "id": "SbET3TLhNPuKZrpWhERQb",
-        "name": "board_main_qna_comment",
+        "name": "board_main_qna_answer",
         "comment": "",
         "columnIds": [
           "3k33T0sEzw43YHgIf2uLb",
@@ -292,15 +292,15 @@
           "9HvKKJaYkbnzhMcxeJ9ki"
         ],
         "ui": {
-          "x": 1297.6364,
-          "y": 1434.2727,
+          "x": 1302.6364,
+          "y": 1435.2727,
           "zIndex": 118,
-          "widthName": 156,
+          "widthName": 144,
           "widthComment": 60,
           "color": ""
         },
         "meta": {
-          "updateAt": 1759817328699,
+          "updateAt": 1759905307929,
           "createAt": 1759502032033
         }
       }
@@ -1469,40 +1469,40 @@
       "rtC-5A8LSa2Vg4HfUbvQX": {
         "id": "rtC-5A8LSa2Vg4HfUbvQX",
         "tableId": "SbET3TLhNPuKZrpWhERQb",
-        "name": "comment_uuid",
+        "name": "answer_uuid",
         "comment": "답변 UUID",
         "dataType": "UUID",
         "default": "",
         "options": 0,
         "ui": {
           "keys": 0,
-          "widthName": 86,
+          "widthName": 73,
           "widthComment": 60,
           "widthDataType": 60,
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1759502155699,
+          "updateAt": 1759905300270,
           "createAt": 1759502054336
         }
       },
       "NgU-iBTBgyQ31ZfxFRs8Y": {
         "id": "NgU-iBTBgyQ31ZfxFRs8Y",
         "tableId": "SbET3TLhNPuKZrpWhERQb",
-        "name": "comment_content",
+        "name": "answer_content",
         "comment": "답변 내용",
-        "dataType": "VARCHAR",
+        "dataType": "TEXT",
         "default": "",
         "options": 0,
         "ui": {
           "keys": 0,
-          "widthName": 105,
+          "widthName": 92,
           "widthComment": 60,
           "widthDataType": 60,
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1759502158008,
+          "updateAt": 1759905553587,
           "createAt": 1759502059715
         }
       },
@@ -1807,8 +1807,8 @@
           "columnIds": [
             "-6tLHxoVEC9vBUUTalEvO"
           ],
-          "x": 1297.6364,
-          "y": 1558.2727,
+          "x": 1302.6364,
+          "y": 1559.2727,
           "direction": 1
         },
         "meta": {
@@ -1835,8 +1835,8 @@
           "columnIds": [
             "Wy8LUwmFFVhvvrU6NOgsI"
           ],
-          "x": 1515.6364,
-          "y": 1434.2727,
+          "x": 1514.1364,
+          "y": 1435.2727,
           "direction": 4
         },
         "meta": {

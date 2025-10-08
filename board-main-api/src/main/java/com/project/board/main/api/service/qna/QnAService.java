@@ -8,6 +8,7 @@ import com.project.board.main.api.dto.qna.qna.QnAListPage;
 import com.project.board.main.api.dto.qna.qna.QnARegist;
 import com.project.board.main.api.dto.qna.qna.QnAUpdate;
 import com.project.board.main.api.repository.member.BoardMainMemberRepository;
+import com.project.board.main.api.repository.qna.BoardMainQnAAnswerRepository;
 import com.project.board.main.api.repository.qna.BoardMainQnARepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import java.util.UUID;
 public class QnAService {
     private final BoardMainMemberRepository boardMainMemberRepository;
     private final BoardMainQnARepository boardMainQnARepository;
+    private final BoardMainQnAAnswerRepository boardMainQnAAnswerRepository;
 
     @Transactional
     public void qnaRegist(QnARegist qnaRegist, UUID memberUUID) {
@@ -54,7 +56,7 @@ public class QnAService {
         BoardMainQnA boardMainQnA = boardMainQnARepository.findBoardMainQnAByQnaUUID(qnaUUID)
                 .orElseThrow(() -> new RuntimeException("존재하는 QnA 가 없습니다."));
 
-        if (!boardMainMember.equals(boardMainQnA.getBoardMainMember())) throw new RuntimeException("수정할 수 있는 권한이 없습니다.");
+        if (!boardMainMember.equals(boardMainQnA.getBoardMainMember())) throw new RuntimeException("삭제할 수 있는 권한이 없습니다.");
 
         boardMainQnA.updateStatus(IsYesNo.NO);
     }
@@ -63,7 +65,7 @@ public class QnAService {
     public QnAInfo qnaInfo(UUID qnaUUID) {
         BoardMainQnA boardMainQnA = boardMainQnARepository.findBoardMainQnAByQnaUUID(qnaUUID)
                 .orElseThrow(() -> new RuntimeException("존재하는 QnA가 없습니다."));
-        return QnAInfo.create(boardMainQnA);
+        return QnAInfo.create(boardMainQnA, boardMainQnAAnswerRepository.findQnAAnswerLists(boardMainQnA));
     }
 
     public QnAListPage qnaListPage(String searchType, String searchValue, UUID memberUUID) {

@@ -57,9 +57,7 @@ public class PostService {
         BoardMainPost boardMainPost = boardMainPostRepository.findBoardMainPostByPostUUID(postUUID)
                 .orElseThrow(() -> new RuntimeException("존재하는 게시글이 없습니다."));
 
-        if (!boardMainMember.equals(boardMainPost.getBoardMainMember()) &&
-                !boardMainMember.getMemberRole().equals(MemberRole.MASTER) &&
-                !boardMainMember.getMemberRole().equals(MemberRole.ADMIN))
+        if (boardMainMember.equals(boardMainPost.getBoardMainMember()) || MemberRole.isOverManager(boardMainMember.getMemberRole()))
             throw new RuntimeException("삭제할 수 있는 권한이 없습니다.");
 
         boardMainPost.updateStatus(IsYesNo.NO);

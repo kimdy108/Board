@@ -18,4 +18,12 @@ public enum MemberRole {
         this.title = title;
         this.value = value;
     }
+
+    public static boolean isOverAdmin(MemberRole memberRole) {
+        return memberRole.equals(MemberRole.MASTER) || memberRole.equals(MemberRole.ADMIN);
+    }
+
+    public static boolean isOverManager(MemberRole memberRole) {
+        return memberRole.equals(MemberRole.MASTER) || memberRole.equals(MemberRole.ADMIN) || memberRole.equals(MemberRole.MANAGER);
+    }
 }

@@ -1,6 +1,7 @@
 package com.project.board.main.api.dto.post.post;
 
 import com.project.board.main.api.domain.post.BoardMainPost;
+import com.project.board.main.api.dto.constant.common.IsYesNo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class PostInfo {
     private UUID memberUUID;
     private LocalDateTime insertDate;
     private LocalDateTime updateDate;
+    private long commentCount;
 
     public static PostInfo create(BoardMainPost boardMainPost) {
         PostInfo postInfo = new PostInfo();
@@ -32,6 +34,10 @@ public class PostInfo {
         postInfo.setMemberUUID(boardMainPost.getBoardMainMember().getMemberUUID());
         postInfo.setInsertDate(boardMainPost.getInsertDate());
         postInfo.setUpdateDate(boardMainPost.getUpdateDate());
+        postInfo.setCommentCount(boardMainPost.getBoardMainPostCommentList()
+                .stream()
+                .filter((x) -> x.getIsActive().equals(IsYesNo.YES))
+                .count());
         return postInfo;
     }
 }

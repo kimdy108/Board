@@ -1,0 +1,24 @@
+<template>
+  <div class="login-form">
+    asdf
+  </div>
+</template>
+
+<script setup lang="ts">
+
+</script>
+
+<style scoped>
+.form-box.Register .animation {
+  transform: translateX(120%);
+  transition: .7s ease;
+  opacity: 0;
+  filter: blur(10px);
+}
+
+.container.active .animation {
+  transform: translateX(0%);
+  opacity: 1;
+  transition-delay: calc(.1s * var(--li));
+}
+</style>

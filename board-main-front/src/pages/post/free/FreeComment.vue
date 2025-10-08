@@ -78,13 +78,13 @@ import { decryptStringSalt } from '@/utils/common';
 
 import Button from 'primevue/button';
 import BoardInput from '@/components/element/BoardInput.vue';
-import type commonModalProps from '@/interfaces/common/commonModalProps';
+import type commonCommentModalProps from '@/interfaces/common/commonCommentModalProps';
 import type commonComment from '@/interfaces/common/commonComment';
 
 import ApiService from '@/services/ApiService';
 import type responseData from '@/interfaces/common/responseData';
 
-const props = defineProps<commonModalProps>()
+const props = defineProps<commonCommentModalProps>()
 const emit = defineEmits<{
   closeCommentModal: []
 }>()

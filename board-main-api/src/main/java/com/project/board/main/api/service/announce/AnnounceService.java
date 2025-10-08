@@ -73,6 +73,6 @@ public class AnnounceService {
     private boolean checkAdmin(UUID memberUUID) {
         BoardMainMember boardMainMember = boardMainMemberRepository.findBoardMainMemberByMemberUUID(memberUUID)
                 .orElseThrow(() -> new RuntimeException("존재하는 사용자가 없습니다."));
-        return boardMainMember.getMemberRole() == MemberRole.MASTER || boardMainMember.getMemberRole() == MemberRole.ADMIN;
+        return MemberRole.isOverAdmin(boardMainMember.getMemberRole());
     }
 }

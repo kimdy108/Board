@@ -1,4 +1,4 @@
-export default interface commonModalProps {
+export default interface commonCommentModalProps {
   showModal: boolean,
   infoUUID: string,
   infoAuthorUUID: string

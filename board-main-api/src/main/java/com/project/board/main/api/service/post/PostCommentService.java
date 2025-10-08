@@ -62,9 +62,7 @@ public class PostCommentService {
         BoardMainPostComment boardMainPostComment = boardMainPostCommentRepository.findBoardMainPostCommentByCommentUUID(commentUUID)
                 .orElseThrow(() -> new RuntimeException("존재하는 댓글이 없습니다."));
 
-        if (!boardMainMember.equals(boardMainPostComment.getBoardMainMember()) &&
-                !boardMainMember.getMemberRole().equals(MemberRole.MASTER) &&
-                !boardMainMember.getMemberRole().equals(MemberRole.ADMIN))
+        if (!boardMainMember.equals(boardMainPostComment.getBoardMainMember()) && !MemberRole.isOverManager(boardMainMember.getMemberRole()))
             throw new RuntimeException("삭제할 수 있는 권한이 없습니다.");
 
         boardMainPostComment.updateStatus(IsYesNo.NO);

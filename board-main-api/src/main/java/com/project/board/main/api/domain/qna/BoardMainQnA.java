@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static jakarta.persistence.FetchType.LAZY;
@@ -46,6 +48,9 @@ public class BoardMainQnA extends BoardCommonBase {
     @Column(name = "is_answer", columnDefinition = "ENUM('YES','NO') NOT NULL DEFAULT 'NO'")
     @Enumerated(EnumType.STRING)
     private IsYesNo isAnswer;
+
+    @OneToMany(fetch = LAZY, mappedBy = "boardMainQnA")
+    private List<BoardMainQnAAnswer> boardMainQnAAnswerList = new ArrayList<>();
 
     @Builder
     public BoardMainQnA(String qnaTitle, String qnaContent, BoardMainMember boardMainMember) {

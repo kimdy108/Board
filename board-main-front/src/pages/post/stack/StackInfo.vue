@@ -10,7 +10,7 @@
 
       <div class="flex justify-end">
         <Button class="m-2 !px-4 !py-3 !bg-sky-400 !border !border-sky-400 hover:!bg-sky-500 hover:!border hover:!border-sky-500" @click="moveMainPage">메인</Button>
-        <Button class="m-2 !px-4 !py-3 !bg-amber-400 !border !border-amber-400 hover:!bg-amber-500 hover:!border hover:!border-amber-500" @click="showCommentModal">댓글</Button>
+        <Button class="m-2 !px-4 !py-3 !bg-amber-400 !border !border-amber-400 hover:!bg-amber-500 hover:!border hover:!border-amber-500" @click="showCommentModal">댓글 : {{ stackCommentCount }}</Button>
         <Button v-if="isOwner()" class="m-2 !px-4 !py-3 !bg-orange-400 !border !border-orange-400 hover:!bg-orange-500 hover:!border hover:!border-orange-500" @click="moveUpdatePage">수정</Button>
         <Button v-if="isOwner() || isMaster()" class="m-2 !px-4 !py-3 !bg-red-400 !border !border-red-400 hover:!bg-red-500 hover:!border hover:!border-red-500" @click="deleteAction">삭제</Button>
       </div>
@@ -48,6 +48,7 @@ const stackAuthorName = ref('')
 const stackAuthorUUID = ref('')
 const stackInsertDate = ref('')
 const stackUpdateDate = ref('')
+const stackCommentCount = ref(0)
 
 const isCommentModal = ref(false)
 
@@ -60,6 +61,7 @@ onMounted(() => {
   stackAuthorUUID.value = ''
   stackInsertDate.value = ''
   stackUpdateDate.value = ''
+  stackCommentCount.value = 0
 
   getStackInfo()
 })
@@ -107,6 +109,7 @@ const getStackInfo = async () => {
     stackAuthorUUID.value = infoResult.retData.memberUUID
     stackInsertDate.value = infoResult.retData.insertDate.replace("T", " ")
     stackUpdateDate.value = infoResult.retData.updateDate.replace("T", " ")
+    stackCommentCount.value = infoResult.retData.commentCount
   }
 }
 
