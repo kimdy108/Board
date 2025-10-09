@@ -23,6 +23,7 @@ public class WebSecurityConfig {
     private final String JOIN_API = "/api/auth/join";
     private final String LOGIN_API = "/api/auth/login";
     private final String REFRESH_API = "/api/auth/refresh";
+    private final String SIGNUP_API = "/api/board/user/signup";
     private final String SWAGGER_API = "/swagger-ui/**";
     private final String SWAGGER_HTML_API = "/swagger-ui.html";
     private final String V3_DOCKS_API = "/v3/api-docs/**";
@@ -30,7 +31,7 @@ public class WebSecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return webSecurity -> webSecurity.ignoring().requestMatchers(
-                JOIN_API, LOGIN_API, REFRESH_API, SWAGGER_API, SWAGGER_HTML_API, V3_DOCKS_API
+                JOIN_API, LOGIN_API, REFRESH_API, SIGNUP_API, SWAGGER_API, SWAGGER_HTML_API, V3_DOCKS_API
         );
     }
 

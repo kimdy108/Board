@@ -30,8 +30,6 @@ public class BaseSettingService {
                 .orElse(BoardMainSetting.builder().settingKey("INSTALL").settingVal("NOINSTALL").build());
         if ("SUCCESS".equals(boardMainSetting.getSettingVal())) return;
 
-        LocalDateTime nowDate = LocalDateTime.now();
-
         boardMainMemberRepository.save(BoardMainMember.builder()
                 .memberID("master")
                 .memberPassword(passwordEncoder.encode("rhksflwk12345!"))
@@ -46,7 +44,7 @@ public class BaseSettingService {
                 .build());
 
         boardMainSettingRepository.save(BoardMainSetting.builder().settingKey("INSTALL").settingVal("SUCCESS").build());
-        boardMainSettingRepository.save(BoardMainSetting.builder().settingKey("INSTALLDATE").settingVal(String.valueOf(nowDate)).build());
+        boardMainSettingRepository.save(BoardMainSetting.builder().settingKey("INSTALLDATE").settingVal(String.valueOf(LocalDateTime.now())).build());
         boardMainSettingRepository.save(BoardMainSetting.builder().settingKey("SYSTEMUUID").settingVal(String.valueOf(UUID.randomUUID())).build());
     }
 }

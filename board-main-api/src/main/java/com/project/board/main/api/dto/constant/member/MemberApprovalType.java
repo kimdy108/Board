@@ -15,4 +15,8 @@ public enum MemberApprovalType {
     MemberApprovalType(String value) {
         this.value = value;
     }
+
+    public static MemberApprovalType fromValue(String value) {
+        return MemberApprovalType.valueOf(value);
+    }
 }

@@ -26,6 +26,9 @@
                 <span class="text-white font-bold text-md">로그인</span>
               </button>
             </div>
+            <div class="flex justify-end mb-6">
+              <div class="text-purple-500 underline cursor-pointer" @click="movePage('SignUpPage')">Sign Up</div>
+            </div>
           </div>
         </div>
       </div>
@@ -34,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeMount } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
 
@@ -42,7 +45,7 @@ import AuthService from '@/services/AuthService'
 import type responseData from '@/interfaces/common/responseData'
 
 import { encryptStringSalt, decryptString } from '@/utils/common'
-import { divisionChar,emptyUUID } from '@/references/config'
+import { divisionChar } from '@/references/config'
 
 import { useUserStore } from '@/stores/userStore'
 import { useToastStore } from '@/stores/toastStore'
@@ -59,12 +62,16 @@ const currentUser = computed(() => userStore.getCurrentUser)
 
 onMounted( async () => {
   if (currentUser.value.at) {
-    router.push({ name: 'MainPage' }).catch(() => {
-      console.log('mainerror')
-    })
+    movePage('MainPage')
     return
   }
 })
+
+const movePage = (page: string) => {
+  router.push({ name: page }).catch(() => {
+    console.log(page, ' Error')
+  })
+}
 
 const userLogin = () => {
   if(userID.value == '' || userPassword.value == '') {
@@ -100,9 +107,7 @@ const userLoginAction = async () => {
       sud: encryptStringSalt(userInfo[3])  // userSessionUuid
     })
     userStore.setUserRole(encryptStringSalt(userInfo[2]))
-    router.push({name : 'IndexPage'}).catch(() => {
-      console.log('indexPage')
-    })
+    movePage('IndexPage')
   } else {
     toastStore.setToastValue({
       severity: loginResult.retData == 'isWait' ? 'warn' : 'error',

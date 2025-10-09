@@ -1,0 +1,63 @@
+<template>
+  <div>
+    <div class="card" v-if="userRole == 'MASTER' || userRole == 'ADMIN'">
+      <Tabs value="0">
+        <TabList class="shadow-sm">
+          <Tab value="0" @click="selectTab(0)">사용자</Tab>
+          <Tab value="2" @click="selectTab(1)">관리자</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel value="0">
+            <div class="pt-3">
+              <UserList :selectedTab="selectedTab"></UserList>
+            </div>
+          </TabPanel>
+
+          <TabPanel value="2">
+            <div class="pt-3">
+              <AdminList :selectedTab="selectedTab"></AdminList>
+            </div>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+
+import Tabs from 'primevue/tabs'
+import TabList from 'primevue/tablist'
+import Tab from 'primevue/tab'
+import TabPanels from 'primevue/tabpanels'
+import TabPanel from 'primevue/tabpanel'
+
+import UserList from './UserList.vue'
+import AdminList from './AdminList.vue'
+
+import { decryptStringSalt } from '@/utils/common'
+import { useUserStore } from '@/stores/userStore'
+
+const userStore = useUserStore()
+
+const selectedTab = ref(0)
+
+const userRole = ref('MEMBER')
+
+onMounted(() => {
+  userRole.value = decryptStringSalt(userStore.getUserRole)
+})
+
+const selectTab = (selectedNum: number) => {
+  if(selectedTab.value!=selectedNum) {
+    selectedTab.value = selectedNum
+  }
+}
+</script>
+
+<style lang="css" scoped>
+.p-tabpanels {
+  background-color: transparent !important;
+}
+</style>

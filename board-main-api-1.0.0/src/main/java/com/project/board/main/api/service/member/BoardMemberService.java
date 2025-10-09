@@ -3,7 +3,7 @@ package com.project.board.main.api.service.member;
 import com.project.board.main.api.domain.member.BoardMember;
 import com.project.board.main.api.dto.auth.AuthTokenBase;
 import com.project.board.main.api.dto.auth.RefreshAuthToken;
-import com.project.board.main.api.dto.user.*;
+import com.project.board.main.api.dto.auth.*;
 import com.project.board.main.api.repository.announce.BoardAnnounceRepository;
 import com.project.board.main.api.repository.post.BoardDevelopmentAndStackCommentRepository;
 import com.project.board.main.api.repository.post.BoardDevelopmentAndStackRepository;

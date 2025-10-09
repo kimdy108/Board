@@ -26,4 +26,8 @@ public enum MemberRole {
     public static boolean isOverManager(MemberRole memberRole) {
         return memberRole.equals(MemberRole.MASTER) || memberRole.equals(MemberRole.ADMIN) || memberRole.equals(MemberRole.MANAGER);
     }
+
+    public static MemberRole getValue(String value) {
+        return MemberRole.valueOf(value);
+    }
 }

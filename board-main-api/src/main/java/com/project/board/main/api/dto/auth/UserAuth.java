@@ -1,4 +1,4 @@
-package com.project.board.main.api.dto.user;
+package com.project.board.main.api.dto.auth;
 
 import lombok.Builder;
 import lombok.Getter;

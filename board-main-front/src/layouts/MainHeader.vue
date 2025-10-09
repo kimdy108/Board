@@ -18,15 +18,17 @@ import Menubar from 'primevue/menubar'
 import SplitButton from 'primevue/splitbutton'
 import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { decryptStringSalt } from '@/utils/common'
 
 const userStore = useUserStore()
 const router = useRouter()
 const userName = ref('')
+const isOverAdmin = ref(false)
 
 onMounted(() => {
   userName.value = decryptStringSalt(userStore.getCurrentUser.unm)
+  isOverAdmin.value = decryptStringSalt(userStore.getUserRole) == 'MASTER' || decryptStringSalt(userStore.getUserRole) == 'ADMIN'
 })
 
 const movePage = (pageName: string) => {
@@ -35,49 +37,62 @@ const movePage = (pageName: string) => {
   })
 }
 
-const items = ref([
-  {
-    label: '공지사항',
-    command: () => {
-      movePage('AnnounceAdmin')
-    }
-  },
-  {
-    label: '게시판',
-    items: [
-      {
-        label: '개발',
-        command: () => {
-          movePage('DevelopmentAdmin')
-        }
-      },
-      {
-        label: '스택',
-        command: () => {
-          movePage('StackAdmin')
-        }
-      },
-      {
-        label: '자유게시판',
-        command: () => {
-          movePage('FreeAdmin')
-        }
+const items = computed(() => {
+  const baseItems = [
+    {
+      label: '공지사항',
+      command: () => {
+        movePage('AnnounceAdmin')
       }
-    ]
-  },
-  {
-    label: 'QnA',
-    command: () => {
-      movePage('QnAAdmin')
+    },
+    {
+      label: '게시판',
+      items: [
+        {
+          label: '개발',
+          command: () => {
+            movePage('DevelopmentAdmin')
+          }
+        },
+        {
+          label: '스택',
+          command: () => {
+            movePage('StackAdmin')
+          }
+        },
+        {
+          label: '자유게시판',
+          command: () => {
+            movePage('FreeAdmin')
+          }
+        }
+      ]
+    },
+    {
+      label: 'QnA',
+      command: () => {
+        movePage('QnAAdmin')
+      }
     }
-  },
-])
+  ]
+
+  if (isOverAdmin.value) {
+    baseItems.push({
+      label: '사용자관리',
+      command: () => {
+        movePage('UserMain')
+      }
+    })
+  }
+
+  return baseItems
+})
 
 const userItems = ref([
   {
     label: '설정',
     command: () => {
-      console.log('setting')
+      movePage('AdminConfig')
     }
   },
   {

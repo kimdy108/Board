@@ -2,10 +2,10 @@ package com.project.board.main.api.service.auth;
 
 import com.project.board.main.api.domain.member.BoardMainMember;
 import com.project.board.main.api.dto.constant.member.MemberApprovalType;
-import com.project.board.main.api.dto.user.UserAuth;
+import com.project.board.main.api.dto.auth.UserAuth;
 import com.project.board.main.api.dto.constant.common.IsYesNo;
-import com.project.board.main.api.dto.user.UserLogin;
-import com.project.board.main.api.dto.user.UserRefresh;
+import com.project.board.main.api.dto.auth.UserLogin;
+import com.project.board.main.api.dto.auth.UserRefresh;
 import com.project.board.main.api.repository.member.BoardMainMemberRepository;
 import com.project.board.main.api.service.component.RedisService;
 import com.project.board.main.api.utils.jwt.JWTUtil;

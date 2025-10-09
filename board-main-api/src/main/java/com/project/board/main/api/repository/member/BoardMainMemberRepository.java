@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface BoardMainMemberRepository extends JpaRepository<BoardMainMember, Long> {
+public interface BoardMainMemberRepository extends JpaRepository<BoardMainMember, Long>, BoardMainMemberRepositoryCustom {
     Optional<BoardMainMember> findBoardMainMemberByMemberID(String memberID);
 
     Optional<BoardMainMember> findBoardMainMemberByMemberUUID(UUID memberUUID);

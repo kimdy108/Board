@@ -43,6 +43,14 @@ const qnaChild: Array<RouteRecordRaw> = [
   { path: '/board/qna/info', name: 'QnAInfo', component: loadSubPage('pages', 'qna', 'QnAInfo'), meta: { id: 'QnAInfo' } },
 ]
 
+const userChild: Array<RouteRecordRaw> = [
+  { path: '/board/user/main', name: 'UserMain', component: loadSubPage('pages', 'user', 'UserMain'), meta: { id: 'UserMain' } },
+]
+
+const systemChild: Array<RouteRecordRaw> = [
+  { path: '/board/system/admin', name: 'AdminConfig', component: loadSubPage('pages', 'system', 'AdminConfig'), meta: { id: 'AdminConfig' } },
+]
+
 const boardChild: Array<RouteRecordRaw> = [
   { path: '/board/announce', name: 'AnnounceAdmin', children: announceChild, redirect: '/board/announce/main' },
 
@@ -50,12 +58,17 @@ const boardChild: Array<RouteRecordRaw> = [
   { path: '/board/stack', name: 'StackAdmin', children: stackChild, redirect: '/board/stack/main' },
   { path: '/board/free', name: 'FreeAdmin', children: freeChild, redirect: '/board/free/main' },
 
-  { path: '/board/qna', name: 'QnAAdmin', children: qnaChild, redirect: '/board/qna/main' }
+  { path: '/board/qna', name: 'QnAAdmin', children: qnaChild, redirect: '/board/qna/main' },
+
+  { path: '/board/user', name: 'UserAdmin', children: userChild, redirect: 'board/user/main' },
+
+  { path: '/board/system', name: 'SystemAdmin', children: systemChild, redirect: 'board/system/admin' }
 ]
 
 const routes: Array<RouteRecordRaw> = [
   { path: '/', name: 'IndexPage', component: loadPage('views', 'IndexPage'), meta: { id: 'IndexPage' } },
   { path: '/login', name: 'LoginPage', component: loadPage('views', 'LoginPage'), meta: { id: 'LoginPage' } },
+  { path: '/signup', name: 'SignUpPage', component: loadPage('views', 'SignUpPage'), meta: { id: 'SignUpPage' } },
   { path: '/main', name: 'MainPage', component: loadPage('views', 'MainPage'), meta: { id: 'MainPage' }, children: boardChild, redirect: '/board/announce' },
 ]
 
