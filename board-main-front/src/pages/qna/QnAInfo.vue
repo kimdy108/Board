@@ -132,7 +132,7 @@ const isOwner = () => {
 }
 
 const isOverManager = () => {
-  return userRoleList.findIndex(x => x.value == decryptStringSalt(userStore.getCurrentUser)) <= 2
+  return userRoleList.findIndex(x => x.value == decryptStringSalt(userStore.getUserRole)) <= 2
 }
 
 const moveMainPage = () => {
@@ -158,7 +158,7 @@ const getQnAInfo = async () => {
     qnaTitle.value = infoResult.retData.qnaTitle
     qnaContent.value = infoResult.retData.qnaContent
     qnaAnswer.value = infoResult.retData.qnaAnswer
-    qnaAuthorName.value = decryptStringSalt(infoResult.retData.memberNickName)
+    qnaAuthorName.value = infoResult.retData.memberNickName
     qnaAuthorUUID.value = infoResult.retData.memberUUID
     qnaInsertDate.value = infoResult.retData.insertDate.replace("T", " ")
     qnaUpdateDate.value = infoResult.retData.updateDate.replace("T", " ")

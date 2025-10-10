@@ -15,5 +15,7 @@ import java.util.UUID;
 public interface BoardMainMemberRepository extends JpaRepository<BoardMainMember, Long>, BoardMainMemberRepositoryCustom {
     Optional<BoardMainMember> findBoardMainMemberByMemberID(String memberID);
 
+    Optional<BoardMainMember> findBoardMainMemberByMemberNickName(String memberNickName);
+
     Optional<BoardMainMember> findBoardMainMemberByMemberUUID(UUID memberUUID);
 }

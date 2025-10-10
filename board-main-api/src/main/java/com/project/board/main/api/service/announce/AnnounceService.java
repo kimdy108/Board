@@ -10,7 +10,6 @@ import com.project.board.main.api.dto.constant.common.IsYesNo;
 import com.project.board.main.api.dto.constant.member.MemberRole;
 import com.project.board.main.api.repository.announce.BoardMainAnnounceRepository;
 import com.project.board.main.api.repository.member.BoardMainMemberRepository;
-import com.project.board.main.api.utils.jwt.JWTUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

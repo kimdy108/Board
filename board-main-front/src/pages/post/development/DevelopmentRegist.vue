@@ -5,7 +5,7 @@
     </div>
 
     <div class="w-full mb-24">
-      <BoardInput inputType="text" inputTitle="제목" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="developmentTitle" />
+      <BoardTitleInput inputType="text" inputTitle="제목" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="developmentTitle" />
       <BoardEditor :isReadOnly="false" inputTitle="내용" :isRequire="true" v-model:inputValue="developmentContent" />
     </div>
 
@@ -25,7 +25,7 @@ import ApiService from '@/services/ApiService'
 import responseData from '@/interfaces/common/responseData'
 
 import Button from 'primevue/button'
-import BoardInput from '@/components/element/BoardInput.vue'
+import BoardTitleInput from '@/components/element/BoardTitleInput.vue'
 import BoardEditor from '@/components/element/BoardEditor.vue'
 
 const router = useRouter()

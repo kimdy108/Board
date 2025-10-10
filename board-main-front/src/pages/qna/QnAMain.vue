@@ -103,6 +103,7 @@ const getQnAList = async () => {
     if (qnaResult.retData.qnaContents && Array.isArray(qnaResult.retData.qnaContents)) {
       for (let i = 0; i < qnaResult.retData.qnaContents.length; i++) {
         if (qnaResult.retData.qnaContents[i] && qnaResult.retData.qnaContents[i].insertDate) {
+          qnaResult.retData.qnaContents[i].isAnswer = qnaResult.retData.qnaContents[i].isAnswer == 'YES' ? '답변완료' : '대기중'
           qnaResult.retData.qnaContents[i].insertDate = qnaResult.retData.qnaContents[i].insertDate.replace("T", " ")
         }
       }

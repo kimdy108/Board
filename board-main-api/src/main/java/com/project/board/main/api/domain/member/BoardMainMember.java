@@ -94,4 +94,10 @@ public class BoardMainMember extends BoardCommonDescription {
     public void updateLastDate() {
         this.lastDate = LocalDateTime.now();
     }
+
+    public void updateMemberApproval(MemberApprovalType memberApproval) {
+        this.memberApproval = memberApproval;
+
+        this.setUpdateDate(LocalDateTime.now());
+    }
 }

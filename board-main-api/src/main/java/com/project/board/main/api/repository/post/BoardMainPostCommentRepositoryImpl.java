@@ -48,10 +48,6 @@ public class BoardMainPostCommentRepositoryImpl implements BoardMainPostCommentR
                 .orderBy(qBoardMainPostComment.seq.asc())
                 .fetch();
 
-        for (PostCommentList postCommentList : postCommentLists) {
-            postCommentList.setMemberNickName(decryptString(postCommentList.getMemberNickName()));
-        }
-
         return postCommentLists;
     }
 }

@@ -1,4 +1,4 @@
-export default interface boardInputProps {
+export default interface boradInputProps {
   inputTitle: string,
   isDisabled: boolean,
   isRequire: boolean,

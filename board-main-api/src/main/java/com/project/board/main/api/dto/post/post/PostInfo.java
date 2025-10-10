@@ -30,7 +30,7 @@ public class PostInfo {
         postInfo.setPostTitle(boardMainPost.getPostTitle());
         postInfo.setPostContent(boardMainPost.getPostContent());
         postInfo.setViewCount(boardMainPost.getViewCount());
-        postInfo.setMemberNickName(encryptStringSalt(decryptString(boardMainPost.getBoardMainMember().getMemberNickName())));
+        postInfo.setMemberNickName(boardMainPost.getBoardMainMember().getMemberNickName());
         postInfo.setMemberUUID(boardMainPost.getBoardMainMember().getMemberUUID());
         postInfo.setInsertDate(boardMainPost.getInsertDate());
         postInfo.setUpdateDate(boardMainPost.getUpdateDate());

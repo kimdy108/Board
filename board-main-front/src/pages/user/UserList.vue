@@ -25,6 +25,8 @@
         @showInfo="showInfoModal"
       />
     </div>
+
+    <UserInfoModal :showModal="isShowInfoModal" :infoUUID="userInfoUUID" @closeUserInfoModal="closeUserInfoModal"></UserInfoModal>
   </div>
 </template>
 
@@ -36,6 +38,8 @@ import BoardTable from '@/components/element/BoardTable.vue'
 import BoardSearch from '@/components/element/BoardSearch.vue'
 import ApiService from '@/services/ApiService'
 import responseData from '@/interfaces/common/responseData'
+
+import UserInfoModal from './UserInfoModal.vue'
 
 const props = defineProps({
   selectedTab: Number
@@ -51,7 +55,6 @@ onMounted(() => {
 const router = useRouter()
 
 const searchValue = ref('')
-
 const searchCategory = ref('userID')
 const searchCategoryList = ref([
   { key: 'userID', name: '아이디' },
@@ -60,14 +63,16 @@ const searchCategoryList = ref([
 ])
 
 const totalCount = ref(0)
-
 const contents = ref([])
+
+const isShowInfoModal = ref(false)
+const userInfoUUID = ref('')
 
 const columnHeader = ref([
   { seq: 1, field: 'userID', header: '아이디', style: 'padding-left: 7rem; width: 20%' },
   { seq: 2, field: 'userName', header: '이름', style: 'width: 20%' },
   { seq: 3, field: 'userNickName', header: '닉네임', style: 'width: 20%' },
-  { seq: 4, field: 'userApproval', header: '승인여부', style: 'width: 20%' },
+  { seq: 4, field: 'userApproval', header: '승인 상태', style: 'width: 20%' },
   { seq: 5, field: 'insertDate', header: '등록일', style: 'width: 20%' }
 ])
 
@@ -75,8 +80,70 @@ const searchSubmit = () => {
   getUserList()
 }
 
-const getUserList = () => {
-  console.log('user')
+const showInfoModal = (uuid: string) => {
+  userInfoUUID.value = uuid
+  isShowInfoModal.value = true
+}
+
+const closeUserInfoModal = () => {
+  userInfoUUID.value = ''
+  isShowInfoModal.value = false
+
+  getUserList()
+}
+
+const makeUserApproval = (type: string) => {
+  switch(type) {
+    case 'APPROVE':
+      return '승인'
+    case 'REJECT':
+      return '차단'
+    case 'WAIT':
+      return '대기'
+  }
+}
+
+const makeSearchByApproval = (value: string) => {
+  if (searchCategory.value == 'userApproval') {
+    switch(value) {
+      case '승인':
+        return 'APPROVE'
+      case '차단':
+        return 'REJECT'
+      case '대기':
+        return 'WAIT'
+      default:
+        return value
+    }
+  }
+  else return value
+}
+
+const getUserList = async () => {
+  const reqHeader = { accept: 'application/json' }
+  const reqParams = {
+    searchType: searchCategory.value ? searchCategory.value : '',
+    searchValue: searchValue.value ? makeSearchByApproval(searchValue.value) : ''
+  }
+  const userResult: responseData = await ApiService.requestAPI({
+    headers: reqHeader,
+    method: 'GET',
+    url: `/board/user/list/page`,
+    params: reqParams
+  })
+  if (userResult.retStatus) {
+    if (userResult.retData.userContents && Array.isArray(userResult.retData.userContents)) {
+      for (let i = 0; i < userResult.retData.userContents.length; i++) {
+        if (userResult.retData.userContents[i] && userResult.retData.userContents[i].insertDate) {
+          userResult.retData.userContents[i].userApproval = makeUserApproval(userResult.retData.userContents[i].userApproval)
+          userResult.retData.userContents[i].insertDate = userResult.retData.userContents[i].insertDate.replace("T", " ")
+        }
+      }
+    }
+
+    contents.value = userResult.retData.userContents || []
+    totalCount.value = userResult.retData.totalCount || 0
+  }
 }
 
 watch(() => props.selectedTab, (newVal) => {

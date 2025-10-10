@@ -52,10 +52,6 @@ public class BoardMainPostRepositoryImpl implements BoardMainPostRepositoryCusto
                 .where(bb, eqPostTitle(searchType, searchValue), eqPostContent(searchType, searchValue), eqPostAuthor(searchType, searchValue))
                 .fetchOne();
 
-        for (PostList postList : postLists) {
-            postList.setMemberNickName(decryptString(postList.getMemberNickName()));
-        }
-
         return PostListPage.builder()
                 .postContents(postLists)
                 .totalCount(count)

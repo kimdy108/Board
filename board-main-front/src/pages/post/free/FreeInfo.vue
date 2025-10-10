@@ -12,7 +12,7 @@
         <Button class="m-2 !px-4 !py-3 !bg-sky-400 !border !border-sky-400 hover:!bg-sky-500 hover:!border hover:!border-sky-500" @click="moveMainPage">메인</Button>
         <Button class="m-2 !px-4 !py-3 !bg-amber-400 !border !border-amber-400 hover:!bg-amber-500 hover:!border hover:!border-amber-500" @click="showCommentModal">댓글 : {{ freeCommentCount }}</Button>
         <Button v-if="isOwner()" class="m-2 !px-4 !py-3 !bg-orange-400 !border !border-orange-400 hover:!bg-orange-500 hover:!border hover:!border-orange-500" @click="moveUpdatePage">수정</Button>
-        <Button v-if="isOwner() || isMaster()" class="m-2 !px-4 !py-3 !bg-red-400 !border !border-red-400 hover:!bg-red-500 hover:!border hover:!border-red-500" @click="deleteAction">삭제</Button>
+        <Button v-if="isOwner() || isOverAdmin()" class="m-2 !px-4 !py-3 !bg-red-400 !border !border-red-400 hover:!bg-red-500 hover:!border hover:!border-red-500" @click="deleteAction">삭제</Button>
       </div>
     </div>
 
@@ -78,8 +78,8 @@ const isOwner = () => {
   return freeAuthorUUID.value == decryptStringSalt(userStore.getCurrentUser.uud)
 }
 
-const isMaster = () => {
-  return userRoleList.findIndex(x => x.value == decryptStringSalt(userStore.getCurrentUser)) < 2
+const isOverAdmin = () => {
+  return userRoleList.findIndex(x => x.value == decryptStringSalt(userStore.getUserRole)) < 2
 }
 
 const moveMainPage = () => {
@@ -105,7 +105,7 @@ const getFreeInfo = async () => {
     freeTitle.value = infoResult.retData.postTitle
     freeContent.value = infoResult.retData.postContent
     freeViewCount.value = infoResult.retData.viewCount
-    freeAuthorName.value = decryptStringSalt(infoResult.retData.memberNickName)
+    freeAuthorName.value = infoResult.retData.memberNickName
     freeAuthorUUID.value = infoResult.retData.memberUUID
     freeInsertDate.value = infoResult.retData.insertDate.replace("T", " ")
     freeUpdateDate.value = infoResult.retData.updateDate.replace("T", " ")

@@ -53,10 +53,6 @@ public class BoardMainQnARepositoryImpl implements BoardMainQnARepositoryCustom 
                 .where(bb, eqQnATitle(searchType, searchValue), eqQnAContent(searchType, searchValue), eqQnAAuthor(searchType, searchValue))
                 .fetchOne();
 
-        for (QnAList qnaList : qnaLists) {
-            qnaList.setMemberNickName(decryptString(qnaList.getMemberNickName()));
-        }
-
         return QnAListPage.builder()
                 .qnaContents(qnaLists)
                 .totalCount(count)

@@ -32,7 +32,7 @@ public class QnAInfo {
         qnaInfo.setQnaTitle(boardMainQnA.getQnaTitle());
         qnaInfo.setQnaContent(boardMainQnA.getQnaContent());
         qnaInfo.setQnaAnswer(boardMainQnA.getIsAnswer());
-        qnaInfo.setMemberNickName(encryptStringSalt(decryptString(boardMainQnA.getBoardMainMember().getMemberNickName())));
+        qnaInfo.setMemberNickName(boardMainQnA.getBoardMainMember().getMemberNickName());
         qnaInfo.setMemberUUID(boardMainQnA.getBoardMainMember().getMemberUUID());
         qnaInfo.setInsertDate(boardMainQnA.getInsertDate());
         qnaInfo.setUpdateDate(boardMainQnA.getUpdateDate());

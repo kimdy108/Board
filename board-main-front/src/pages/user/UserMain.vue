@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card" v-if="userRole == 'MASTER' || userRole == 'ADMIN'">
+    <div class="card" v-if="isOverAdmin()">
       <Tabs value="0">
         <TabList class="shadow-sm">
           <Tab value="0" @click="selectTab(0)">사용자</Tab>
@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 
 import Tabs from 'primevue/tabs'
 import TabList from 'primevue/tablist'
@@ -38,16 +38,15 @@ import AdminList from './AdminList.vue'
 
 import { decryptStringSalt } from '@/utils/common'
 import { useUserStore } from '@/stores/userStore'
+import { userRoleList } from '@/references/config'
 
 const userStore = useUserStore()
 
 const selectedTab = ref(0)
 
-const userRole = ref('MEMBER')
-
-onMounted(() => {
-  userRole.value = decryptStringSalt(userStore.getUserRole)
-})
+const isOverAdmin = () => {
+  return userRoleList.findIndex(x => x.value == decryptStringSalt(userStore.getUserRole)) <= 2
+}
 
 const selectTab = (selectedNum: number) => {
   if(selectedTab.value!=selectedNum) {

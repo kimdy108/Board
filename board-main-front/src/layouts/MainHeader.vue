@@ -20,6 +20,7 @@ import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
 import { onMounted, ref, computed } from 'vue'
 import { decryptStringSalt } from '@/utils/common'
+import { userRoleList } from '@/references/config'
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -28,7 +29,7 @@ const isOverAdmin = ref(false)
 
 onMounted(() => {
   userName.value = decryptStringSalt(userStore.getCurrentUser.unm)
-  isOverAdmin.value = decryptStringSalt(userStore.getUserRole) == 'MASTER' || decryptStringSalt(userStore.getUserRole) == 'ADMIN'
+  isOverAdmin.value = userRoleList.findIndex(x => x.value == decryptStringSalt(userStore.getUserRole)) < 3
 })
 
 const movePage = (pageName: string) => {

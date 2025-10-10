@@ -12,7 +12,7 @@
           <span class="pi pi-search mr-3"></span>검색
         </button>
       </div>
-      <div class="flex justify-end items-center">
+      <div v-if="isOverAdmin()" class="flex justify-end items-center">
         <button class="min-w-fit flex justify-center items-center text-white bg-sky-500 hover:bg-sky-600 text-base px-5 py-2 rounded-lg" @click="moveRegistPage">
           <i class="pi pi-upload mr-2" />공지사항 등록
         </button>
@@ -36,6 +36,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
+import { userRoleList } from '@/references/config'
+import { decryptStringSalt } from '@/utils/common'
+
 import Select from 'primevue/select'
 import BoardTable from '@/components/element/BoardTable.vue'
 import BoardSearch from '@/components/element/BoardSearch.vue'
@@ -43,6 +47,7 @@ import ApiService from '@/services/ApiService'
 import responseData from '@/interfaces/common/responseData'
 
 const router = useRouter()
+const userStore = useUserStore()
 
 onMounted(() => {
   getAnnounceList()
@@ -72,6 +77,10 @@ const columnHeader = ref([
 
 const searchSubmit = () => {
   getAnnounceList()
+}
+
+const isOverAdmin = () => {
+  return userRoleList.findIndex(x => x.value == decryptStringSalt(userStore.getUserRole)) < 2
 }
 
 const moveRegistPage = () => {

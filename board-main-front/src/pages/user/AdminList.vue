@@ -65,7 +65,6 @@ const searchCategoryList = ref([
 ])
 
 const totalCount = ref(0)
-
 const contents = ref([])
 
 const columnHeader = ref([
@@ -81,7 +80,9 @@ const searchSubmit = () => {
 }
 
 const getUserList = () => {
-  console.log('user')
+}
+
+const showInfoModal = () => {
 }
 
 watch(() => props.selectedTab, (newVal) => {

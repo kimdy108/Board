@@ -12,7 +12,7 @@
         <Button class="m-2 !px-4 !py-3 !bg-sky-400 !border !border-sky-400 hover:!bg-sky-500 hover:!border hover:!border-sky-500" @click="moveMainPage">메인</Button>
         <Button class="m-2 !px-4 !py-3 !bg-amber-400 !border !border-amber-400 hover:!bg-amber-500 hover:!border hover:!border-amber-500" @click="showCommentModal">댓글 : {{ developmentCommentCount }}</Button>
         <Button v-if="isOwner()" class="m-2 !px-4 !py-3 !bg-orange-400 !border !border-orange-400 hover:!bg-orange-500 hover:!border hover:!border-orange-500" @click="moveUpdatePage">수정</Button>
-        <Button v-if="isOwner() || isMaster()" class="m-2 !px-4 !py-3 !bg-red-400 !border !border-red-400 hover:!bg-red-500 hover:!border hover:!border-red-500" @click="deleteAction">삭제</Button>
+        <Button v-if="isOwner() || isOverAdmin()" class="m-2 !px-4 !py-3 !bg-red-400 !border !border-red-400 hover:!bg-red-500 hover:!border hover:!border-red-500" @click="deleteAction">삭제</Button>
       </div>
     </div>
 
@@ -78,8 +78,8 @@ const isOwner = () => {
   return developmentAuthorUUID.value == decryptStringSalt(userStore.getCurrentUser.uud)
 }
 
-const isMaster = () => {
-  return userRoleList.findIndex(x => x.value == decryptStringSalt(userStore.getCurrentUser)) < 2
+const isOverAdmin = () => {
+  return userRoleList.findIndex(x => x.value == decryptStringSalt(userStore.getUserRole)) < 2
 }
 
 const moveMainPage = () => {
@@ -105,7 +105,7 @@ const getDevelopmentInfo = async () => {
     developmentTitle.value = infoResult.retData.postTitle
     developmentContent.value = infoResult.retData.postContent
     developmentViewCount.value = infoResult.retData.viewCount
-    developmentAuthorName.value = decryptStringSalt(infoResult.retData.memberNickName)
+    developmentAuthorName.value = infoResult.retData.memberNickName
     developmentAuthorUUID.value = infoResult.retData.memberUUID
     developmentInsertDate.value = infoResult.retData.insertDate.replace("T", " ")
     developmentUpdateDate.value = infoResult.retData.updateDate.replace("T", " ")

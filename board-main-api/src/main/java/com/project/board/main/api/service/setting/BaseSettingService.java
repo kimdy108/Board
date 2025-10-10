@@ -34,7 +34,7 @@ public class BaseSettingService {
                 .memberID("master")
                 .memberPassword(passwordEncoder.encode("rhksflwk12345!"))
                 .memberName(encryptString("최고관리자"))
-                .memberNickName(encryptString("최고관리자"))
+                .memberNickName("최고관리자")
                 .memberPhone(encryptString("01031611450"))
                 .memberEmail(encryptString("kimbrothers123@daum.net"))
                 .memberRole(MemberRole.MASTER)

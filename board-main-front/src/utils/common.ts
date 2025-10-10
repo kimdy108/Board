@@ -3,6 +3,8 @@ import { divisionChar, defineAuthKey } from '@/references/config'
 import CryptoJS from 'crypto-js'
 
 export const encryptString = (str: string) => {
+  if (str == null) return ''
+
   const key = btoa(defineAuthKey)
   const iv = CryptoJS.enc.Hex.parse(hexEncode('KIMDY@BOARDADMIN'))
 
@@ -17,6 +19,8 @@ export const encryptString = (str: string) => {
 }
 
 export const decryptString = (str: string) => {
+  if (str == null) return ''
+
   const key = btoa(defineAuthKey)
   const iv = CryptoJS.enc.Hex.parse(hexEncode('KIMDY@BOARDADMIN'))
 

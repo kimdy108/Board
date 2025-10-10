@@ -18,11 +18,11 @@
         <div v-for="i in contents" :key="i.commentUUID">
           <div class="flex justify-start text-gray-400">
             <span>{{ i.memberNickName }} </span>
-            <span v-if="i.insertDate != i.updateDate" class="text-gray-400"> • 수정됨</span>
+            <span v-if="i.insertDate != i.updateDate" class="text-gray-400">(수정됨)</span>
           </div>
 
           <div v-if="isUpdate && updateUUID == i.commentUUID" class="flex justify-start text-lg text-gray-600">
-            <BoardInput inputTitle="" inputPlaceholder="댓글을 입력해주세요." :isRequire="false" :isDisabled="false" :isPassword="false" inputType="text" v-model:inputValue="updateCommentContent" />
+            <BoardTitleInput inputTitle="" inputPlaceholder="댓글을 입력해주세요." :isRequire="false" :isDisabled="false" :isPassword="false" inputType="text" v-model:inputValue="updateCommentContent" />
           </div>
 
           <div v-else class="flex justify-start text-lg text-gray-600">
@@ -46,7 +46,7 @@
             <div class="text-gray-400">{{ i.insertDate }}</div>
             <div>
               <Button v-if="isCommentOwner(i.memberUUID)" class="m-1 !bg-orange-400 !border !border-orange-400 hover:!bg-orange-500 hover:!border hover:!border-orange-500" @click="commentUpdate(i.commentUUID, i.commentContent, i.isEncrypt)">수정</Button>
-              <Button v-if="isCommentOwner(i.memberUUID) || isAdmin()" class="m-1 !bg-red-400 !border !border-red-400 hover:!bg-red-500 hover:!border hover:!border-red-500" @click="commentDeleteAction(i.commentUUID)">삭제</Button>
+              <Button v-if="isCommentOwner(i.memberUUID) || isOverAdmin()" class="m-1 !bg-red-400 !border !border-red-400 hover:!bg-red-500 hover:!border hover:!border-red-500" @click="commentDeleteAction(i.commentUUID)">삭제</Button>
             </div>
           </div>
 
@@ -56,7 +56,7 @@
 
       <template #footer>
         <div class="w-full px-5">
-          <BoardInput inputTitle="" inputPlaceholder="댓글을 입력해주세요." :isRequire="false" :isDisabled="false" :isPassword="false" inputType="text" v-model:inputValue="commentContent" @keyup.enter="commentRegist()" />
+          <BoardTitleInput inputTitle="" inputPlaceholder="댓글을 입력해주세요." :isRequire="false" :isDisabled="false" :isPassword="false" inputType="text" v-model:inputValue="commentContent" @keyup.enter="commentRegist()" />
           <div class="w-full flex justify-end">
             <div class="bg-gray-200 border rounded-lg mr-2 cursor-pointer" @click="changeEncrypt()">
               <div class="border rounded-lg" :class="isEncrypt ? 'bg-white' : ''"><i class="pi !text-base !font-bold py-2 px-3" :class="isEncrypt ? 'pi-lock !text-blue-500' : 'pi-unlock'"></i></div>
@@ -75,9 +75,10 @@ import { Dialog } from 'primevue';
 import { useUserStore } from '@/stores/userStore';
 import { useToastStore } from '@/stores/toastStore';
 import { decryptStringSalt } from '@/utils/common';
+import { userRoleList } from '@/references/config';
 
 import Button from 'primevue/button';
-import BoardInput from '@/components/element/BoardInput.vue';
+import BoardTitleInput from '@/components/element/BoardTitleInput.vue';
 import type commonCommentModalProps from '@/interfaces/common/commonCommentModalProps';
 import type commonComment from '@/interfaces/common/commonComment';
 
@@ -131,9 +132,8 @@ const isCommentOwner = (uuid: string) => {
   return uuid == decryptStringSalt(userStore.getCurrentUser.uud)
 }
 
-const isAdmin = () => {
-  const currentUserRole = decryptStringSalt(userStore.getUserRole)
-  return currentUserRole == 'MASTER' || currentUserRole == 'ADMIN'
+const isOverAdmin = () => {
+  return userRoleList.findIndex(x => x.value == decryptStringSalt(userStore.getUserRole)) <= 2
 }
 
 const closeCommentModal = () => {
