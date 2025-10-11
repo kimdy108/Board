@@ -26,20 +26,19 @@
       />
     </div>
 
-    <UserInfoModal :showModal="isShowInfoModal" :infoUUID="userInfoUUID" @closeUserInfoModal="closeUserInfoModal"></UserInfoModal>
+    <UserInfo :showModal="isShowInfoModal" :infoUUID="userInfoUUID" @closeInfoModal="closeInfoModal" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
 import Select from 'primevue/select'
 import BoardTable from '@/components/element/BoardTable.vue'
 import BoardSearch from '@/components/element/BoardSearch.vue'
 import ApiService from '@/services/ApiService'
 import responseData from '@/interfaces/common/responseData'
 
-import UserInfoModal from './UserInfoModal.vue'
+import UserInfo from './UserInfo.vue'
 
 const props = defineProps({
   selectedTab: Number
@@ -52,14 +51,12 @@ onMounted(() => {
   el.scrollTo({ top: 0 })
 })
 
-const router = useRouter()
-
 const searchValue = ref('')
-const searchCategory = ref('userID')
+const searchCategory = ref('memberID')
 const searchCategoryList = ref([
-  { key: 'userID', name: '아이디' },
-  { key: 'userName', name: '이름' },
-  { key: 'userApproval', name: '승인여부' },
+  { key: 'memberID', name: '아이디' },
+  { key: 'memberName', name: '이름' },
+  { key: 'memberApproval', name: '승인여부' },
 ])
 
 const totalCount = ref(0)
@@ -85,7 +82,7 @@ const showInfoModal = (uuid: string) => {
   isShowInfoModal.value = true
 }
 
-const closeUserInfoModal = () => {
+const closeInfoModal = () => {
   userInfoUUID.value = ''
   isShowInfoModal.value = false
 
@@ -104,7 +101,7 @@ const makeUserApproval = (type: string) => {
 }
 
 const makeSearchByApproval = (value: string) => {
-  if (searchCategory.value == 'userApproval') {
+  if (searchCategory.value == 'memberApproval') {
     switch(value) {
       case '승인':
         return 'APPROVE'

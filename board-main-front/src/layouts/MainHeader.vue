@@ -5,9 +5,8 @@
         <img src="@/assets/images/logo.png" class="w-24" />
       </template>
       <template #end>
-        <SplitButton :model="userItems" class="h-10">
-          {{ userName }}
-        </SplitButton>
+        <Button class="!px-5 !py-2" @click="showMenu">{{ userName }}</Button>
+        <Menu ref="menu" :model="userItems" :popup="true" />
       </template>
     </Menubar>
   </div>
@@ -15,7 +14,8 @@
 
 <script setup lang="ts">
 import Menubar from 'primevue/menubar'
-import SplitButton from 'primevue/splitbutton'
+import Button from 'primevue/button'
+import Menu from 'primevue/menu'
 import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
 import { onMounted, ref, computed } from 'vue'
@@ -26,6 +26,7 @@ const userStore = useUserStore()
 const router = useRouter()
 const userName = ref('')
 const isOverAdmin = ref(false)
+const menu = ref()
 
 onMounted(() => {
   userName.value = decryptStringSalt(userStore.getCurrentUser.unm)
@@ -36,6 +37,10 @@ const movePage = (pageName: string) => {
   router.push({ name: pageName }).catch(() => {
     console.log(pageName,'Error')
   })
+}
+
+const showMenu = (event: any) => {
+  menu.value.toggle(event);
 }
 
 const items = computed(() => {

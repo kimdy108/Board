@@ -4,7 +4,7 @@
       <Tabs value="0">
         <TabList class="shadow-sm">
           <Tab value="0" @click="selectTab(0)">사용자</Tab>
-          <Tab value="2" @click="selectTab(1)">관리자</Tab>
+          <Tab value="1" @click="selectTab(1)">관리자</Tab>
         </TabList>
         <TabPanels>
           <TabPanel value="0">
@@ -13,7 +13,7 @@
             </div>
           </TabPanel>
 
-          <TabPanel value="2">
+          <TabPanel value="1">
             <div class="pt-3">
               <AdminList :selectedTab="selectedTab"></AdminList>
             </div>
@@ -21,6 +21,9 @@
         </TabPanels>
       </Tabs>
     </div>
+
+    <UserList v-else></UserList>
+
   </div>
 </template>
 
@@ -45,7 +48,7 @@ const userStore = useUserStore()
 const selectedTab = ref(0)
 
 const isOverAdmin = () => {
-  return userRoleList.findIndex(x => x.value == decryptStringSalt(userStore.getUserRole)) <= 2
+  return userRoleList.findIndex(x => x.value == decryptStringSalt(userStore.getUserRole)) < 2
 }
 
 const selectTab = (selectedNum: number) => {

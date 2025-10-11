@@ -95,9 +95,31 @@ public class BoardMainMember extends BoardCommonDescription {
         this.lastDate = LocalDateTime.now();
     }
 
+    public void update(String memberName, String memberNickName, String memberPhone, String memberEmail, MemberRole memberRole, String descriptionNote) {
+        this.memberName = memberName;
+        this.memberNickName = memberNickName;
+        this.memberPhone = memberPhone;
+        this.memberEmail = memberEmail;
+        this.memberRole = memberRole;
+
+        this.setUpdateDate(LocalDateTime.now());
+        this.setDescriptionNote(descriptionNote);
+    }
+
     public void updateMemberApproval(MemberApprovalType memberApproval) {
         this.memberApproval = memberApproval;
 
+        this.setUpdateDate(LocalDateTime.now());
+    }
+
+    public void updatePassword(String memberPassword) {
+        this.memberPassword = memberPassword;
+
+        this.setUpdateDate(LocalDateTime.now());
+    }
+
+    public void updateStatus(IsYesNo isActive) {
+        this.setIsActive(isActive);
         this.setUpdateDate(LocalDateTime.now());
     }
 }

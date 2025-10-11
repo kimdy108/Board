@@ -26,7 +26,7 @@
                 <span class="text-base text-gray-700">비밀번호 초기화</span> <span class="text-base mx-1 font-bold text-orange-500">*</span>
               </div>
               <div class="mt-3">
-                <button class="text-base text-white bg-green-500 hover:bg-green-600 border-green-500 rounded-lg px-5 py-3" @click="passwordReset">초기화</button>
+                <button class="text-base text-white bg-green-500 hover:bg-green-600 border-green-500 rounded-lg px-5 py-3" @click="passwordReset()">초기화</button>
               </div>
             </div>
 
@@ -72,8 +72,9 @@
 
       <template #footer>
         <div class="w-full flex justify-end">
-          <Button class="!bg-orange-400 !border !border-orange-400 hover:!bg-orange-500 hover:!border hover:!border-orange-500" @click="updateUserInfo()">수정</Button>
-          <Button class="ml-2 !bg-gray-400 !border !border-gray-400 hover:!bg-gray-500 hover:!border hover:!border-gray-500" @click="closeUserInfoModal()">닫기</Button>
+          <Button class="ml-2 !bg-red-400 !border !border-red-400 hover:!bg-red-500 hover:!border hover:!border-red-500" @click="userDelete()">삭제</Button>
+          <Button class="ml-2 !bg-orange-400 !border !border-orange-400 hover:!bg-orange-500 hover:!border hover:!border-orange-500" @click="userUpdate()">수정</Button>
+          <Button class="ml-2 !bg-gray-400 !border !border-gray-400 hover:!bg-gray-500 hover:!border hover:!border-gray-500" @click="closeInfoModal()">닫기</Button>
         </div>
       </template>
 
@@ -83,7 +84,8 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useToastStore } from '@/stores/toastStore'
-import { decryptStringSalt } from '@/utils/common';
+import { encryptStringSalt, decryptStringSalt } from '@/utils/common';
+import { nameReg, phoneReg, emailReg } from '@/references/config'
 
 import { Dialog } from 'primevue';
 
@@ -99,7 +101,7 @@ import responseData from '@/interfaces/common/responseData';
 
 const props = defineProps<commonInfoModalProps>()
 const emit = defineEmits<{
-  closeUserInfoModal: []
+  closeInfoModal: []
 }>()
 
 const toastStore = useToastStore()
@@ -136,11 +138,75 @@ const initData = () => {
   getUserInfo()
 }
 
-const closeUserInfoModal = () => {
-  emit('closeUserInfoModal')
+const closeInfoModal = () => {
+  emit('closeInfoModal')
 }
 
-const passwordReset = () => {}
+const userUpdate = () => {
+  if (!nameReg.test(userName.value)) {
+    toastStore.setToastValue({
+      severity: 'error',
+      summary: '사용자관리',
+      detail: '이름을 확인해주세요.',
+      life: 3000
+    })
+    return
+  }
+  if (!phoneReg.test(userPhone.value)) {
+    toastStore.setToastValue({
+      severity: 'error',
+      summary: '사용자관리',
+      detail: '전화번호을 확인해주세요.',
+      life: 3000
+    })
+    return
+  }
+  if (!emailReg.test(userEmail.value)) {
+    toastStore.setToastValue({
+      severity: 'error',
+      summary: '사용자관리',
+      detail: '이메일을 확인해주세요.',
+      life: 3000
+    })
+    return
+  }
+
+  userUpdateAction()
+}
+
+const userUpdateAction = async () => {
+  const reqHeader = { accept: 'application/json' }
+  const reqData = {
+    'userUUID': userUUID.value,
+    'userName': encryptStringSalt(userName.value),
+    'userNickName': encryptStringSalt(userNickName.value),
+    'userPhone': encryptStringSalt(userPhone.value),
+    'userEmail': encryptStringSalt(userEmail.value),
+    'userDescription': userDescription.value
+  }
+  const updateResult: responseData = await ApiService.requestAPI({
+    headers: reqHeader,
+    method: 'PUT',
+    url: `/board/user/update`,
+    data: reqData
+  })
+  if (updateResult.retStatus) {
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '사용자 관리',
+      detail: '사용자 정보 수정이 완료되었습니다.',
+      life: 3000
+    })
+    closeInfoModal()
+  } else {
+    toastStore.setToastValue({
+      severity: 'error',
+      summary: '사용자관리',
+      detail: updateResult.retData,
+      life: 3000
+    })
+  }
+}
 
 const userUpdateApproval = async () => {
   const reqHeader = { accept: 'application/json' }
@@ -172,12 +238,61 @@ const userUpdateApproval = async () => {
   }
 }
 
+const passwordReset = async () => {
+  const reqHeader = { accept: 'application/json' }
+  const resetResult: responseData = await ApiService.requestAPI({
+    headers: reqHeader,
+    method: 'PUT',
+    url: `/board/user/reset/password/${userUUID.value}`
+  })
+  if (resetResult.retStatus) {
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '사용자 관리',
+      detail: '비밀번호 초기화 완료되었습니다.',
+      life: 3000
+    })
+  } else {
+    toastStore.setToastValue({
+      severity: 'error',
+      summary: '사용자관리',
+      detail: resetResult.retData,
+      life: 3000
+    })
+  }
+}
+
+const userDelete = async () => {
+  const reqHeader = { accept: 'application/json' }
+  const deleteResult: responseData = await ApiService.requestAPI({
+    headers: reqHeader,
+    method: 'DELETE',
+    url: `/board/user/delete/${userUUID.value}`
+  })
+  if (deleteResult.retStatus) {
+    toastStore.setToastValue({
+      severity: 'success',
+      summary: '사용자 관리',
+      detail: '삭제가 완료되었습니다.',
+      life: 3000
+    })
+    closeInfoModal()
+  } else {
+    toastStore.setToastValue({
+      severity: 'error',
+      summary: '사용자관리',
+      detail: deleteResult.retData,
+      life: 3000
+    })
+  }
+}
+
 const getUserInfo = async () => {
   const reqHeader = { accept: 'application/json' }
   const infoResult: responseData = await ApiService.requestAPI({
     headers: reqHeader,
     method: 'GET',
-    url: `/board/user/info/${props.infoUUID}`,
+    url: `/board/user/info/${userUUID.value}`,
   })
   if (infoResult.retStatus) {
     userID.value = decryptStringSalt(infoResult.retData.userID)
