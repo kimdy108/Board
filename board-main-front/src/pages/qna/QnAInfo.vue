@@ -44,8 +44,8 @@
       </div>
     </div>
 
-    <QnAAnswerRegistModal :showModal="isAnswerRegistModal" :qnaUUID="qnaUUID" answerUUID="" @closeAnswerRegistModal="closeAnswerRegistModal" />
-    <QnAAnswerUpdateModal :showModal="isAnswerUpdateModal" :qnaUUID="qnaUUID" :answerUUID="answerUUID" @closeAnswerUpdateModal="closeAnswerUpdateModal" />
+    <QnAAnswerRegist :showModal="isAnswerRegistModal" :qnaUUID="qnaUUID" answerUUID="" @closeAnswerRegistModal="closeAnswerRegistModal" />
+    <QnAAnswerUpdate :showModal="isAnswerUpdateModal" :qnaUUID="qnaUUID" :answerUUID="answerUUID" @closeAnswerUpdateModal="closeAnswerUpdateModal" />
   </div>
 </template>
 
@@ -62,8 +62,8 @@ import BoardInfo from '@/components/element/BoardInfo.vue'
 import responseData from "@/interfaces/common/responseData";
 import ApiService from "@/services/ApiService";
 
-import QnAAnswerRegistModal from './QnAAnswerRegistModal.vue'
-import QnAAnswerUpdateModal from './QnAAnswerUpdateModal.vue'
+import QnAAnswerRegist from './QnAAnswerRegist.vue'
+import QnAAnswerUpdate from './QnAAnswerUpdate.vue'
 
 import type commonAnswer from "@/interfaces/common/commonAnswer";
 

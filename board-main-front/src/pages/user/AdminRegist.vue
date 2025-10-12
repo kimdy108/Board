@@ -13,13 +13,13 @@
 
       <div class="w-full mb-16">
         <div class="grid grid-cols-2 gap-6">
-          <BoardModalInput inputType="text" inputTitle="아이디" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="adminID"></BoardModalInput>
-          <BoardModalInput inputType="text" inputTitle="이름" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="adminName"></BoardModalInput>
+          <BoardCommonInput inputType="text" inputTitle="아이디" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="adminID"></BoardCommonInput>
+          <BoardCommonInput inputType="text" inputTitle="이름" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="adminName"></BoardCommonInput>
         </div>
 
         <div class="grid grid-cols-2 gap-6">
-          <BoardModalInput inputType="text" inputTitle="닉네임" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="adminNickName"></BoardModalInput>
-          <BoardModalInput inputType="password" inputTitle="비밀번호" :isDisabled="false" :isRequire="true" :isPassword="true" inputPlaceholder="" v-model:inputValue="adminPassword"></BoardModalInput>
+          <BoardCommonInput inputType="text" inputTitle="닉네임" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="adminNickName"></BoardCommonInput>
+          <BoardCommonInput inputType="password" inputTitle="비밀번호" :isDisabled="false" :isRequire="true" :isPassword="true" inputPlaceholder="" v-model:inputValue="adminPassword"></BoardCommonInput>
         </div>
 
         <div class="w-full text-left mb-3">
@@ -36,22 +36,11 @@
         </div>
 
         <div class="grid grid-cols-2 gap-6">
-          <BoardModalInput inputType="text" inputTitle="전화번호" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="adminPhone"></BoardModalInput>
-          <BoardModalInput inputType="text" inputTitle="이메일" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="adminEmail"></BoardModalInput>
+          <BoardCommonInput inputType="text" inputTitle="전화번호" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="adminPhone"></BoardCommonInput>
+          <BoardCommonInput inputType="text" inputTitle="이메일" :isDisabled="false" :isRequire="true" :isPassword="false" inputPlaceholder="" v-model:inputValue="adminEmail"></BoardCommonInput>
         </div>
 
-        <div class="w-full text-left mb-3">
-          <div class="pl-1">
-            <span class="text-base text-gray-700 dark:text-gray-50">비고</span>
-          </div>
-          <div class="mt-3">
-            <textarea 
-              class="w-full border border-gray-300 rounded-lg bg-white py-3 px-5 focus:outline-none"
-              v-model="adminDescription"
-              style="height: 150px;"
-            ></textarea>
-          </div>
-        </div>
+        <BoardCommonTextArea inputTitle="비고" v-model:inputValue="adminDescription" />
 
       </div>
 
@@ -77,7 +66,8 @@ import { Dialog } from 'primevue';
 import Button from 'primevue/button'
 import SelectButton from 'primevue/selectbutton'
 
-import BoardModalInput from '@/components/element/BoardModalInput.vue'
+import BoardCommonInput from '@/components/element/BoardCommonInput.vue'
+import BoardCommonTextArea from '@/components/element/BoardCommonTextArea.vue';
 
 import type commonRegistModalProps from '@/interfaces/common/commonRegistModalProps'
 

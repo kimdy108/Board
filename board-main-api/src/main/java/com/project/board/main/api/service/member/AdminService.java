@@ -75,7 +75,7 @@ public class AdminService {
         BoardMainMember boardMainMember = boardMainMemberRepository.findBoardMainMemberByMemberUUID(adminUUID)
                 .orElseThrow(() -> new RuntimeException("존재하는 관리자가 없습니다."));
         
-        boardMainMember.updatePassword("rhksflwk1!");
+        boardMainMember.updatePassword(passwordEncoder.encode("rhksflwk1!"));
     }
     
     @Transactional

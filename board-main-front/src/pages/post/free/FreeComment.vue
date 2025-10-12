@@ -27,7 +27,7 @@
 
           <div v-else class="flex justify-start text-lg text-gray-600">
             <i v-if="i.isEncrypt == 'YES'" class="mr-1 py-1 !text-sm pi pi-lock"></i>
-            <span v-if="i.isEncrypt == 'NO' || isCommentOwner(i.memberUUID) || isInfoOwner()">{{ i.commentContent }}</span>
+            <span v-if="i.isEncrypt == 'NO' || isCommentOwner(i.memberUUID) || isInfoOwner() || isOverAdmin()">{{ i.commentContent }}</span>
             <span v-else class="italic">비밀댓글 입니다.</span>
           </div>
 

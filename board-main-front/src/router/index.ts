@@ -48,7 +48,7 @@ const userChild: Array<RouteRecordRaw> = [
 ]
 
 const systemChild: Array<RouteRecordRaw> = [
-  { path: '/board/system/admin', name: 'AdminConfig', component: loadSubPage('pages', 'system', 'AdminConfig'), meta: { id: 'AdminConfig' } },
+  { path: '/board/system/member', name: 'MemberConfig', component: loadSubPage('pages', 'system', 'MemberConfig'), meta: { id: 'MemberConfig' } },
 ]
 
 const boardChild: Array<RouteRecordRaw> = [

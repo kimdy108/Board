@@ -5,7 +5,7 @@
         <img src="@/assets/images/logo.png" class="w-24" />
       </template>
       <template #end>
-        <Button class="!px-5 !py-2" @click="showMenu">{{ userName }}</Button>
+        <Button class="!px-5 !py-2" icon="pi pi-user" :label="userName" @click="showMenu" />
         <Menu ref="menu" :model="userItems" :popup="true" />
       </template>
     </Menubar>
@@ -98,7 +98,7 @@ const userItems = ref([
   {
     label: '설정',
     command: () => {
-      movePage('AdminConfig')
+      movePage('MemberConfig')
     }
   },
   {
