@@ -58,8 +58,8 @@ public class BoardMainPost extends BoardCommonBase {
     private List<BoardMainPostComment> boardMainPostCommentList = new ArrayList<>();
 
     @Builder
-    public BoardMainPost(String postTitle, String postContent, PostType postType, BoardMainMember boardMainMember) {
-        this.postUUID = UUID.randomUUID();
+    public BoardMainPost(UUID postUUID, String postTitle, String postContent, PostType postType, BoardMainMember boardMainMember) {
+        this.postUUID = postUUID;
         this.postTitle = postTitle;
         this.postContent = postContent;
         this.postType = postType;

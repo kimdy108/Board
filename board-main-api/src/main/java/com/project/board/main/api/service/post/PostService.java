@@ -1,6 +1,7 @@
 package com.project.board.main.api.service.post;
 
 import com.project.board.main.api.domain.member.BoardMainMember;
+import com.project.board.main.api.domain.mongodb.BoardMainPostViewerInfo;
 import com.project.board.main.api.domain.post.BoardMainPost;
 import com.project.board.main.api.dto.constant.common.IsYesNo;
 import com.project.board.main.api.dto.constant.member.MemberRole;
@@ -10,11 +11,13 @@ import com.project.board.main.api.dto.post.post.PostListPage;
 import com.project.board.main.api.dto.post.post.PostRegist;
 import com.project.board.main.api.dto.post.post.PostUpdate;
 import com.project.board.main.api.repository.member.BoardMainMemberRepository;
+import com.project.board.main.api.repository.mongodb.BoardMainPostViewerInfoRepository;
 import com.project.board.main.api.repository.post.BoardMainPostRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -23,16 +26,26 @@ public class PostService {
     private final BoardMainMemberRepository boardMainMemberRepository;
     private final BoardMainPostRepository boardMainPostRepository;
 
+    private final BoardMainPostViewerInfoRepository boardMainPostViewerInfoRepository;
+
     @Transactional
     public void postRegist(PostRegist postRegist, UUID memberUUID) {
         BoardMainMember boardMainMember = boardMainMemberRepository.findBoardMainMemberByMemberUUID(memberUUID)
                 .orElseThrow(() -> new RuntimeException("존재하는 사용자가 없습니다."));
 
+        UUID uuid = UUID.randomUUID();
+
         boardMainPostRepository.save(BoardMainPost.builder()
+                .postUUID(uuid)
                 .postTitle(postRegist.getPostTitle())
                 .postContent(postRegist.getPostContent())
                 .postType(postRegist.getPostType())
                 .boardMainMember(boardMainMember)
+                .build());
+
+        boardMainPostViewerInfoRepository.save(BoardMainPostViewerInfo.builder()
+                .postUUID(uuid.toString())
+                .memberUUIDList(List.of(boardMainMember.getMemberUUID().toString()))
                 .build());
     }
 
@@ -71,7 +84,13 @@ public class PostService {
         BoardMainPost boardMainPost = boardMainPostRepository.findBoardMainPostByPostUUID(postUUID)
                 .orElseThrow(() -> new RuntimeException("존재하는 게시글이 없습니다."));
 
-        if (!boardMainMember.getMemberUUID().equals(boardMainPost.getBoardMainMember().getMemberUUID())) boardMainPost.addViewCount();
+        BoardMainPostViewerInfo boardMainPostViewerInfo = boardMainPostViewerInfoRepository.findBoardMainPostViewerInfoByPostUUID(boardMainPost.getPostUUID().toString());
+        if (!boardMainPostViewerInfo.getMemberUUIDList().contains(boardMainMember.getMemberUUID().toString())) {
+            boardMainPost.addViewCount();
+
+            boardMainPostViewerInfo.getMemberUUIDList().add(boardMainMember.getMemberUUID().toString());
+            boardMainPostViewerInfoRepository.save(boardMainPostViewerInfo);
+        }
 
         return PostInfo.create(boardMainPost);
     }

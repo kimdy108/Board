@@ -46,8 +46,8 @@ public class BoardMainAnnounce extends BoardCommonBase {
     private BoardMainMember boardMainMember;
 
     @Builder
-    public BoardMainAnnounce(String announceTitle, String announceContent, BoardMainMember boardMainMember) {
-        this.announceUUID = UUID.randomUUID();
+    public BoardMainAnnounce(UUID announceUUID, String announceTitle, String announceContent, BoardMainMember boardMainMember) {
+        this.announceUUID = announceUUID;
         this.announceTitle = announceTitle;
         this.announceContent = announceContent;
         this.boardMainMember = boardMainMember;
