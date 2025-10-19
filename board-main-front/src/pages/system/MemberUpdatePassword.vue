@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useToastStore } from '@/stores/toastStore'
 import { passwdReg } from '@/references/config'
 import { encryptStringSalt } from '@/utils/common'
@@ -51,6 +51,12 @@ const toastStore = useToastStore()
 const oldPassword = ref('')
 const newPassword = ref('')
 const confirmPassword = ref('')
+
+const initData = () => {
+  oldPassword.value = ''
+  newPassword.value = ''
+  confirmPassword.value = ''
+}
 
 const closeUpdatePasswordModal = () => {
   emit('closeUpdatePasswordModal')
@@ -110,6 +116,10 @@ const updatePasswordAction = async () => {
     })
   }
 }
+
+watch(() => props.showModal, (newVal) => {
+  if(newVal) initData()
+})
 </script>
 
 <style scoped>

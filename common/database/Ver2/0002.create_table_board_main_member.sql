@@ -1,0 +1,25 @@
+DROP TABLE IF EXISTS `board`.`board_main_member`;
+CREATE TABLE `board`.`board_main_member` (
+  `seq` bigint(20) NOT NULL AUTO_INCREMENT,
+  `description_note` text DEFAULT NULL COMMENT '비고',
+  `insert_date` datetime DEFAULT current_timestamp() COMMENT '등록날짜',
+  `is_active` enum('YES','NO') NOT NULL DEFAULT 'YES' COMMENT '활성화 / 비활성화',
+  `update_date` datetime DEFAULT NULL COMMENT '수정날짜',
+  `last_date` datetime DEFAULT NULL COMMENT '마지막 접근날짜',
+  `member_approval` enum('APPROVE','REJECT','WAIT') NOT NULL DEFAULT 'WAIT' COMMENT '사용자 승인 상태',
+  `member_email` varchar(200) NOT NULL COMMENT '사용자 Email',
+  `member_id` varchar(20) NOT NULL COMMENT '사용자 ID',
+  `member_name` varchar(200) NOT NULL COMMENT '사용자 이름',
+  `member_nick_name` varchar(200) NOT NULL COMMENT '사용자 별명',
+  `member_password` varchar(200) NOT NULL COMMENT '사용자 비밀번호',
+  `member_phone` varchar(200) NOT NULL COMMENT '사용자 전화번호',
+  `member_role` enum('MASTER','ADMIN','MANAGER','MEMBER') NOT NULL DEFAULT 'MEMBER' COMMENT '사용자 권한',
+  `member_type` enum('SYSTEM','NORMAL') NOT NULL DEFAULT 'SYSTEM' COMMENT '사용자 형식',
+  `member_uuid` uuid NOT NULL COMMENT '사용자 UUID',
+  PRIMARY KEY (`seq`),
+  UNIQUE KEY `UKdx5w1lvy8kd9080n6pqhrweni` (`member_id`),
+  UNIQUE KEY `UKi3xdy9nsl1icxlj8sluiebauq` (`member_uuid`),
+  KEY `idx_member_uuid` (`member_uuid`),
+  KEY `idx_member_id` (`member_id`),
+  KEY `idx_member_name` (`member_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

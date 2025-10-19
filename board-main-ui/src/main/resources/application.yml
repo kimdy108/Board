@@ -1,0 +1,64 @@
+spring:
+  application:
+    name: board-main-ui
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+    active: local
+  thymeleaf:
+    cache: false
+    prefix: classpath:/static/
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+server:
+  port: 64380
+
+logging:
+  level:
+    root: error
+    com.project.board.main.ui: debug
+    org.hibernate.resource: info
+    com.zaxxer.hikari.pool.HikariPool: debug
+    com.zaxxer.hikari: trace
+  dir: /Users/kimdy/data/workSpace/sampleData/board/logs
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+server:
+  port: 64380
+
+logging:
+  level:
+    root: error
+    com.project.board.main.ui: debug
+    org.hibernate.resource: info
+    com.zaxxer.hikari.pool.HikariPool: debug
+    com.zaxxer.hikari: trace
+  dir: /data/board/logs
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+server:
+  port: 64380
+
+logging:
+  level:
+    root: error
+    com.project.board.main.ui: debug
+    org.hibernate.resource: info
+    com.zaxxer.hikari.pool.HikariPool: debug
+    com.zaxxer.hikari: trace
+  dir: /data/board/logs

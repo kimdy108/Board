@@ -2,6 +2,7 @@ package com.project.board.main.api.config.security;
 
 import com.project.board.main.api.config.security.filter.ExceptionHandlerFilter;
 import com.project.board.main.api.config.security.filter.JWTFilter;
+import com.project.board.main.api.config.security.filter.LogFilter;
 import com.project.board.main.api.utils.jwt.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -43,7 +44,8 @@ public class WebSecurityConfig {
                 .formLogin((auth) -> auth.disable())
                 .httpBasic((auth) -> auth.disable())
                 .addFilterBefore(new JWTFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(exceptionHandlerFilter, JWTFilter.class)
+                .addFilterBefore(new LogFilter(), JWTFilter.class)
+                .addFilterBefore(exceptionHandlerFilter, LogFilter.class)
                 .build();
     }
 }
