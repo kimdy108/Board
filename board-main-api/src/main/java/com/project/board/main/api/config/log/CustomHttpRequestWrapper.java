@@ -1,4 +1,4 @@
-package com.project.board.main.api.config.security.filter;
+package com.project.board.main.api.config.log;
 
 import jakarta.servlet.ReadListener;
 import jakarta.servlet.ServletInputStream;

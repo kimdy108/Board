@@ -70,6 +70,10 @@ springdoc:
 server:
   port: 64280
 
+telegram:
+  chatId: -1003173337618
+  botToken: 8225652336:AAHGEW85GThWlzL8xKtV3ps1FPu7K2ygSR0
+
 logging:
   level:
     root: error
@@ -132,6 +136,10 @@ springdoc:
 server:
   port: 64280
 
+telegram:
+  chatId: -1003173337618
+  botToken: 8225652336:AAHGEW85GThWlzL8xKtV3ps1FPu7K2ygSR0
+
 logging:
   level:
     root: error
@@ -190,6 +198,10 @@ springdoc:
 
 server:
   port: 64280
+
+telegram:
+  chatId: -1003173337618
+  botToken: 8225652336:AAHGEW85GThWlzL8xKtV3ps1FPu7K2ygSR0
 
 logging:
   level:

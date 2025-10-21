@@ -2,7 +2,6 @@ package com.project.board.main.api.config.security;
 
 import com.project.board.main.api.config.security.filter.ExceptionHandlerFilter;
 import com.project.board.main.api.config.security.filter.JWTFilter;
-import com.project.board.main.api.config.security.filter.LogFilter;
 import com.project.board.main.api.utils.jwt.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +20,6 @@ public class WebSecurityConfig {
     private final JWTUtil jwtUtil;
     private final ExceptionHandlerFilter exceptionHandlerFilter;
 
-    private final String JOIN_API = "/api/auth/join";
     private final String LOGIN_API = "/api/auth/login";
     private final String REFRESH_API = "/api/auth/refresh";
     private final String SIGNUP_API = "/api/board/user/signup";
@@ -32,7 +30,7 @@ public class WebSecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return webSecurity -> webSecurity.ignoring().requestMatchers(
-                JOIN_API, LOGIN_API, REFRESH_API, SIGNUP_API, SWAGGER_API, SWAGGER_HTML_API, V3_DOCKS_API
+                LOGIN_API, REFRESH_API, SIGNUP_API, SWAGGER_API, SWAGGER_HTML_API, V3_DOCKS_API
         );
     }
 
@@ -44,8 +42,7 @@ public class WebSecurityConfig {
                 .formLogin((auth) -> auth.disable())
                 .httpBasic((auth) -> auth.disable())
                 .addFilterBefore(new JWTFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new LogFilter(), JWTFilter.class)
-                .addFilterBefore(exceptionHandlerFilter, LogFilter.class)
+                .addFilterBefore(exceptionHandlerFilter, JWTFilter.class)
                 .build();
     }
 }
