@@ -28,7 +28,8 @@ axios.interceptors.response.use(function (response) {
       const refreshResult: responseData = await authRefreshRequest();
       if(refreshResult.retStatus) {
         const item = userStore.getCurrentUser
-        item.at = refreshResult.retData
+        item.at = refreshResult.retData.at
+        item.rt = refreshResult.retData.rt
         userStore.setCurrentUser(item)
   
         return axios(error.config);
@@ -62,7 +63,7 @@ const authRefreshRequest = async () => {
       const result: any = await axios(reqObj)
       return {
         retCode: 1000,
-        retData: result.headers['accesstoken'],
+        retData: {'at': result.headers['accesstoken'], 'rt': result.headers['refreshtoken']},
         retHttpCode: 202,
         retHttpStatus: "ACCEPTED",
         retStatus: true

@@ -1,6 +1,7 @@
 package com.project.board.main.api.controller.auth;
 
 import com.project.board.main.api.dto.auth.UserAuth;
+import com.project.board.main.api.dto.auth.UserRefreshAuth;
 import com.project.board.main.api.dto.common.ResponseMsg;
 import com.project.board.main.api.dto.auth.UserLogin;
 import com.project.board.main.api.dto.auth.UserRefresh;
@@ -38,7 +39,9 @@ public class AuthenticationController {
     @Operation(summary = "user refresh", description = "사용자 재로그인")
     @PostMapping("/refresh")
     public ResponseEntity<ResponseMsg> refresh(@RequestBody UserRefresh userRefresh, HttpServletResponse response) {
-        response.setHeader("accesstoken", authenticationService.refreshToken(userRefresh));
+        UserRefreshAuth userRefreshAuth = authenticationService.refreshToken(userRefresh);
+        response.setHeader("accesstoken", userRefreshAuth.getAccessToken());
+        response.setHeader("refreshtoken", userRefreshAuth.getRefreshToken());
 
         return ResponseMsg.successResponse("success");
     }

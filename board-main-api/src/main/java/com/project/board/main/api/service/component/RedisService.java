@@ -21,14 +21,16 @@ public class RedisService {
         values.set(key, data, duration);
     }
 
-    @Transactional(readOnly = true)
     public String getValues(String key) {
         try {
             ValueOperations<String, Object> values = redisTemplate.opsForValue();
             return (String) values.get(key);
         } catch (Exception e) {
-            e.getStackTrace();
-            return "null";
+            return null;
         }
+    }
+
+    public void deleteValues(String key) {
+        redisTemplate.delete(key);
     }
 }

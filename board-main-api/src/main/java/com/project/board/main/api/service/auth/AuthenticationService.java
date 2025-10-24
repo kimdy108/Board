@@ -1,6 +1,7 @@
 package com.project.board.main.api.service.auth;
 
 import com.project.board.main.api.domain.member.BoardMainMember;
+import com.project.board.main.api.dto.auth.UserRefreshAuth;
 import com.project.board.main.api.dto.constant.member.MemberApprovalType;
 import com.project.board.main.api.dto.auth.UserAuth;
 import com.project.board.main.api.dto.constant.common.IsYesNo;
@@ -57,7 +58,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    public String refreshToken(UserRefresh userRefresh) {
+    public UserRefreshAuth refreshToken(UserRefresh userRefresh) {
         String memberAccount = decryptStringSalt(userRefresh.getUserAccount());
         String refreshToken = decryptStringSalt(userRefresh.getRefreshToken());
 
@@ -68,6 +69,12 @@ public class AuthenticationService {
         BoardMainMember boardMainMember = boardMainMemberRepository.findBoardMainMemberByMemberID(memberID)
                 .orElseThrow(() -> new RuntimeException("refreshFail"));
 
-        return encryptStringSalt(jwtUtil.createAuthToken(boardMainMember.getMemberName(), boardMainMember.getMemberID(), boardMainMember.getMemberUUID(), boardMainMember.getMemberRole()));
+        String accessTokenEnc = encryptStringSalt(jwtUtil.createAuthToken(boardMainMember.getMemberName(), boardMainMember.getMemberID(), boardMainMember.getMemberUUID(), boardMainMember.getMemberRole()));
+        String refreshTokenEnc = encryptStringSalt(jwtUtil.createRefreshToken(boardMainMember.getMemberID()));
+
+        redisService.deleteValues(memberAccount);
+        redisService.setValues(memberAccount, refreshTokenEnc);
+
+        return UserRefreshAuth.create(accessTokenEnc, refreshTokenEnc);
     }
 }
