@@ -2,8 +2,7 @@
 Board 프로젝트
 
 ## 개발 기간
-- 1.0.0 : 2024.09 ~ 2024.12
-- 2.0.0(코드 전체 리펙토링) : 2025.09 ~
+- 2025.09 ~ 2025.12
 
 ## 개발 환경
 - Java 17
@@ -28,9 +27,4 @@ Board 프로젝트
 - Entity 구조 변경하기 위함
 
 ## ERD
-- 1.0.0 : common/erd/board-1.0.0.vuerd.json
-- 2.0.0 : common/erd/board-2.0.0.vuerd.json
-
-## Module
-- 1.0.0 : api, ui, front 뒤에 1.0.0 이 붙음
-- 2.0.0 : api, ui, front 뒤에 버전 정보가 없음
+- common/erd/board.vuerd.json
