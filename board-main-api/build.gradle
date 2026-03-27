@@ -53,6 +53,9 @@ dependencies {
     // telegram
     implementation 'org.telegram:telegrambots:5.6.0'
 
+    // okhttp
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+
     // querydsl
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
     annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"

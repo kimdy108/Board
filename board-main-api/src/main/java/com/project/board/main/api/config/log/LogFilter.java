@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.project.board.main.api.service.component.DiscordService;
 import com.project.board.main.api.service.component.LoggerService;
 import com.project.board.main.api.service.component.TelegramService;
 import jakarta.servlet.FilterChain;
@@ -27,8 +28,9 @@ public class LogFilter extends OncePerRequestFilter {
     private final ObjectMapper objectMapper;
     private final LoggerService loggerService;
     private final TelegramService telegramService;
+    private final DiscordService discordService;
 
-    public LogFilter(ObjectMapper objectMapper, LoggerService loggerService, TelegramService telegramService) {
+    public LogFilter(ObjectMapper objectMapper, LoggerService loggerService, TelegramService telegramService, DiscordService discordService) {
         this.objectMapper = objectMapper;
         DefaultPrettyPrinter.Indenter indenter = new DefaultIndenter("    ", DefaultIndenter.SYS_LF);
         DefaultPrettyPrinter printer = new DefaultPrettyPrinter();
@@ -39,6 +41,7 @@ public class LogFilter extends OncePerRequestFilter {
 
         this.loggerService = loggerService;
         this.telegramService = telegramService;
+        this.discordService = discordService;
     }
 
     @Override
@@ -108,7 +111,8 @@ public class LogFilter extends OncePerRequestFilter {
 
         loggerService.writeLogger("error", printLog);
         if (!requestWrapper.getRequestURI().equals(LOGIN_API) && !requestWrapper.getRequestURI().equals(REFRESH_API) && !requestWrapper.getRequestURI().equals(SIGNUP_API)) {
-            telegramService.telegramSend(printLog);
+//            telegramService.telegramSend(printLog);
+            discordService.discordSend(printLog);
         }
     }
 

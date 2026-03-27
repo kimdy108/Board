@@ -30,9 +30,9 @@ spring:
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3307/board?autoReconnect=true&characterEncoding=UTF-8
-    username: boarduser
-    password: boardPassword
+    url: jdbc:mariadb://localhost:3306/board?autoReconnect=true&characterEncoding=UTF-8
+    username: smcom
+    password: 88toaanf!@#X88
     hikari:
       maximum-pool-size: 50
       max-lifetime: 28798000
@@ -73,6 +73,9 @@ server:
 telegram:
   chatId: -1003173337618
   botToken: 8225652336:AAHGEW85GThWlzL8xKtV3ps1FPu7K2ygSR0
+
+discord:
+  webhookUrl: "https://discord.com/api/webhooks/1487009437817372834/_jWi2IhNfWnh4ZujyLu4wgEc8dYXt0evmLXG47DZmW0xxqk-MEZRxHDRPAjQFKC6RfWo"
 
 logging:
   level:
